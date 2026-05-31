@@ -40,6 +40,16 @@ The committed starting point is `.env.example`. See
 `docs/configuration.md` for the supported variables and the portable settings
 pattern.
 
+## Current Modules
+
+- `modules/tailscale/`: network and tailnet visibility
+- `modules/voice/`: audio device and Apple voice visibility
+- `modules/system/`: local machine and node visibility
+
+Each module should discover, normalize, create a structured object, display,
+test, and stop. Terminal output is display only. The structured object is the
+module product.
+
 ## First development focus
 
 The first real module should be communication visibility, starting with

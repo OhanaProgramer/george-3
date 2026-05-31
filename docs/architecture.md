@@ -26,6 +26,32 @@ Do not connect unrelated systems too early.
 Build the smallest useful version of one module, test it, write down what it
 does, then decide whether another module should depend on it.
 
+## Current Modules
+
+```text
+modules/tailscale/
+  network and tailnet visibility
+
+modules/voice/
+  audio device and Apple voice visibility
+
+modules/system/
+  local machine and node visibility
+```
+
+## Shared Module Pattern
+
+Each discovery module follows the same small pattern:
+
+1. Discover
+2. Normalize
+3. Create structured object
+4. Display
+5. Test
+6. Stop
+
+Terminal output is display only. The structured object is the module product.
+
 ## Previous generations
 
 Older George folders in `~/Projects/archive` may be read for lessons. They

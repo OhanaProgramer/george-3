@@ -1,6 +1,6 @@
 # Status
 
-Current status: foundation cleanup.
+Current status: System Discovery v1.
 
 Completed:
 
@@ -8,14 +8,19 @@ Completed:
 - older George folders archived under `~/Projects/archive`
 - starter documentation created
 - local configuration foundation created
-- first Tailscale visibility module created
-- read-only Tailnet node inventory created
-- read-only voice/audio discovery module created
+- Tailscale Discovery v1
+- Voice Discovery v1
 
-Next:
+Current:
 
-- review the Tailscale status output
-- decide what "healthy enough" means for this dev machine and visible nodes
-- sketch the future node status dashboard fields
-- review voice discovery output for XVF3800 and Apple voices
-- keep cloud forwarding, authentication, and routing deferred
+- System Discovery v1
+
+Future:
+
+- Health Aggregator v1
+- Dashboard Health Page
+- Voice Capture
+- Transcription
+- Speaker ID
+- Wake Word
+- Conversation Layer
