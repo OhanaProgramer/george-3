@@ -2,11 +2,11 @@
 
 Metadata:
 - Purpose: Track current project status.
-- Phase: Voice Pipeline v1.
+- Phase: Voice Response v1.
 - Last updated: 2026-05-31.
 - Notes: Update after each completed module.
 
-Current status: Voice Pipeline v1 plus future module placeholders.
+Current status: Voice Response v1 plus future module placeholders.
 
 Completed:
 
@@ -22,19 +22,21 @@ Completed:
 - Voice Capture v1
 - Transcription v1
 - Voice Pipeline v1
+- Push-To-Talk v1
+- Voice Response v1
 - Placeholder folders for Wake Listener, Speaker ID, Conversation, LLM, Actions, and Remote Control
 
 Current:
 
-- Active modules: config, system, tailscale, voice, readiness, voice_capture, transcription, voice_pipeline.
+- Active modules: config, system, tailscale, voice, readiness, voice_capture, transcription, voice_pipeline, push_to_talk, voice_response.
 - Future modules are placeholders only.
 
 Future:
 
-- Speaker ID
-- Wake Listener
-- Conversation Layer
 - LLM Adapter
+- Wake Listener
+- Speaker ID
+- Conversation Layer
 - Actions Layer
 - Remote Control
 - Dashboard

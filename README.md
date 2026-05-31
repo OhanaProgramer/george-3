@@ -55,6 +55,8 @@ pattern.
 - `modules/voice_capture/`: one-shot audio recording
 - `modules/transcription/`: existing audio file to text
 - `modules/voice_pipeline/`: manual one-shot capture -> transcription
+- `modules/push_to_talk/`: user-triggered start/stop capture -> transcription
+- `modules/voice_response/`: fixed spoken confirmation from a push-to-talk transcript
 - `modules/readiness/`: operational readiness summary from existing module status objects
 
 Each module should keep clear inputs, outputs, and boundaries. Terminal output
@@ -72,6 +74,29 @@ Voice Capture
 Transcription
 ```
 
+## Current response path
+
+```text
+Push-To-Talk
+    |
+    v
+Voice Speak
+```
+
+Voice Response v1 speaks a fixed confirmation: `I heard: <transcript>`.
+
 Future placeholder modules exist for wake listening, speaker identification,
 conversation, LLM reasoning, actions, and remote control. They do not implement
 runtime behavior yet.
+
+## Current interaction path
+
+```text
+Push-To-Talk
+    |
+    v
+Voice Capture
+    |
+    v
+Transcription
+```

@@ -2,7 +2,7 @@
 
 Metadata:
 - Purpose: Explain George 3 module structure and development pattern.
-- Phase: Voice Pipeline v1.
+- Phase: Voice Response v1.
 - Last updated: 2026-05-31.
 - Notes: Architecture guidance only; no implementation steps.
 
@@ -52,6 +52,12 @@ modules/transcription/
 
 modules/voice_pipeline/
   manual one-shot capture -> transcription
+
+modules/push_to_talk/
+  user-triggered start/stop capture -> transcription
+
+modules/voice_response/
+  push-to-talk transcript -> fixed spoken confirmation
 
 modules/system/
   local machine and node visibility
@@ -118,8 +124,42 @@ transcription
 existing audio file and returns text. `modules/voice_pipeline/` coordinates
 those two steps manually in one command.
 
+Current interaction path:
+
+```text
+push_to_talk
+    |
+    v
+
+voice_capture
+    |
+    v
+
+transcription
+```
+
+`modules/push_to_talk/` lets a user manually start recording, manually stop
+recording, and then transcribe the captured WAV.
+
 No current module continuously listens, detects wake words, identifies speakers,
-manages conversation, calls LLMs, executes actions, or performs remote control.
+manages conversation, calls LLMs, executes actions, performs remote control, or
+chooses intelligent responses.
+
+Current response path:
+
+```text
+push_to_talk
+    |
+    v
+
+voice_speak
+```
+
+`modules/voice_response/` speaks a fixed confirmation response:
+
+```text
+I heard: <transcript>
+```
 
 ## Future Voice Pipeline
 
@@ -156,6 +196,13 @@ actions / remote_control
 
 voice_speak
 ```
+
+Near-term roadmap after Voice Response v1:
+
+1. LLM Adapter: text -> AI response
+2. LLM Voice Response: capture -> transcription -> LLM -> voice_speak
+3. Wake Listener: always-on monitoring, wake phrase detection, automatic trigger
+   of the existing pipeline
 
 `modules/voice_capture/` is intentionally a small one-shot building block. It
 does not continuously monitor audio, detect wake words, transcribe, identify

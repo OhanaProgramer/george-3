@@ -18,6 +18,7 @@ Can George successfully capture audio from the configured microphone?
 - read `GEORGE_ENV`
 - inspect voice device discovery data
 - perform one short audio capture
+- start and stop one user-triggered capture for `push_to_talk/`
 - write `data/voice_capture/latest_capture.wav`
 - return a structured result object
 - print a clean terminal summary
@@ -28,6 +29,7 @@ Can George successfully capture audio from the configured microphone?
 - `GEORGE_ENV` from `config/settings.py`
 - voice device discovery data
 - requested capture duration
+- user-triggered start/stop calls from `push_to_talk/`
 
 ## Outputs
 

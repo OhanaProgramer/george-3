@@ -29,6 +29,9 @@ python3 -m modules.voice_capture.voice_capture
 python3 -m modules.voice_capture.voice_capture --seconds 5
 ```
 
+`voice_capture.py` also exposes minimal `start_capture()` and `stop_capture()`
+helpers for `push_to_talk/`. The CLI remains a fixed-duration one-shot capture.
+
 ## Product
 
 The structured result object is the product. Terminal output is display only.
@@ -53,6 +56,7 @@ Structured result:
 - `GEORGE_ENV`
 - voice device discovery data
 - requested capture duration
+- user-triggered start/stop calls from `push_to_talk/`
 
 Voice Capture v1 does not continuously monitor audio, detect wake words,
 transcribe, identify speakers, call OpenAI, perform automation, or control

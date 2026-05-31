@@ -2,7 +2,7 @@
 
 Metadata:
 - Purpose: Track George 3 build order.
-- Phase: Stabilization after Transcription v1.
+- Phase: Push-To-Talk v1.
 - Last updated: 2026-05-31.
 - Notes: Keep future work separated from current implementation.
 
@@ -22,17 +22,22 @@ Metadata:
 - Readiness v1
 - Voice Capture v1
 - Transcription v1
+- Voice Pipeline v1
+- Push-To-Talk v1
 
 ## Future
 
-- Speaker ID
+- LLM Adapter
+- Voice Response Pipeline
 - Wake Listener
+- Speaker ID
 - Conversation Layer
 - Actions Layer
+- Remote Control
 - Dashboard
 
 ## Boundaries
 
 Future modules should be built one at a time. Do not fold wake listening,
-speaker identification, conversation logic, actions, or dashboard behavior into
-the current audio modules.
+speaker identification, LLM calls, conversation logic, actions, remote control,
+or dashboard behavior into the current audio modules.

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import subprocess
+import time
 from pathlib import Path
 
 from config import settings
@@ -27,6 +28,16 @@ def run_command(command, timeout_seconds=15):
         check=False,
         text=True,
         timeout=timeout_seconds,
+    )
+
+
+def start_process(command):
+    return subprocess.Popen(
+        command,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
     )
 
 
@@ -86,6 +97,98 @@ def capture_audio(
     return result
 
 
+def start_capture(
+    output_file=DEFAULT_OUTPUT_FILE,
+    discovery_reader=discover_voice_devices,
+    process_starter=start_process,
+    time_reader=time.monotonic,
+):
+    output_path = resolve_output_path(output_file)
+    output_label = format_output_path(output_path)
+    input_device_hint = settings.VOICE_INPUT_DEVICE_HINT
+
+    session = {
+        "success": False,
+        "input_device_hint": input_device_hint,
+        "input_device_found": False,
+        "output_file": output_label,
+        "process": None,
+        "started_at": None,
+        "message": "",
+        "error": "",
+    }
+
+    discovery = discovery_reader()
+    microphone = find_input_device(discovery.get("microphones", []), input_device_hint)
+
+    if not microphone:
+        session["error"] = "Configured input device was not found."
+        return session
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    command = build_manual_capture_command(microphone["name"], output_path)
+
+    try:
+        process = process_starter(command)
+    except OSError as exc:
+        session["error"] = str(exc)
+        return session
+
+    session["success"] = True
+    session["input_device_found"] = True
+    session["process"] = process
+    session["started_at"] = time_reader()
+    session["message"] = "Audio capture started."
+    return session
+
+
+def stop_capture(session, time_reader=time.monotonic, timeout_seconds=5):
+    duration_seconds = None
+
+    if session.get("started_at") is not None:
+        duration_seconds = round(max(0, time_reader() - session["started_at"]), 3)
+
+    result = {
+        "success": False,
+        "input_device_hint": session.get("input_device_hint", ""),
+        "input_device_found": bool(session.get("input_device_found")),
+        "duration_seconds": duration_seconds,
+        "output_file": session.get("output_file", str(DEFAULT_OUTPUT_FILE)),
+        "message": "",
+        "error": "",
+    }
+
+    if not session.get("success"):
+        result["error"] = session.get("error") or "Audio capture did not start."
+        return result
+
+    process = session.get("process")
+
+    if process is None:
+        result["error"] = "Audio capture process was missing."
+        return result
+
+    try:
+        if process.poll() is None and process.stdin:
+            process.stdin.write("q\n")
+            process.stdin.flush()
+        stdout, stderr = process.communicate(timeout=timeout_seconds)
+    except subprocess.TimeoutExpired:
+        process.terminate()
+        stdout, stderr = process.communicate(timeout=timeout_seconds)
+    except OSError as exc:
+        result["error"] = str(exc)
+        return result
+
+    if process.returncode != 0:
+        result["error"] = (stderr or stdout or "Audio capture failed.").strip()
+        return result
+
+    result["success"] = True
+    result["message"] = "Audio captured."
+    return result
+
+
 def find_input_device(microphones, input_device_hint):
     for microphone in microphones:
         if has_name_match([microphone], input_device_hint):
@@ -104,6 +207,22 @@ def build_capture_command(input_device_name, duration_seconds, output_path):
         f":{input_device_name}",
         "-t",
         str(duration_seconds),
+        "-ac",
+        "1",
+        "-ar",
+        "16000",
+        str(output_path),
+    ]
+
+
+def build_manual_capture_command(input_device_name, output_path):
+    return [
+        "ffmpeg",
+        "-y",
+        "-f",
+        "avfoundation",
+        "-i",
+        f":{input_device_name}",
         "-ac",
         "1",
         "-ar",
