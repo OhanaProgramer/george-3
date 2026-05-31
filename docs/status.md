@@ -10,15 +10,16 @@ Completed:
 - local configuration foundation created
 - Tailscale Discovery v1
 - Voice Discovery v1
+- System Discovery v1
 
 Current:
 
-- System Discovery v1
+- Health Aggregator v1
 
 Future:
 
-- Health Aggregator v1
 - Dashboard Health Page
+- Local API Health Endpoint
 - Voice Capture
 - Transcription
 - Speaker ID

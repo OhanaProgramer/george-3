@@ -37,7 +37,16 @@ modules/voice/
 
 modules/system/
   local machine and node visibility
+
+modules/health/
+  combines system, tailscale, and voice into one readiness object
 ```
+
+`modules/health/` does not discover hardware or network data directly. Health
+consumes module contracts.
+
+The health module is a reader and summarizer only. It does not fix, restart, or
+mutate anything.
 
 ## Shared Module Pattern
 

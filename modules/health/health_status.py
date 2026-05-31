@@ -1,0 +1,165 @@
+"""Read-only health aggregation for George 3."""
+
+from __future__ import annotations
+
+from datetime import datetime, timezone
+
+from modules.system.system_status import get_system_status
+from modules.tailscale.tailscale_status import get_tailscale_status
+from modules.voice.voice_devices import discover_voice_devices
+
+
+STATUS_ORDER = {"ok": 0, "warning": 1, "error": 2}
+
+
+def get_health_status(
+    system_reader=get_system_status,
+    tailscale_reader=get_tailscale_status,
+    voice_reader=discover_voice_devices,
+    timestamp_reader=None,
+):
+    timestamp_reader = timestamp_reader or utc_timestamp
+    details = {
+        "system": safe_read(system_reader),
+        "tailscale": safe_read(tailscale_reader),
+        "voice": safe_read(voice_reader),
+    }
+
+    checks = {
+        "system": evaluate_system(details["system"]),
+        "tailscale": evaluate_tailscale(details["tailscale"]),
+        "voice": evaluate_voice(details["voice"]),
+    }
+
+    return {
+        "overall_status": combine_statuses(check["status"] for check in checks.values()),
+        "checks": checks,
+        "details": details,
+        "timestamp": timestamp_reader(),
+    }
+
+
+def safe_read(reader):
+    try:
+        return reader()
+    except Exception as error:
+        return {
+            "module_error": True,
+            "error": str(error),
+        }
+
+
+def evaluate_system(system_status):
+    if system_status.get("module_error"):
+        return check("error", f"System module failed: {system_status['error']}")
+
+    node = system_status.get("node") or {}
+    host = system_status.get("host") or {}
+    resources = system_status.get("resources") or {}
+    missing_core = []
+
+    for label, value in {
+        "node.name": node.get("name"),
+        "node.role": node.get("role"),
+        "node.environment": node.get("environment"),
+        "host.hostname": host.get("hostname"),
+        "host.os": host.get("os"),
+        "host.python_version": host.get("python_version"),
+    }.items():
+        if not value:
+            missing_core.append(label)
+
+    if missing_core:
+        return check("error", f"System missing core fields: {', '.join(missing_core)}")
+
+    optional_missing = [
+        name
+        for name in ("memory_total_gb", "disk_total_gb", "disk_free_gb")
+        if resources.get(name) is None
+    ]
+
+    if optional_missing:
+        return check("warning", f"System optional data missing: {', '.join(optional_missing)}")
+
+    return check("ok", "System core data is present.")
+
+
+def evaluate_tailscale(tailscale_status):
+    if tailscale_status.get("module_error"):
+        return check("error", f"Tailscale module failed: {tailscale_status['error']}")
+
+    if tailscale_status.get("backend_state") == "Running" and tailscale_status.get("tailscale_ip"):
+        return check("ok", "Tailscale is running with a local IP.")
+
+    if not tailscale_status.get("installed"):
+        return check("error", "Tailscale is not installed.")
+
+    if tailscale_status.get("backend_state") != "Running":
+        return check("error", f"Tailscale backend state is {tailscale_status.get('backend_state', 'unknown')}.")
+
+    return check("error", "Tailscale local IP is missing.")
+
+
+def evaluate_voice(voice_status):
+    if voice_status.get("module_error"):
+        return check("error", f"Voice module failed: {voice_status['error']}")
+
+    if not voice_status.get("input_target_found"):
+        return check("error", "Voice input target was not found.")
+
+    if not voice_status.get("output_target_found"):
+        return check("error", "Voice output target was not found.")
+
+    optional_warnings = []
+
+    if voice_status.get("voice_engine") == "apple" and not voice_status.get("apple_voices"):
+        optional_warnings.append("Apple voices not discovered")
+
+    if voice_status.get("configured_voice") and voice_status.get("configured_voice_found") is False:
+        return check("error", "Configured Apple voice was not found.")
+
+    if optional_warnings:
+        return check("warning", "; ".join(optional_warnings))
+
+    return check("ok", "Voice input and output targets are available.")
+
+
+def check(status, summary):
+    return {
+        "status": status,
+        "summary": summary,
+    }
+
+
+def combine_statuses(statuses):
+    return max(statuses, key=lambda status: STATUS_ORDER[status])
+
+
+def utc_timestamp():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def format_health_summary(health):
+    checks = health["checks"]
+    return "\n".join(
+        [
+            "George 3 Health Status",
+            f"Overall: {checks_label(health['overall_status'])}",
+            "",
+            f"System: {checks_label(checks['system']['status'])}",
+            f"Tailscale: {checks_label(checks['tailscale']['status'])}",
+            f"Voice: {checks_label(checks['voice']['status'])}",
+        ]
+    )
+
+
+def checks_label(status):
+    return status.upper()
+
+
+def main():
+    print(format_health_summary(get_health_status()))
+
+
+if __name__ == "__main__":
+    main()

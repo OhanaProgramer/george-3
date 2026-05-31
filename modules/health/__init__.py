@@ -1,0 +1,1 @@
+"""Health aggregation module."""

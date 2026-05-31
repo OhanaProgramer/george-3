@@ -45,6 +45,7 @@ pattern.
 - `modules/tailscale/`: network and tailnet visibility
 - `modules/voice/`: audio device and Apple voice visibility
 - `modules/system/`: local machine and node visibility
+- `modules/health/`: readiness summary from existing module status objects
 
 Each module should discover, normalize, create a structured object, display,
 test, and stop. Terminal output is display only. The structured object is the
