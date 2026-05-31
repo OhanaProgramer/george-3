@@ -151,11 +151,24 @@ def format_voice_summary(discovery):
         f"Input target found: {'yes' if discovery['input_target_found'] else 'no'}",
         f"Output hint: {discovery['output_device_hint']}",
         f"Output target found: {'yes' if discovery['output_target_found'] else 'no'}",
-        f"Microphones: {len(discovery['microphones'])}",
-        f"Speakers: {len(discovery['speakers'])}",
-        f"Apple voices: {len(discovery['apple_voices'])}",
+        f"Microphone count: {len(discovery['microphones'])}",
+        f"Speaker count: {len(discovery['speakers'])}",
+        f"Apple voice count: {len(discovery['apple_voices'])}",
+        "",
+        "Input devices:",
+        *format_device_names(discovery["microphones"]),
+        "",
+        "Output devices:",
+        *format_device_names(discovery["speakers"]),
     ]
     return "\n".join(lines)
+
+
+def format_device_names(devices):
+    if not devices:
+        return ["- none found"]
+
+    return [f"- {device.get('name') or 'unknown'}" for device in devices]
 
 
 def format_optional_bool(value):
