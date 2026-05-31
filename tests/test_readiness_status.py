@@ -7,6 +7,7 @@ Notes: Uses fake module readers; does not call live system services.
 """
 
 import unittest
+from unittest.mock import patch
 
 from modules.readiness import readiness_status
 
@@ -48,14 +49,21 @@ def tailscale_detail(backend_state="Running", ip="100.64.1.2", installed=True):
     }
 
 
-def voice_detail(input_found=True, output_found=True, apple_voices=None):
+def voice_detail(
+    input_found=True,
+    output_found=True,
+    apple_voices=None,
+    configured_voice="",
+    configured_voice_found=None,
+    voice_engine="apple",
+):
     if apple_voices is None:
         apple_voices = [{"name": "Samantha", "locale": "en_US"}]
 
     return {
-        "voice_engine": "apple",
-        "configured_voice": "",
-        "configured_voice_found": None,
+        "voice_engine": voice_engine,
+        "configured_voice": configured_voice,
+        "configured_voice_found": configured_voice_found,
         "input_target_found": input_found,
         "output_target_found": output_found,
         "apple_voices": apple_voices,
@@ -138,6 +146,44 @@ class ReadinessStatusTests(unittest.TestCase):
         self.assertIn("George 3 Readiness Status", summary)
         self.assertIn("Overall: OK", summary)
         self.assertIn("Tailscale: OK", summary)
+        self.assertIn("Voice: OK", summary)
+        self.assertIn("  Devices: OK", summary)
+        self.assertIn("  Speak config: OK", summary)
+
+    def test_voice_readiness_ok_with_blank_voice_name(self):
+        voice_check = readiness_status.evaluate_voice(voice_detail(configured_voice=""))
+
+        self.assertEqual(voice_check["status"], "ok")
+        self.assertEqual(voice_check["devices"]["status"], "ok")
+        self.assertEqual(voice_check["speak_config"]["status"], "ok")
+
+    def test_voice_readiness_ok_when_configured_apple_voice_exists(self):
+        voice_check = readiness_status.evaluate_voice(
+            voice_detail(configured_voice="Samantha", configured_voice_found=True)
+        )
+
+        self.assertEqual(voice_check["status"], "ok")
+        self.assertEqual(voice_check["speak_config"]["status"], "ok")
+
+    def test_voice_readiness_error_when_configured_apple_voice_is_missing(self):
+        voice_check = readiness_status.evaluate_voice(
+            voice_detail(configured_voice="MissingVoice", configured_voice_found=False)
+        )
+
+        self.assertEqual(voice_check["status"], "error")
+        self.assertEqual(voice_check["speak_config"]["status"], "error")
+        self.assertIn("Configured Apple voice was not found", voice_check["summary"])
+
+    def test_readiness_does_not_call_speak_text(self):
+        with patch("modules.voice.voice_speak.speak_text", side_effect=AssertionError("called speak_text")):
+            readiness = readiness_status.get_readiness_status(
+                system_reader=system_detail,
+                tailscale_reader=tailscale_detail,
+                voice_reader=voice_detail,
+                timestamp_reader=lambda: "now",
+            )
+
+        self.assertEqual(readiness["checks"]["voice"]["status"], "ok")
 
 
 if __name__ == "__main__":

@@ -39,7 +39,10 @@ modules/tailscale/
   network and tailnet visibility
 
 modules/voice/
-  audio device and Apple voice visibility
+  device discovery and speech output
+
+modules/voice_capture/
+  short one-shot audio recording
 
 modules/system/
   local machine and node visibility
@@ -70,6 +73,38 @@ Each discovery module follows the same small pattern:
 6. Stop
 
 Terminal output is display only. The structured object is the module product.
+
+## Future Voice Pipeline
+
+Voice functionality stays split by responsibility:
+
+```text
+voice/
+  device discovery
+  speech output
+
+voice_capture/
+  short audio recording
+
+wake_listener/
+  future always-on monitoring
+
+transcription/
+  audio -> text
+
+speaker_id/
+  audio -> speaker identity
+
+conversation/
+  intent and reasoning
+
+actions/
+  automation and control
+```
+
+`modules/voice_capture/` is intentionally a small one-shot building block. It
+does not continuously monitor audio, detect wake words, transcribe, identify
+speakers, call AI, or control remote systems.
 
 ## Previous generations
 

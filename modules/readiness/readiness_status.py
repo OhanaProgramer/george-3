@@ -110,6 +110,28 @@ def evaluate_voice(voice_status):
     if voice_status.get("module_error"):
         return check("error", f"Voice module failed: {voice_status['error']}")
 
+    devices_check = evaluate_voice_devices(voice_status)
+    speak_config_check = evaluate_voice_speak_config(voice_status)
+    status = combine_statuses((devices_check["status"], speak_config_check["status"]))
+
+    if status != "ok":
+        summary = "; ".join(
+            subcheck["summary"]
+            for subcheck in (devices_check, speak_config_check)
+            if subcheck["status"] == status
+        )
+    else:
+        summary = "Voice discovery and speak config are ready."
+
+    return {
+        "status": status,
+        "summary": summary,
+        "devices": devices_check,
+        "speak_config": speak_config_check,
+    }
+
+
+def evaluate_voice_devices(voice_status):
     if not voice_status.get("input_target_found"):
         return check("error", "Voice input target was not found.")
 
@@ -121,13 +143,26 @@ def evaluate_voice(voice_status):
     if voice_status.get("voice_engine") == "apple" and not voice_status.get("apple_voices"):
         optional_warnings.append("Apple voices not discovered")
 
-    if voice_status.get("configured_voice") and voice_status.get("configured_voice_found") is False:
-        return check("error", "Configured Apple voice was not found.")
-
     if optional_warnings:
         return check("warning", "; ".join(optional_warnings))
 
     return check("ok", "Voice input and output targets are available.")
+
+
+def evaluate_voice_speak_config(voice_status):
+    voice_engine = voice_status.get("voice_engine")
+    configured_voice = voice_status.get("configured_voice")
+
+    if voice_engine != "apple":
+        return check("error", f"Voice engine is not supported for speaking: {voice_engine or 'not set'}.")
+
+    if not configured_voice:
+        return check("ok", "Apple speech will use the system default voice.")
+
+    if voice_status.get("configured_voice_found") is True:
+        return check("ok", "Configured Apple voice is available.")
+
+    return check("error", "Configured Apple voice was not found.")
 
 
 def check(status, summary):
@@ -155,6 +190,8 @@ def format_readiness_summary(readiness):
             f"System: {checks_label(checks['system']['status'])}",
             f"Tailscale: {checks_label(checks['tailscale']['status'])}",
             f"Voice: {checks_label(checks['voice']['status'])}",
+            f"  Devices: {checks_label(checks['voice']['devices']['status'])}",
+            f"  Speak config: {checks_label(checks['voice']['speak_config']['status'])}",
         ]
     )
 

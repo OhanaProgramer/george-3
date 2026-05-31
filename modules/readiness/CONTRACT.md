@@ -2,9 +2,9 @@
 
 Metadata:
 - Purpose: Define readiness module boundaries.
-- Phase: Readiness Aggregator v1.
+- Phase: Voice Speak Readiness v1.
 - Last updated: 2026-05-31.
-- Notes: Operational readiness only; not human health.
+- Notes: Operational readiness only; not human health; no audio playback.
 
 This module answers:
 
@@ -17,7 +17,8 @@ Is this George node ready to operate?
 - call existing module status functions
 - summarize system readiness
 - summarize Tailscale readiness
-- summarize voice readiness
+- summarize voice discovery readiness
+- summarize voice speak configuration readiness without speaking aloud
 - combine statuses into one structured object
 - print a clean terminal summary
 
@@ -30,9 +31,14 @@ Is this George node ready to operate?
 - auto-repair
 - cloud forwarding
 - authentication
+- recording
+- transcription
+- wake word detection
+- AI calls
+- audio playback during readiness checks
 
 The readiness module is a reader and summarizer only. It does not fix, restart,
-or mutate anything.
+mutate anything, call `say`, or call `speak_text()`.
 
 Readiness is operational status only. It is not related to fitness, medical,
 biometric, sleep, or wellness data.

@@ -2,11 +2,11 @@
 
 Metadata:
 - Purpose: Track current project status.
-- Phase: Readiness Aggregator v1.
+- Phase: Voice Capture v1.
 - Last updated: 2026-05-31.
 - Notes: Update after each completed module.
 
-Current status: Readiness Aggregator v1.
+Current status: Voice Capture v1.
 
 Completed:
 
@@ -16,16 +16,17 @@ Completed:
 - local configuration foundation created
 - Tailscale Discovery v1
 - Voice Discovery v1
+- Voice Speak v1
 - System Discovery v1
+- Readiness v1
 
 Current:
 
-- Readiness Aggregator v1
+- Voice Capture v1
 
 Future:
 
 - Dashboard Foundation
-- Voice Capture
 - Transcription
 - Speaker ID
 - Wake Word
