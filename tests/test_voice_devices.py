@@ -1,3 +1,11 @@
+"""Voice device discovery tests.
+
+Purpose: Verify audio device and Apple voice discovery normalization.
+Phase: Voice Discovery v1.
+Last updated: 2026-05-31.
+Notes: Uses fake macOS command output; does not record or play audio.
+"""
+
 import json
 import unittest
 from types import SimpleNamespace

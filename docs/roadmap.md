@@ -1,5 +1,11 @@
 # Roadmap
 
+Metadata:
+- Purpose: Track George 3 build order.
+- Phase: Foundation.
+- Last updated: 2026-05-31.
+- Notes: Keep future work separated from current implementation.
+
 ## Phase 0: Foundation
 
 - Create the generation root.

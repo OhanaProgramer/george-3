@@ -1,3 +1,9 @@
+# George 3 git ignore rules.
+# Purpose: Keep local secrets, caches, and runtime output out of git.
+# Phase: Foundation.
+# Last updated: 2026-05-31.
+# Notes: `.env` must remain local only.
+
 # Local environment
 .env
 

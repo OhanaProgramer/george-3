@@ -1,3 +1,11 @@
+"""System status tests.
+
+Purpose: Verify local system status object shape and safe optional data handling.
+Phase: System Discovery v1.
+Last updated: 2026-05-31.
+Notes: Uses injected readers where practical to avoid machine-specific failures.
+"""
+
 import unittest
 
 from config import settings

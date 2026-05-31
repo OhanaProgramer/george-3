@@ -1,5 +1,11 @@
 # Configuration
 
+Metadata:
+- Purpose: Document local environment configuration.
+- Phase: Foundation configuration.
+- Last updated: 2026-05-31.
+- Notes: `.env` is local only and must not be committed.
+
 George 3 uses environment variables for machine-specific settings.
 
 The real local file is:

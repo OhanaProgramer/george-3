@@ -1,5 +1,11 @@
 # george-3
 
+Metadata:
+- Purpose: Project overview and operating rules.
+- Phase: Foundation.
+- Last updated: 2026-05-31.
+- Notes: Keep this file short and beginner-readable.
+
 george-3 is the one active working folder for the George 3 learning project.
 
 The goal is to build slowly, one module at a time, with clear boundaries and

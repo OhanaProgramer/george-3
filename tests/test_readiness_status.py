@@ -1,3 +1,11 @@
+"""Readiness status tests.
+
+Purpose: Verify readiness aggregation behavior and failure handling.
+Phase: Readiness Aggregator v1.
+Last updated: 2026-05-31.
+Notes: Uses fake module readers; does not call live system services.
+"""
+
 import unittest
 
 from modules.readiness import readiness_status

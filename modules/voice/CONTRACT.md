@@ -1,5 +1,11 @@
 # Voice Module Contract
 
+Metadata:
+- Purpose: Define voice module boundaries.
+- Phase: Voice Discovery v1.
+- Last updated: 2026-05-31.
+- Notes: Device and voice discovery only.
+
 This module answers one question:
 
 ```text

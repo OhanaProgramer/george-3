@@ -1,3 +1,11 @@
+"""Tailnet node discovery tests.
+
+Purpose: Verify Tailscale node normalization and summary formatting.
+Phase: Tailscale Discovery v1.
+Last updated: 2026-05-31.
+Notes: Uses fake Tailscale JSON; does not contact the network.
+"""
+
 import unittest
 from types import SimpleNamespace
 from unittest.mock import patch

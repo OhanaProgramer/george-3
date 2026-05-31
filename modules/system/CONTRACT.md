@@ -1,5 +1,11 @@
 # System Module Contract
 
+Metadata:
+- Purpose: Define system module boundaries.
+- Phase: System Discovery v1.
+- Last updated: 2026-05-31.
+- Notes: Reports system state only; does not change it.
+
 This module answers:
 
 ```text

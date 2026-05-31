@@ -1,5 +1,11 @@
 # Status
 
+Metadata:
+- Purpose: Track current project status.
+- Phase: Readiness Aggregator v1.
+- Last updated: 2026-05-31.
+- Notes: Update after each completed module.
+
 Current status: Readiness Aggregator v1.
 
 Completed:

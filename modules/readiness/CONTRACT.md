@@ -1,5 +1,11 @@
 # Readiness Module Contract
 
+Metadata:
+- Purpose: Define readiness module boundaries.
+- Phase: Readiness Aggregator v1.
+- Last updated: 2026-05-31.
+- Notes: Operational readiness only; not human health.
+
 This module answers:
 
 ```text

@@ -1,5 +1,11 @@
 # Voice Discovery
 
+Metadata:
+- Purpose: Document audio device and Apple voice discovery.
+- Phase: Voice Discovery v1.
+- Last updated: 2026-05-31.
+- Notes: Discovery only; no recording, playback, or transcription.
+
 Goal: discover available audio and Apple voice capability on this node.
 
 This is read-only discovery only.

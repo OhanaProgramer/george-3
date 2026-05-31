@@ -1,5 +1,11 @@
 # Tailscale
 
+Metadata:
+- Purpose: Module overview for Tailscale visibility.
+- Phase: Tailscale Discovery v1.
+- Last updated: 2026-05-31.
+- Notes: Read-only network visibility; no control actions.
+
 Purpose: help George 3 see whether this machine is reachable through Tailscale.
 
 This is a learning-first module. It answers a few clear questions and does not

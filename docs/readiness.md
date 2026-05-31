@@ -1,5 +1,11 @@
 # Readiness Aggregator
 
+Metadata:
+- Purpose: Document operational readiness aggregation.
+- Phase: Readiness Aggregator v1.
+- Last updated: 2026-05-31.
+- Notes: Operational readiness only; not human health.
+
 Goal: answer whether this George node is ready to operate.
 
 This module combines existing status objects from:

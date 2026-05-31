@@ -1,5 +1,11 @@
 # Architecture
 
+Metadata:
+- Purpose: Explain George 3 module structure and development pattern.
+- Phase: Foundation.
+- Last updated: 2026-05-31.
+- Notes: Architecture guidance only; no implementation steps.
+
 george-3 is organized around small modules.
 
 The root folders are intentionally plain:

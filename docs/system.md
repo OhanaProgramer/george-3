@@ -1,5 +1,11 @@
 # System Discovery
 
+Metadata:
+- Purpose: Document local system discovery.
+- Phase: System Discovery v1.
+- Last updated: 2026-05-31.
+- Notes: Read-only system state only.
+
 Goal: report what machine George is running on.
 
 This is read-only discovery only.

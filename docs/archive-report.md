@@ -1,6 +1,10 @@
 # Archive Report
 
-Date: 2026-05-30
+Metadata:
+- Purpose: Record folder archive decision.
+- Phase: Foundation cleanup.
+- Last updated: 2026-05-31.
+- Notes: Historical reference only.
 
 ## Decision
 

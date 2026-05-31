@@ -1,5 +1,11 @@
 # Voice
 
+Metadata:
+- Purpose: Module overview for voice and audio discovery.
+- Phase: Voice Discovery v1.
+- Last updated: 2026-05-31.
+- Notes: Discovery only; no recording, playback, or transcription.
+
 Purpose: discover available audio and Apple voice capability on this node.
 
 This is read-only discovery for future dashboard/API use. It does not record,

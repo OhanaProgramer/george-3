@@ -1,5 +1,11 @@
 # Decisions
 
+Metadata:
+- Purpose: Record project decisions and rationale.
+- Phase: Foundation.
+- Last updated: 2026-05-31.
+- Notes: Append decisions as they become stable.
+
 ## Active folder name
 
 Decision: use one active working folder for now.

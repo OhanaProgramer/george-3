@@ -1,5 +1,11 @@
 # Tailscale Learning Step
 
+Metadata:
+- Purpose: Document Tailscale and Tailnet visibility.
+- Phase: Tailscale Discovery v1.
+- Last updated: 2026-05-31.
+- Notes: Read-only network visibility only.
+
 Goal: give George 3 basic visibility into whether this machine is reachable
 through Tailscale.
 

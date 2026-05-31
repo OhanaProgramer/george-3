@@ -1,3 +1,11 @@
+"""Tailscale status tests.
+
+Purpose: Verify local Tailscale status parsing and display behavior.
+Phase: Tailscale Discovery v1.
+Last updated: 2026-05-31.
+Notes: Uses fake command output; does not require live Tailscale.
+"""
+
 import unittest
 from types import SimpleNamespace
 from unittest.mock import patch

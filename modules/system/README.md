@@ -1,5 +1,11 @@
 # System
 
+Metadata:
+- Purpose: Module overview for local system discovery.
+- Phase: System Discovery v1.
+- Last updated: 2026-05-31.
+- Notes: Read-only machine and node visibility.
+
 Purpose: report what machine George is running on.
 
 This module is read-only. It collects safe local system facts, normalizes them
