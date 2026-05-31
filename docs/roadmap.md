@@ -18,7 +18,7 @@
 
 ## Phase 2: Local API shell
 
-- Add a small local API health endpoint.
+- Add a small local API readiness endpoint.
 - Keep it separate from cloud forwarding.
 
 ## Phase 3: External data modules
@@ -32,4 +32,4 @@
 - Add read-only voice/audio discovery.
 - Add speaker playback later as a separate module.
 - Add microphone capture later as a separate module.
-- Add health modules one at a time.
+- Add human body modules later under `modules/body/`.

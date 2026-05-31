@@ -1,6 +1,6 @@
 # Status
 
-Current status: System Discovery v1.
+Current status: Readiness Aggregator v1.
 
 Completed:
 
@@ -14,12 +14,11 @@ Completed:
 
 Current:
 
-- Health Aggregator v1
+- Readiness Aggregator v1
 
 Future:
 
-- Dashboard Health Page
-- Local API Health Endpoint
+- Dashboard Foundation
 - Voice Capture
 - Transcription
 - Speaker ID

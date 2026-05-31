@@ -1,4 +1,4 @@
-"""Read-only health aggregation for George 3."""
+"""Read-only readiness aggregation for George 3."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from modules.voice.voice_devices import discover_voice_devices
 STATUS_ORDER = {"ok": 0, "warning": 1, "error": 2}
 
 
-def get_health_status(
+def get_readiness_status(
     system_reader=get_system_status,
     tailscale_reader=get_tailscale_status,
     voice_reader=discover_voice_devices,
@@ -139,12 +139,12 @@ def utc_timestamp():
     return datetime.now(timezone.utc).isoformat()
 
 
-def format_health_summary(health):
-    checks = health["checks"]
+def format_readiness_summary(readiness):
+    checks = readiness["checks"]
     return "\n".join(
         [
-            "George 3 Health Status",
-            f"Overall: {checks_label(health['overall_status'])}",
+            "George 3 Readiness Status",
+            f"Overall: {checks_label(readiness['overall_status'])}",
             "",
             f"System: {checks_label(checks['system']['status'])}",
             f"Tailscale: {checks_label(checks['tailscale']['status'])}",
@@ -158,7 +158,7 @@ def checks_label(status):
 
 
 def main():
-    print(format_health_summary(get_health_status()))
+    print(format_readiness_summary(get_readiness_status()))
 
 
 if __name__ == "__main__":

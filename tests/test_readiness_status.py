@@ -1,6 +1,6 @@
 import unittest
 
-from modules.health import health_status
+from modules.readiness import readiness_status
 
 
 def system_detail(memory=16.0, disk_total=500.0, disk_free=250.0):
@@ -54,80 +54,80 @@ def voice_detail(input_found=True, output_found=True, apple_voices=None):
     }
 
 
-class HealthStatusTests(unittest.TestCase):
+class ReadinessStatusTests(unittest.TestCase):
     def test_object_shape(self):
-        health = health_status.get_health_status(
+        readiness = readiness_status.get_readiness_status(
             system_reader=system_detail,
             tailscale_reader=tailscale_detail,
             voice_reader=voice_detail,
             timestamp_reader=lambda: "now",
         )
 
-        self.assertEqual(set(health.keys()), {"overall_status", "checks", "details", "timestamp"})
-        self.assertEqual(set(health["checks"].keys()), {"system", "tailscale", "voice"})
-        self.assertEqual(set(health["details"].keys()), {"system", "tailscale", "voice"})
+        self.assertEqual(set(readiness.keys()), {"overall_status", "checks", "details", "timestamp"})
+        self.assertEqual(set(readiness["checks"].keys()), {"system", "tailscale", "voice"})
+        self.assertEqual(set(readiness["details"].keys()), {"system", "tailscale", "voice"})
 
     def test_overall_ok(self):
-        health = health_status.get_health_status(
+        readiness = readiness_status.get_readiness_status(
             system_reader=system_detail,
             tailscale_reader=tailscale_detail,
             voice_reader=voice_detail,
             timestamp_reader=lambda: "now",
         )
 
-        self.assertEqual(health["overall_status"], "ok")
-        self.assertEqual(health["checks"]["system"]["status"], "ok")
-        self.assertEqual(health["checks"]["tailscale"]["status"], "ok")
-        self.assertEqual(health["checks"]["voice"]["status"], "ok")
+        self.assertEqual(readiness["overall_status"], "ok")
+        self.assertEqual(readiness["checks"]["system"]["status"], "ok")
+        self.assertEqual(readiness["checks"]["tailscale"]["status"], "ok")
+        self.assertEqual(readiness["checks"]["voice"]["status"], "ok")
 
     def test_warning_behavior(self):
-        health = health_status.get_health_status(
+        readiness = readiness_status.get_readiness_status(
             system_reader=lambda: system_detail(memory=None),
             tailscale_reader=tailscale_detail,
             voice_reader=voice_detail,
             timestamp_reader=lambda: "now",
         )
 
-        self.assertEqual(health["overall_status"], "warning")
-        self.assertEqual(health["checks"]["system"]["status"], "warning")
+        self.assertEqual(readiness["overall_status"], "warning")
+        self.assertEqual(readiness["checks"]["system"]["status"], "warning")
 
     def test_error_behavior(self):
-        health = health_status.get_health_status(
+        readiness = readiness_status.get_readiness_status(
             system_reader=system_detail,
             tailscale_reader=lambda: tailscale_detail(ip=None),
             voice_reader=voice_detail,
             timestamp_reader=lambda: "now",
         )
 
-        self.assertEqual(health["overall_status"], "error")
-        self.assertEqual(health["checks"]["tailscale"]["status"], "error")
+        self.assertEqual(readiness["overall_status"], "error")
+        self.assertEqual(readiness["checks"]["tailscale"]["status"], "error")
 
     def test_module_failure_does_not_crash_aggregator(self):
         def broken_reader():
             raise RuntimeError("boom")
 
-        health = health_status.get_health_status(
+        readiness = readiness_status.get_readiness_status(
             system_reader=system_detail,
             tailscale_reader=broken_reader,
             voice_reader=voice_detail,
             timestamp_reader=lambda: "now",
         )
 
-        self.assertEqual(health["overall_status"], "error")
-        self.assertEqual(health["checks"]["tailscale"]["status"], "error")
-        self.assertIn("module failed", health["checks"]["tailscale"]["summary"])
+        self.assertEqual(readiness["overall_status"], "error")
+        self.assertEqual(readiness["checks"]["tailscale"]["status"], "error")
+        self.assertIn("module failed", readiness["checks"]["tailscale"]["summary"])
 
     def test_summary_is_clean(self):
-        health = health_status.get_health_status(
+        readiness = readiness_status.get_readiness_status(
             system_reader=system_detail,
             tailscale_reader=tailscale_detail,
             voice_reader=voice_detail,
             timestamp_reader=lambda: "now",
         )
 
-        summary = health_status.format_health_summary(health)
+        summary = readiness_status.format_readiness_summary(readiness)
 
-        self.assertIn("George 3 Health Status", summary)
+        self.assertIn("George 3 Readiness Status", summary)
         self.assertIn("Overall: OK", summary)
         self.assertIn("Tailscale: OK", summary)
 

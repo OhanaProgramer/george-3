@@ -1,0 +1,1 @@
+"""Readiness aggregation module."""

@@ -38,15 +38,19 @@ modules/voice/
 modules/system/
   local machine and node visibility
 
-modules/health/
-  combines system, tailscale, and voice into one readiness object
+modules/readiness/
+  combines readiness information from other modules
 ```
 
-`modules/health/` does not discover hardware or network data directly. Health
-consumes module contracts.
+`modules/readiness/` does not discover hardware or network data directly.
+Readiness consumes module contracts.
 
-The health module is a reader and summarizer only. It does not fix, restart, or
-mutate anything.
+The readiness module is a reader and summarizer only. It does not fix, restart,
+or mutate anything.
+
+Operational readiness belongs in `modules/readiness/`. Human health and fitness
+data belongs in a future `modules/body/`. This separation should remain
+throughout George 3 development.
 
 ## Shared Module Pattern
 

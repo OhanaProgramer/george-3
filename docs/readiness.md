@@ -1,6 +1,6 @@
-# Health Aggregator
+# Readiness Aggregator
 
-Goal: answer whether this George node is ready.
+Goal: answer whether this George node is ready to operate.
 
 This module combines existing status objects from:
 
@@ -15,13 +15,13 @@ It does not reimplement discovery logic.
 From `~/Projects/george-3`:
 
 ```bash
-python3 -m modules.health.health_status
+python3 -m modules.readiness.readiness_status
 ```
 
 ## Test
 
 ```bash
-python3 -m unittest tests.test_health_status
+python3 -m unittest tests.test_readiness_status
 ```
 
 ## Rules
@@ -34,7 +34,11 @@ python3 -m unittest tests.test_health_status
 
 ## Boundary
 
-The health module is a reader and summarizer only.
+The readiness module is a reader and summarizer only.
 
 It does not fix, restart, mutate, route APIs, forward cloud traffic, authenticate,
 or control remote machines.
+
+Operational readiness belongs in `modules/readiness/`.
+
+Human health and fitness data belongs in a future `modules/body/`.

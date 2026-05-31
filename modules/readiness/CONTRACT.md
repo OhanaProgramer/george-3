@@ -1,9 +1,9 @@
-# Health Module Contract
+# Readiness Module Contract
 
 This module answers:
 
 ```text
-Is this George node ready?
+Is this George node ready to operate?
 ```
 
 ## Allowed in v1
@@ -25,5 +25,8 @@ Is this George node ready?
 - cloud forwarding
 - authentication
 
-The health module is a reader and summarizer only. It does not fix, restart, or
-mutate anything.
+The readiness module is a reader and summarizer only. It does not fix, restart,
+or mutate anything.
+
+Readiness is operational status only. It is not related to fitness, medical,
+biometric, sleep, or wellness data.
