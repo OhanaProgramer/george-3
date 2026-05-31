@@ -15,10 +15,24 @@ Can George convert recorded speech into text?
 ## Allowed in v1
 
 - read an existing WAV file
+- read transcription settings from `config/settings.py`
 - call a local transcription engine
 - produce transcript text
 - return a structured result object
 - print a clean terminal summary
+
+## Inputs
+
+- existing audio file
+- `TRANSCRIPTION_ENGINE`
+- `TRANSCRIPTION_COMMAND`
+- `TRANSCRIPTION_MODEL`
+- `TRANSCRIPTION_LANGUAGE`
+
+## Outputs
+
+- structured transcription result object
+- transcript text
 
 ## Not Allowed in v1
 

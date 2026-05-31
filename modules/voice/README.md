@@ -38,3 +38,22 @@ learning and quick checks.
 from the CLI. It reads `VOICE_ENGINE` and `VOICE_NAME` from `.env` through
 `config/settings.py`. When `VOICE_NAME` is blank, macOS uses the system default
 voice.
+
+## Inputs
+
+- `VOICE_ENGINE`
+- `VOICE_NAME`
+- `VOICE_INPUT_DEVICE_HINT`
+- `VOICE_OUTPUT_DEVICE_HINT`
+- macOS audio and Apple voice discovery commands
+
+## Boundaries
+
+`voice_devices.py` does not record or play audio. `voice_speak.py` can speak
+provided text with macOS `say`, but it does not record, transcribe, listen for
+wake words, identify speakers, call AI, or execute actions.
+
+## Future Relationships
+
+`voice/` remains responsible for discovery and speech output. Recording belongs
+in `voice_capture/`; audio-to-text belongs in `transcription/`.

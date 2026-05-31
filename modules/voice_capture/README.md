@@ -33,6 +33,38 @@ python3 -m modules.voice_capture.voice_capture --seconds 5
 
 The structured result object is the product. Terminal output is display only.
 
+Structured result:
+
+```text
+{
+  "success": true/false,
+  "input_device_hint": "...",
+  "input_device_found": true/false,
+  "duration_seconds": 3,
+  "output_file": "data/voice_capture/latest_capture.wav",
+  "message": "...",
+  "error": ""
+}
+```
+
+## Inputs
+
+- `VOICE_INPUT_DEVICE_HINT`
+- `GEORGE_ENV`
+- voice device discovery data
+- requested capture duration
+
 Voice Capture v1 does not continuously monitor audio, detect wake words,
 transcribe, identify speakers, call OpenAI, perform automation, or control
 remote systems.
+
+## Outputs
+
+- structured capture result
+- `data/voice_capture/latest_capture.wav`
+
+## Future Relationships
+
+Future `wake_listener/` functionality may reuse one-shot capture behavior, but
+this module itself records once and exits. Transcription consumes the WAV file
+as a separate step.

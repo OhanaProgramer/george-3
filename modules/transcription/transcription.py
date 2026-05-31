@@ -16,10 +16,8 @@ from pathlib import Path
 from config import settings
 
 
-ENGINE = "Whisper"
 DEFAULT_INPUT_FILE = Path("data/voice_capture/latest_capture.wav")
 DEFAULT_OUTPUT_DIR = Path("data/transcription")
-DEFAULT_MODEL = "base"
 
 
 def run_command(command, timeout_seconds=120):
@@ -44,13 +42,17 @@ def transcribe_audio(
 
     result = {
         "success": False,
-        "engine": ENGINE,
+        "engine": settings.TRANSCRIPTION_ENGINE,
         "input_file": input_label,
         "transcript": "",
         "duration_seconds": read_wav_duration_seconds(input_path),
         "message": "",
         "error": "",
     }
+
+    if settings.TRANSCRIPTION_ENGINE != "whisper_cli":
+        result["error"] = f"Unsupported transcription engine: {settings.TRANSCRIPTION_ENGINE}"
+        return result
 
     if not input_path.exists():
         result["error"] = "Input audio file was not found."
@@ -85,10 +87,12 @@ def transcribe_audio(
 
 def build_transcription_command(input_path, output_dir):
     return [
-        "whisper",
+        settings.TRANSCRIPTION_COMMAND,
         str(input_path),
         "--model",
-        DEFAULT_MODEL,
+        settings.TRANSCRIPTION_MODEL,
+        "--language",
+        settings.TRANSCRIPTION_LANGUAGE,
         "--output_format",
         "txt",
         "--output_dir",

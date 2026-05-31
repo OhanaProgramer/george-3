@@ -26,6 +26,16 @@ What machine is George running on?
 - read disk total/free for the project filesystem when practical
 - read current timestamp
 
+## Inputs
+
+- local `.env` settings through `config/settings.py`
+- read-only local system APIs
+
+## Outputs
+
+- structured system status object
+- terminal summary for humans
+
 ## Not Allowed in v1
 
 - remote control
@@ -37,3 +47,6 @@ What machine is George running on?
 - API routing
 
 This module reports system state. It does not change system state.
+
+Future readiness and dashboard surfaces should consume the structured status
+object instead of parsing terminal output.

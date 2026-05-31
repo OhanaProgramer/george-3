@@ -22,6 +22,17 @@ Is this George node ready to operate?
 - combine statuses into one structured object
 - print a clean terminal summary
 
+## Inputs
+
+- system status object
+- Tailscale status object
+- voice discovery object
+
+## Outputs
+
+- structured readiness object
+- terminal summary for humans
+
 ## Not Allowed in v1
 
 - dashboard UI

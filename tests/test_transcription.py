@@ -9,6 +9,7 @@ Notes: Uses fake files and command runners; does not require real audio or Whisp
 import tempfile
 import unittest
 import wave
+from contextlib import contextmanager
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -29,12 +30,23 @@ def write_test_wav(path):
 
 
 class TranscriptionTests(unittest.TestCase):
+    @contextmanager
+    def transcription_settings(self, project_root):
+        with (
+            patch.object(transcription.settings, "PROJECT_ROOT", project_root),
+            patch.object(transcription.settings, "TRANSCRIPTION_ENGINE", "whisper_cli"),
+            patch.object(transcription.settings, "TRANSCRIPTION_COMMAND", "whisper"),
+            patch.object(transcription.settings, "TRANSCRIPTION_MODEL", "base"),
+            patch.object(transcription.settings, "TRANSCRIPTION_LANGUAGE", "en"),
+        ):
+            yield
+
     def test_object_shape(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             project_root = Path(tmpdir)
             input_file = project_root / "data/voice_capture/latest_capture.wav"
 
-            with patch.object(transcription.settings, "PROJECT_ROOT", project_root):
+            with self.transcription_settings(project_root):
                 result = transcription.transcribe_audio(input_file=input_file)
 
         self.assertEqual(
@@ -54,7 +66,7 @@ class TranscriptionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             project_root = Path(tmpdir)
 
-            with patch.object(transcription.settings, "PROJECT_ROOT", project_root):
+            with self.transcription_settings(project_root):
                 result = transcription.transcribe_audio(input_file="data/voice_capture/missing.wav")
 
         self.assertFalse(result["success"])
@@ -78,20 +90,22 @@ class TranscriptionTests(unittest.TestCase):
             input_file.parent.mkdir(parents=True)
             write_test_wav(input_file)
 
-            with patch.object(transcription.settings, "PROJECT_ROOT", project_root):
+            with self.transcription_settings(project_root):
                 result = transcription.transcribe_audio(
                     input_file="data/voice_capture/latest_capture.wav",
                     command_runner=fake_runner,
                 )
 
         self.assertTrue(result["success"])
-        self.assertEqual(result["engine"], "Whisper")
+        self.assertEqual(result["engine"], "whisper_cli")
         self.assertEqual(result["input_file"], "data/voice_capture/latest_capture.wav")
         self.assertEqual(result["transcript"], "Hello George this is a transcription test.")
         self.assertEqual(result["duration_seconds"], 1.0)
         self.assertEqual(result["message"], "Audio transcribed.")
         self.assertEqual(result["error"], "")
         self.assertEqual(commands[0][0][0], "whisper")
+        self.assertEqual(commands[0][0][commands[0][0].index("--model") + 1], "base")
+        self.assertEqual(commands[0][0][commands[0][0].index("--language") + 1], "en")
         self.assertEqual(commands[0][1], 120)
 
     def test_engine_failure_path(self):
@@ -104,7 +118,7 @@ class TranscriptionTests(unittest.TestCase):
             input_file.parent.mkdir(parents=True)
             write_test_wav(input_file)
 
-            with patch.object(transcription.settings, "PROJECT_ROOT", project_root):
+            with self.transcription_settings(project_root):
                 result = transcription.transcribe_audio(
                     input_file="data/voice_capture/latest_capture.wav",
                     command_runner=fake_runner,
@@ -113,6 +127,20 @@ class TranscriptionTests(unittest.TestCase):
         self.assertFalse(result["success"])
         self.assertEqual(result["transcript"], "")
         self.assertEqual(result["error"], "whisper failed")
+
+    def test_unsupported_engine_path(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            project_root = Path(tmpdir)
+
+            with (
+                patch.object(transcription.settings, "PROJECT_ROOT", project_root),
+                patch.object(transcription.settings, "TRANSCRIPTION_ENGINE", "apple_speech"),
+            ):
+                result = transcription.transcribe_audio(input_file="data/voice_capture/latest_capture.wav")
+
+        self.assertFalse(result["success"])
+        self.assertEqual(result["engine"], "apple_speech")
+        self.assertEqual(result["error"], "Unsupported transcription engine: apple_speech")
 
 
 if __name__ == "__main__":

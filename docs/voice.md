@@ -1,14 +1,16 @@
-# Voice Discovery
+# Voice
 
 Metadata:
-- Purpose: Document audio device and Apple voice discovery.
-- Phase: Voice Discovery v1.
+- Purpose: Document audio device discovery and Apple speech output.
+- Phase: Voice Speak v1.
 - Last updated: 2026-05-31.
-- Notes: Discovery only; no recording, playback, or transcription.
+- Notes: Discovery and speech output only; no recording or transcription.
 
-Goal: discover available audio and Apple voice capability on this node.
+Goal: discover available audio and Apple voice capability on this node, and
+perform explicit Apple speech output when requested.
 
-This is read-only discovery only.
+Device discovery is read-only. Speech output is isolated in
+`modules.voice.voice_speak` and uses macOS `say`.
 
 ## Run
 
@@ -18,10 +20,14 @@ From `~/Projects/george-3`:
 python3 -m modules.voice.voice_devices
 ```
 
+```bash
+python3 -m modules.voice.voice_speak "George voice test"
+```
+
 ## Test
 
 ```bash
-python3 -m unittest tests.test_voice_devices
+python3 -m unittest tests.test_voice_devices tests.test_voice_speak
 ```
 
 ## What it checks
@@ -33,10 +39,22 @@ python3 -m unittest tests.test_voice_devices
 - whether the configured output hint is present
 - whether the configured Apple voice is present, if `VOICE_NAME` is set
 
+## What speaking checks
+
+- `VOICE_ENGINE`
+- `VOICE_NAME`
+- explicit text provided by the caller
+
+## Current boundaries
+
+- recording is in `voice_capture/`
+- audio-to-text is in `transcription/`
+- wake word detection is future work
+- speaker identification is future work
+- conversation and intent logic are future work
+
 ## Future boundaries
 
-- voice capture will be separate
-- transcription will be separate
 - speaker identification will be separate
 - wake word detection will be separate
 - conversation and intent logic will be separate

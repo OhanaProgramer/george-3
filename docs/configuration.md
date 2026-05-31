@@ -37,9 +37,14 @@ TAILSCALE_TIMEOUT_SECONDS=5
 
 VOICE_ENGINE=apple
 VOICE_NAME=
-VOICE_INPUT_DEVICE_HINT=XVF3800
+VOICE_INPUT_DEVICE_HINT=
 VOICE_OUTPUT_DEVICE_HINT=system_default
 VOICE_PRODUCTION_SPEAKER_HINT=
+
+TRANSCRIPTION_ENGINE=whisper_cli
+TRANSCRIPTION_COMMAND=whisper
+TRANSCRIPTION_MODEL=base
+TRANSCRIPTION_LANGUAGE=en
 ```
 
 ## Node name
@@ -105,15 +110,44 @@ need.
 `VOICE_NAME` is optional. If it is set, the voice discovery module checks whether
 that Apple system voice is available.
 
-`VOICE_INPUT_DEVICE_HINT` should identify the desired microphone. The current
-target is:
-
-```text
-XVF3800
-```
+`VOICE_INPUT_DEVICE_HINT` should identify the desired microphone using an exact
+label discovered by `python3 -m modules.voice.voice_devices`.
 
 `VOICE_OUTPUT_DEVICE_HINT` is `system_default` for development on the Mac. A
 future production speaker can be described with `VOICE_PRODUCTION_SPEAKER_HINT`.
+
+## Transcription settings
+
+`TRANSCRIPTION_ENGINE` selects the transcription adapter. The current supported
+value is:
+
+```text
+whisper_cli
+```
+
+`TRANSCRIPTION_COMMAND` is the local executable used by the Whisper CLI adapter.
+For a virtual environment, run George from that environment or set this to the
+desired executable path.
+
+Examples:
+
+```text
+TRANSCRIPTION_COMMAND=whisper
+```
+
+```text
+TRANSCRIPTION_COMMAND=/Users/jacquewilson/Projects/george-3/venv/bin/whisper
+```
+
+The command must be available in the active environment `PATH` unless an
+absolute path is used.
+
+`TRANSCRIPTION_MODEL` is passed to the Whisper CLI with `--model`.
+
+`TRANSCRIPTION_LANGUAGE` is passed to the Whisper CLI with `--language`.
+
+These values live in `.env`, flow through `config/settings.py`, and are consumed
+by `modules/transcription/`.
 
 ## Not included yet
 

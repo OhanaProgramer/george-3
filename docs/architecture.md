@@ -2,7 +2,7 @@
 
 Metadata:
 - Purpose: Explain George 3 module structure and development pattern.
-- Phase: Foundation.
+- Phase: Voice Pipeline v1.
 - Last updated: 2026-05-31.
 - Notes: Architecture guidance only; no implementation steps.
 
@@ -35,6 +35,9 @@ does, then decide whether another module should depend on it.
 ## Current Modules
 
 ```text
+config/
+  environment-backed local configuration
+
 modules/tailscale/
   network and tailnet visibility
 
@@ -47,11 +50,34 @@ modules/voice_capture/
 modules/transcription/
   audio file to text
 
+modules/voice_pipeline/
+  manual one-shot capture -> transcription
+
 modules/system/
   local machine and node visibility
 
 modules/readiness/
   combines readiness information from other modules
+
+modules/wake_listener/
+modules/speaker_id/
+modules/conversation/
+modules/llm/
+modules/actions/
+modules/remote_control/
+  future placeholders only
+```
+
+Configuration flows in one direction:
+
+```text
+.env
+  |
+  v
+config/settings.py
+  |
+  v
+modules/
 ```
 
 `modules/readiness/` does not discover hardware or network data directly.
@@ -77,38 +103,58 @@ Each discovery module follows the same small pattern:
 
 Terminal output is display only. The structured object is the module product.
 
+## Current Audio Pipeline
+
+Manual voice pipeline v1 is intentionally short:
+
+```text
+voice_capture
+    |
+    v
+transcription
+```
+
+`modules/voice_capture/` writes a WAV file. `modules/transcription/` reads an
+existing audio file and returns text. `modules/voice_pipeline/` coordinates
+those two steps manually in one command.
+
+No current module continuously listens, detects wake words, identifies speakers,
+manages conversation, calls LLMs, executes actions, or performs remote control.
+
 ## Future Voice Pipeline
 
 Voice functionality stays split by responsibility:
 
 ```text
-wake_listener/
-  future always-on monitoring
+wake_listener
     |
     v
 
-voice_capture/
-  short audio recording
+voice_capture
     |
     v
 
-transcription/
-  audio -> text
+transcription
     |
     v
 
-speaker_id/
-  audio -> speaker identity
+speaker_id
     |
     v
 
-conversation/
-  intent and reasoning
+conversation
     |
     v
 
-actions/
-  automation and control
+llm
+    |
+    v
+
+actions / remote_control
+    |
+    v
+
+voice_speak
 ```
 
 `modules/voice_capture/` is intentionally a small one-shot building block. It
@@ -120,6 +166,9 @@ does not capture audio, listen continuously, identify speakers, manage
 conversation, or execute actions. The transcription engine is an implementation
 detail behind the module contract so Whisper can be replaced later without
 changing downstream modules.
+
+Future placeholder modules document expected responsibilities only. They do not
+contain runtime implementation.
 
 ## Previous generations
 

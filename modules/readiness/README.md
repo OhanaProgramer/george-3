@@ -24,8 +24,37 @@ python3 -m modules.readiness.readiness_status
 
 The structured readiness object is the product. Terminal output is display only.
 
+Voice summary includes:
+
+```text
+Voice: OK
+  Devices: OK
+  Speak config: OK
+```
+
 Voice readiness includes:
 
 - device discovery readiness
 - supported speech engine configuration
 - `VOICE_NAME` is blank or matches a discovered Apple voice
+
+## Inputs
+
+- system status object
+- Tailscale status object
+- voice discovery object
+
+## Outputs
+
+- combined readiness object
+- one check each for system, Tailscale, and voice
+- terminal summary for humans
+
+## Boundaries
+
+Readiness does not repair, restart, mutate, record, transcribe, speak, or call
+automation.
+
+## Future Relationships
+
+Future dashboards should consume the readiness object directly.

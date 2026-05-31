@@ -52,9 +52,14 @@ TAILSCALE_TIMEOUT_SECONDS = int(os.getenv("TAILSCALE_TIMEOUT_SECONDS", "5"))
 
 VOICE_ENGINE = os.getenv("VOICE_ENGINE", "apple")
 VOICE_NAME = os.getenv("VOICE_NAME", "")
-VOICE_INPUT_DEVICE_HINT = os.getenv("VOICE_INPUT_DEVICE_HINT", "XVF3800")
+VOICE_INPUT_DEVICE_HINT = os.getenv("VOICE_INPUT_DEVICE_HINT", "")
 VOICE_OUTPUT_DEVICE_HINT = os.getenv("VOICE_OUTPUT_DEVICE_HINT", "system_default")
 VOICE_PRODUCTION_SPEAKER_HINT = os.getenv("VOICE_PRODUCTION_SPEAKER_HINT", "")
+
+TRANSCRIPTION_ENGINE = os.getenv("TRANSCRIPTION_ENGINE", "whisper_cli")
+TRANSCRIPTION_COMMAND = os.getenv("TRANSCRIPTION_COMMAND", "whisper")
+TRANSCRIPTION_MODEL = os.getenv("TRANSCRIPTION_MODEL", "base")
+TRANSCRIPTION_LANGUAGE = os.getenv("TRANSCRIPTION_LANGUAGE", "en")
 
 
 def as_dict():
@@ -71,6 +76,10 @@ def as_dict():
         "voice_input_device_hint": VOICE_INPUT_DEVICE_HINT,
         "voice_output_device_hint": VOICE_OUTPUT_DEVICE_HINT,
         "voice_production_speaker_hint": VOICE_PRODUCTION_SPEAKER_HINT,
+        "transcription_engine": TRANSCRIPTION_ENGINE,
+        "transcription_command": TRANSCRIPTION_COMMAND,
+        "transcription_model": TRANSCRIPTION_MODEL,
+        "transcription_language": TRANSCRIPTION_LANGUAGE,
     }
 
 

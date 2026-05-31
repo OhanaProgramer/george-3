@@ -22,6 +22,18 @@ Can George successfully capture audio from the configured microphone?
 - return a structured result object
 - print a clean terminal summary
 
+## Inputs
+
+- `VOICE_INPUT_DEVICE_HINT` from `config/settings.py`
+- `GEORGE_ENV` from `config/settings.py`
+- voice device discovery data
+- requested capture duration
+
+## Outputs
+
+- structured capture result object
+- WAV file at `data/voice_capture/latest_capture.wav`
+
 ## Not Allowed in v1
 
 - continuous audio monitoring

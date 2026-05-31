@@ -2,7 +2,7 @@
 
 Metadata:
 - Purpose: Track George 3 build order.
-- Phase: Foundation.
+- Phase: Stabilization after Transcription v1.
 - Last updated: 2026-05-31.
 - Notes: Keep future work separated from current implementation.
 
@@ -13,29 +13,26 @@ Metadata:
 - Keep the structure simple.
 - Do not copy old generation code.
 
-## Phase 1: Communication visibility
+## Completed
 
-- Build a small Tailscale status module.
-- Answer whether Tailscale is installed.
-- Answer whether Tailscale is running.
-- Print this machine's Tailscale IP when available.
-- Show visible Tailnet nodes in a dashboard-ready data shape.
-- Keep this as visibility only.
+- System Discovery v1
+- Tailscale Discovery v1
+- Voice Discovery v1
+- Voice Speak v1
+- Readiness v1
+- Voice Capture v1
+- Transcription v1
 
-## Phase 2: Local API shell
+## Future
 
-- Add a small local API readiness endpoint.
-- Keep it separate from cloud forwarding.
+- Speaker ID
+- Wake Listener
+- Conversation Layer
+- Actions Layer
+- Dashboard
 
-## Phase 3: External data modules
+## Boundaries
 
-- Add weather.
-- Add AI API.
-- Add Schwab only after the simpler communication path is stable.
-
-## Phase 4: Device and life modules
-
-- Add read-only voice/audio discovery.
-- Add speaker playback later as a separate module.
-- Add microphone capture later as a separate module.
-- Add human body modules later under `modules/body/`.
+Future modules should be built one at a time. Do not fold wake listening,
+speaker identification, conversation logic, actions, or dashboard behavior into
+the current audio modules.

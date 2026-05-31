@@ -2,7 +2,7 @@
 
 Metadata:
 - Purpose: Project overview and operating rules.
-- Phase: Foundation.
+- Phase: Stabilization after Transcription v1.
 - Last updated: 2026-05-31.
 - Notes: Keep this file short and beginner-readable.
 
@@ -48,20 +48,30 @@ pattern.
 
 ## Current Modules
 
-- `modules/tailscale/`: network and tailnet visibility
-- `modules/voice/`: audio device and Apple voice visibility
+- `config/`: environment-backed local configuration
 - `modules/system/`: local machine and node visibility
+- `modules/tailscale/`: network and tailnet visibility
+- `modules/voice/`: audio device discovery and Apple speech output
+- `modules/voice_capture/`: one-shot audio recording
+- `modules/transcription/`: existing audio file to text
+- `modules/voice_pipeline/`: manual one-shot capture -> transcription
 - `modules/readiness/`: operational readiness summary from existing module status objects
 
-Each module should discover, normalize, create a structured object, display,
-test, and stop. Terminal output is display only. The structured object is the
-module product.
+Each module should keep clear inputs, outputs, and boundaries. Terminal output
+is display only. The structured object is the module product.
 
 Operational readiness belongs in `modules/readiness/`. Human health and fitness
 data belongs in a future `modules/body/`.
 
-## First development focus
+## Current audio pipeline
 
-The first real module should be communication visibility, starting with
-Tailscale status. Do not build cloud forwarding, authentication, or broad routing
-until local visibility is stable.
+```text
+Voice Capture
+    |
+    v
+Transcription
+```
+
+Future placeholder modules exist for wake listening, speaker identification,
+conversation, LLM reasoning, actions, and remote control. They do not implement
+runtime behavior yet.

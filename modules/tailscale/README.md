@@ -62,3 +62,13 @@ structured inventory data instead of parsing printed text.
 - authentication
 - API routing
 - remote control
+
+## Boundaries
+
+This module reads local Tailscale command output only. It does not change
+Tailnet state, ping nodes, route traffic, or repair connectivity.
+
+## Future Relationships
+
+Readiness consumes the local Tailscale status object. A future dashboard may
+display Tailnet inventory from `tailnet_nodes.py`.

@@ -10,14 +10,34 @@ Purpose: answer whether George can convert recorded speech into text.
 
 ## Approach
 
-Transcription v1 uses the local Whisper command-line interface as an adapter:
+Transcription v1 uses the configured local Whisper command-line adapter:
 
 ```text
-WAV file -> whisper CLI -> transcript text
+WAV file -> configured transcription command -> transcript text
 ```
 
-It expects a local `whisper` executable on `PATH`. If Whisper is not installed,
-the module returns a structured error instead of falling back to a remote service.
+It reads `TRANSCRIPTION_ENGINE`, `TRANSCRIPTION_COMMAND`,
+`TRANSCRIPTION_MODEL`, and `TRANSCRIPTION_LANGUAGE` from `config/settings.py`.
+The current supported engine is `whisper_cli`. If the configured command is not
+available, the module returns a structured error instead of falling back to a
+remote service.
+
+`TRANSCRIPTION_COMMAND` can be either a command on the active environment
+`PATH`:
+
+```text
+TRANSCRIPTION_COMMAND=whisper
+```
+
+or an absolute path to a virtual environment executable:
+
+```text
+TRANSCRIPTION_COMMAND=/Users/jacquewilson/Projects/george-3/venv/bin/whisper
+```
+
+Codex and a user shell may have different `PATH` values. A missing `whisper`
+error in one environment does not necessarily mean transcription is broken in
+another environment.
 
 This was selected because Whisper is a widely understood baseline for local
 speech-to-text, works well with the WAV files produced by `voice_capture/`, and
@@ -52,6 +72,36 @@ python3 -m modules.transcription.transcription data/voice_capture/latest_capture
 
 The structured result object is the product. Terminal output is display only.
 
+Structured result:
+
+```text
+{
+  "success": true/false,
+  "engine": "whisper_cli",
+  "input_file": "...",
+  "transcript": "...",
+  "duration_seconds": null,
+  "message": "...",
+  "error": ""
+}
+```
+
+## Inputs
+
+- an existing WAV file, defaulting to `data/voice_capture/latest_capture.wav`
+- transcription settings from `config/settings.py`
+
+## Outputs
+
+- structured transcription result
+- transcript text produced by the configured engine
+
 Transcription v1 reads an audio file, produces text, and exits. It does not
 listen continuously, monitor microphones, identify speakers, call OpenAI,
 execute actions, trigger automation, or manage conversations.
+
+## Future Relationships
+
+Future `speaker_id/`, `conversation/`, and `actions/` modules should depend on
+the structured transcription result, not on Whisper-specific implementation
+details.

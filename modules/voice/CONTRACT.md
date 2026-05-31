@@ -25,6 +25,19 @@ Can this node speak a simple test phrase using macOS say?
 - use `VOICE_NAME` when set
 - use the system default Apple voice when `VOICE_NAME` is blank
 
+## Inputs
+
+- voice settings from `config/settings.py`
+- macOS audio device discovery
+- macOS Apple voice discovery
+- provided text for explicit speech tests
+
+## Outputs
+
+- structured voice discovery object
+- structured speech result object
+- terminal summaries for humans
+
 ## Not Allowed
 
 - recording
@@ -42,3 +55,6 @@ Can this node speak a simple test phrase using macOS say?
 - speaker identification will be separate
 - wake word detection will be separate
 - conversation and intent logic will be separate
+
+Future capture and transcription modules consume their own inputs. They should
+not be folded into `voice/`.
