@@ -1,4 +1,10 @@
-"""Read-only Tailnet node inventory for George 3."""
+"""Tailnet node discovery.
+
+Purpose: Report visible Tailscale nodes as structured data.
+Phase: Tailscale Discovery v1.
+Last updated: 2026-05-31.
+Notes: Read-only inventory; does not ping or control nodes.
+"""
 
 from __future__ import annotations
 

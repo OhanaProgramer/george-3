@@ -1,4 +1,10 @@
-"""Read-only local system discovery for George 3."""
+"""System status discovery.
+
+Purpose: Report local machine, node, path, and resource state.
+Phase: System Discovery v1.
+Last updated: 2026-05-31.
+Notes: Read-only status; does not manage processes or services.
+"""
 
 from __future__ import annotations
 

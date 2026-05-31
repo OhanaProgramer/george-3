@@ -1,4 +1,10 @@
-"""Read-only voice/audio discovery for George 3."""
+"""Voice device discovery.
+
+Purpose: Report microphones, output devices, and Apple voices.
+Phase: Voice Discovery v1.
+Last updated: 2026-05-31.
+Notes: Read-only discovery; no recording, playback, or transcription.
+"""
 
 from __future__ import annotations
 

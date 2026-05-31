@@ -1,4 +1,10 @@
-"""George 3 configuration loaded from environment variables."""
+"""George 3 configuration.
+
+Purpose: Load local environment settings for modules.
+Phase: Foundation configuration.
+Last updated: 2026-05-31.
+Notes: Does not store secrets or print `.env` contents.
+"""
 
 from __future__ import annotations
 

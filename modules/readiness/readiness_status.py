@@ -1,4 +1,10 @@
-"""Read-only readiness aggregation for George 3."""
+"""Readiness status aggregation.
+
+Purpose: Summarize whether this George node is ready to operate.
+Phase: Readiness Aggregator v1.
+Last updated: 2026-05-31.
+Notes: Reader/summarizer only; does not repair or mutate system state.
+"""
 
 from __future__ import annotations
 

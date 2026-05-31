@@ -1,4 +1,10 @@
-"""Learning-first Tailscale visibility check."""
+"""Tailscale status discovery.
+
+Purpose: Report local Tailscale install/running/IP status.
+Phase: Tailscale Discovery v1.
+Last updated: 2026-05-31.
+Notes: Read-only visibility; no forwarding or remote control.
+"""
 
 from __future__ import annotations
 
