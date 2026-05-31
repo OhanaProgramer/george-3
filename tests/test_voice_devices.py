@@ -9,6 +9,7 @@ Notes: Uses fake macOS command output; does not record or play audio.
 import json
 import unittest
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from config import settings
 from modules.voice import voice_devices
@@ -61,7 +62,11 @@ class VoiceDevicesTests(unittest.TestCase):
                 return make_result(stdout="Samantha           en_US    # Hello\n")
             raise AssertionError(f"Unexpected command: {command}")
 
-        discovery = voice_devices.discover_voice_devices(fake_runner)
+        with (
+            patch.object(settings, "VOICE_INPUT_DEVICE_HINT", "XVF3800"),
+            patch.object(settings, "VOICE_OUTPUT_DEVICE_HINT", "system_default"),
+        ):
+            discovery = voice_devices.discover_voice_devices(fake_runner)
 
         expected_keys = {
             "voice_engine",

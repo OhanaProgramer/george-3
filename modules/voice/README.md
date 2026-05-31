@@ -1,16 +1,18 @@
 # Voice
 
 Metadata:
-- Purpose: Module overview for voice and audio discovery.
-- Phase: Voice Discovery v1.
+- Purpose: Module overview for voice and audio discovery/speaking.
+- Phase: Voice Speak v1.
 - Last updated: 2026-05-31.
-- Notes: Discovery only; no recording, playback, or transcription.
+- Notes: Discovery plus Apple text-to-speech; no recording or transcription.
 
-Purpose: discover available audio and Apple voice capability on this node.
+Purpose: discover available audio and Apple voice capability on this node, and
+provide a small Apple text-to-speech smoke test.
 
-This is read-only discovery for future dashboard/API use. It does not record,
-play audio, speak, transcribe, identify speakers, listen for wake words, call AI,
-or control remote systems.
+Discovery is read-only for future dashboard/API use. Speaking is isolated in
+`voice_speak.py` and only uses macOS `say`. The module does not record,
+transcribe, identify speakers, listen for wake words, call AI, or control remote
+systems.
 
 ## Run
 
@@ -20,6 +22,10 @@ From `~/Projects/george-3`:
 python3 -m modules.voice.voice_devices
 ```
 
+```bash
+python3 -m modules.voice.voice_speak "George voice test"
+```
+
 ## Output
 
 `voice_devices.py` returns a structured dictionary and prints a short terminal
@@ -27,3 +33,8 @@ summary.
 
 The structured object is the useful part. The terminal summary is only for
 learning and quick checks.
+
+`voice_speak.py` returns a structured dictionary and prints it as JSON when run
+from the CLI. It reads `VOICE_ENGINE` and `VOICE_NAME` from `.env` through
+`config/settings.py`. When `VOICE_NAME` is blank, macOS uses the system default
+voice.

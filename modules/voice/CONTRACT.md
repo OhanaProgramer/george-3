@@ -2,17 +2,18 @@
 
 Metadata:
 - Purpose: Define voice module boundaries.
-- Phase: Voice Discovery v1.
+- Phase: Voice Speak v1.
 - Last updated: 2026-05-31.
-- Notes: Device and voice discovery only.
+- Notes: Device/voice discovery plus isolated Apple text-to-speech.
 
-This module answers one question:
+This module answers two questions:
 
 ```text
 What voice/audio devices and Apple voices are available on this node?
+Can this node speak a simple test phrase using macOS say?
 ```
 
-## Allowed in Phase 1
+## Allowed
 
 - discover microphones
 - discover speakers/output devices when practical
@@ -20,12 +21,13 @@ What voice/audio devices and Apple voices are available on this node?
 - normalize discovery into structured data
 - check configured hints from `.env`
 - print a clean summary
+- speak provided text with macOS `say`
+- use `VOICE_NAME` when set
+- use the system default Apple voice when `VOICE_NAME` is blank
 
-## Not Allowed in Phase 1
+## Not Allowed
 
 - recording
-- playback
-- speaking
 - Whisper
 - transcription
 - speaker identification
