@@ -44,6 +44,9 @@ modules/voice/
 modules/voice_capture/
   short one-shot audio recording
 
+modules/transcription/
+  audio file to text
+
 modules/system/
   local machine and node visibility
 
@@ -79,24 +82,30 @@ Terminal output is display only. The structured object is the module product.
 Voice functionality stays split by responsibility:
 
 ```text
-voice/
-  device discovery
-  speech output
+wake_listener/
+  future always-on monitoring
+    |
+    v
 
 voice_capture/
   short audio recording
-
-wake_listener/
-  future always-on monitoring
+    |
+    v
 
 transcription/
   audio -> text
+    |
+    v
 
 speaker_id/
   audio -> speaker identity
+    |
+    v
 
 conversation/
   intent and reasoning
+    |
+    v
 
 actions/
   automation and control
@@ -105,6 +114,12 @@ actions/
 `modules/voice_capture/` is intentionally a small one-shot building block. It
 does not continuously monitor audio, detect wake words, transcribe, identify
 speakers, call AI, or control remote systems.
+
+`modules/transcription/` consumes an existing audio file and returns text. It
+does not capture audio, listen continuously, identify speakers, manage
+conversation, or execute actions. The transcription engine is an implementation
+detail behind the module contract so Whisper can be replaced later without
+changing downstream modules.
 
 ## Previous generations
 

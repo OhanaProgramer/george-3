@@ -2,11 +2,11 @@
 
 Metadata:
 - Purpose: Track current project status.
-- Phase: Voice Capture v1.
+- Phase: Transcription v1.
 - Last updated: 2026-05-31.
 - Notes: Update after each completed module.
 
-Current status: Voice Capture v1.
+Current status: Transcription v1.
 
 Completed:
 
@@ -17,17 +17,18 @@ Completed:
 - Tailscale Discovery v1
 - Voice Discovery v1
 - Voice Speak v1
+- Voice Capture v1
 - System Discovery v1
 - Readiness v1
 
 Current:
 
-- Voice Capture v1
+- Transcription v1
 
 Future:
 
 - Dashboard Foundation
-- Transcription
-- Speaker ID
-- Wake Word
-- Conversation Layer
+- Speaker ID v1
+- Wake Listener v1
+- Conversation Layer v1
+- Actions Layer v1
