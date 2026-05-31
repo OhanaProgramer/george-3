@@ -29,6 +29,7 @@
 
 ## Phase 4: Device and life modules
 
-- Add speaker.
-- Add microphone.
+- Add read-only voice/audio discovery.
+- Add speaker playback later as a separate module.
+- Add microphone capture later as a separate module.
 - Add health modules one at a time.

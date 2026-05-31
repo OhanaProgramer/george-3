@@ -44,6 +44,12 @@ TAILSCALE_EXPECTED = os.getenv("TAILSCALE_EXPECTED", "true").lower() in {
 }
 TAILSCALE_TIMEOUT_SECONDS = int(os.getenv("TAILSCALE_TIMEOUT_SECONDS", "5"))
 
+VOICE_ENGINE = os.getenv("VOICE_ENGINE", "apple")
+VOICE_NAME = os.getenv("VOICE_NAME", "")
+VOICE_INPUT_DEVICE_HINT = os.getenv("VOICE_INPUT_DEVICE_HINT", "XVF3800")
+VOICE_OUTPUT_DEVICE_HINT = os.getenv("VOICE_OUTPUT_DEVICE_HINT", "system_default")
+VOICE_PRODUCTION_SPEAKER_HINT = os.getenv("VOICE_PRODUCTION_SPEAKER_HINT", "")
+
 
 def as_dict():
     return {
@@ -54,6 +60,11 @@ def as_dict():
         "george_log_level": GEORGE_LOG_LEVEL,
         "tailscale_expected": TAILSCALE_EXPECTED,
         "tailscale_timeout_seconds": TAILSCALE_TIMEOUT_SECONDS,
+        "voice_engine": VOICE_ENGINE,
+        "voice_name": VOICE_NAME,
+        "voice_input_device_hint": VOICE_INPUT_DEVICE_HINT,
+        "voice_output_device_hint": VOICE_OUTPUT_DEVICE_HINT,
+        "voice_production_speaker_hint": VOICE_PRODUCTION_SPEAKER_HINT,
     }
 
 

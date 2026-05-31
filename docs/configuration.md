@@ -28,6 +28,12 @@ GEORGE_LOG_LEVEL=info
 
 TAILSCALE_EXPECTED=true
 TAILSCALE_TIMEOUT_SECONDS=5
+
+VOICE_ENGINE=apple
+VOICE_NAME=
+VOICE_INPUT_DEVICE_HINT=XVF3800
+VOICE_OUTPUT_DEVICE_HINT=system_default
+VOICE_PRODUCTION_SPEAKER_HINT=
 ```
 
 ## Node name
@@ -85,6 +91,23 @@ python3 -m config.settings
 `config/settings.py` loads simple `KEY=VALUE` lines from `.env` automatically.
 It should never print secrets. Modules should only expose values they actually
 need.
+
+## Voice settings
+
+`VOICE_ENGINE` is currently expected to be `apple`.
+
+`VOICE_NAME` is optional. If it is set, the voice discovery module checks whether
+that Apple system voice is available.
+
+`VOICE_INPUT_DEVICE_HINT` should identify the desired microphone. The current
+target is:
+
+```text
+XVF3800
+```
+
+`VOICE_OUTPUT_DEVICE_HINT` is `system_default` for development on the Mac. A
+future production speaker can be described with `VOICE_PRODUCTION_SPEAKER_HINT`.
 
 ## Not included yet
 
