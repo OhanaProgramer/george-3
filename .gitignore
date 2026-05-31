@@ -1,0 +1,17 @@
+# Local environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# Local runtime output
+logs/*
+data/*
+
+!logs/.gitkeep
+!data/.gitkeep
