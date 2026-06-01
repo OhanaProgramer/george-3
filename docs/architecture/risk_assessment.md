@@ -11,7 +11,7 @@ Metadata:
 Do not disturb this known-working path during early reorganization:
 
 ```text
-modules.push_to_talk.push_to_talk
+interfaces.voice.push_to_talk.push_to_talk
     |
     v
 shared.speech_to_text.transcription
@@ -30,7 +30,7 @@ These should stay in place until compatibility wrappers and tests are ready:
 - `config/settings.py`
 - `interfaces/voice/capture/voice_capture.py`
 - `shared/speech_to_text/transcription.py`
-- `modules/push_to_talk/push_to_talk.py`
+- `interfaces/voice/push_to_talk/push_to_talk.py`
 - `shared/llm/llm_adapter.py`
 - `shared/text_to_speech/voice_speak.py`
 - `modules/voice_assistant/voice_assistant.py`
@@ -44,7 +44,7 @@ Why:
 
 - `config/settings.py`
 - `modules/voice_assistant/voice_assistant.py`
-- `modules/push_to_talk/push_to_talk.py`
+- `interfaces/voice/push_to_talk/push_to_talk.py`
 - `interfaces/voice/capture/voice_capture.py`
 - `shared/speech_to_text/transcription.py`
 

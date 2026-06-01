@@ -177,7 +177,7 @@ configuration and API-key behavior, but tests mock the provider.
 Compatibility:
 - `modules/llm/` remains as a wrapper around `shared/llm/` during migration.
 
-### `modules/push_to_talk/`
+### `interfaces/voice/push_to_talk/`
 
 Purpose: user-controlled recording and transcription.
 
@@ -188,7 +188,10 @@ Dependencies:
 Entry points:
 - `python3 -m modules.push_to_talk.push_to_talk`
 
-Risk if moved: High.
+Compatibility:
+- `modules/push_to_talk/` remains as a wrapper for the old CLI/import path
+
+Risk if moved again: Medium.
 
 Why: it is part of the proven end-to-end voice flow and owns the manual
 interaction loop.
@@ -214,7 +217,7 @@ Why: orchestration only. It can be migrated after its dependencies settle.
 Purpose: push-to-talk transcript to fixed spoken confirmation.
 
 Dependencies:
-- `modules.push_to_talk.push_to_talk`
+- `interfaces.voice.push_to_talk.push_to_talk`
 - `shared.text_to_speech.voice_speak`
 
 Entry points:
@@ -229,7 +232,7 @@ Why: orchestration only, but it touches the verified speech output path.
 Purpose: first hear-think-speak conversational loop.
 
 Dependencies:
-- `modules.push_to_talk.push_to_talk`
+- `interfaces.voice.push_to_talk.push_to_talk`
 - `shared.llm.llm_adapter`
 - `shared.text_to_speech.voice_speak`
 

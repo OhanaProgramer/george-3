@@ -1,7 +1,5 @@
-"""Push-to-talk module namespace.
+"""Compatibility namespace for push-to-talk during architecture migration."""
 
-Purpose: Group user-triggered recording tools.
-Phase: Push-To-Talk v1.
-Last updated: 2026-05-31.
-Notes: Namespace only; no runtime behavior.
-"""
+from interfaces.voice.push_to_talk.push_to_talk import run_push_to_talk
+
+__all__ = ["run_push_to_talk"]

@@ -8,7 +8,7 @@ Notes: Uses fake runners; does not require a microphone, WAV file, or Whisper.
 
 import unittest
 
-from modules.push_to_talk import push_to_talk
+from interfaces.voice.push_to_talk import push_to_talk
 
 
 def capture_session(success=True, error=""):

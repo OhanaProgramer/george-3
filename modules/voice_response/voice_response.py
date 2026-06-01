@@ -8,7 +8,7 @@ Notes: No LLM, wake word, speaker ID, conversation memory, actions, or remote co
 
 from __future__ import annotations
 
-from modules.push_to_talk.push_to_talk import run_push_to_talk
+from interfaces.voice.push_to_talk.push_to_talk import run_push_to_talk
 from shared.text_to_speech.voice_speak import speak_text
 
 

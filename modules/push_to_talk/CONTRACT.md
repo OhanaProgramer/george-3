@@ -1,49 +1,16 @@
-# Push-To-Talk Module Contract
+# Push-To-Talk Compatibility Contract
 
 Metadata:
-- Purpose: Define user-triggered recording and transcription boundaries.
-- Phase: Push-To-Talk v1.
-- Last updated: 2026-05-31.
-- Notes: Manual start/stop only.
+- Purpose: Point old push-to-talk contract path to the active interface module.
+- Phase: Architecture migration.
+- Last updated: 2026-06-01.
+- Notes: Runtime implementation lives in `interfaces/voice/push_to_talk/`.
 
-This module answers one question:
+The active contract is:
 
 ```text
-Can a user manually start recording, manually stop recording, and obtain a transcript?
+interfaces/voice/push_to_talk/CONTRACT.md
 ```
 
-## Allowed in v1
-
-- wait for the user to press ENTER to start recording
-- start recording through `voice_capture`
-- wait for the user to press ENTER to stop recording
-- stop recording through `voice_capture`
-- transcribe the captured WAV through `transcription`
-- return a structured result object
-- print readable terminal output
-- exit
-
-## Inputs
-
-- user ENTER keypresses
-- voice capture result
-- transcription result
-
-## Outputs
-
-- structured push-to-talk result object
-- transcript text when transcription succeeds
-
-## Not Allowed in v1
-
-- continuous listening
-- wake-word detection
-- speaker identification
-- LLM calls
-- conversation memory
-- action execution
-- remote control
-- spoken responses
-
-Terminal output is display only. The structured result object is the module
-product.
+The `modules.push_to_talk` path is retained only as a compatibility wrapper
+during migration.

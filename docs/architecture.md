@@ -56,7 +56,7 @@ shared/text_to_speech/
 modules/voice_pipeline/
   manual one-shot capture -> transcription
 
-modules/push_to_talk/
+interfaces/voice/push_to_talk/
   user-triggered start/stop capture -> transcription
 
 modules/voice_response/
@@ -162,7 +162,7 @@ voice_capture
 transcription
 ```
 
-`modules/push_to_talk/` lets a user manually start recording, manually stop
+`interfaces/voice/push_to_talk/` lets a user manually start recording, manually stop
 recording, and then transcribe the captured WAV.
 
 No current module continuously listens, detects wake words, identifies speakers,

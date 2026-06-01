@@ -93,7 +93,7 @@ No circular runtime imports were found in the active modules.
 - `config.settings`
 - `shared.audio_devices.voice_devices`
 -> imported by:
-- `modules.push_to_talk.push_to_talk`
+- `interfaces.voice.push_to_talk.push_to_talk`
 - `modules.voice_pipeline.voice_pipeline`
 - `modules.voice_capture.voice_capture` compatibility wrapper
 - tests
@@ -104,7 +104,7 @@ No circular runtime imports were found in the active modules.
 -> imports from:
 - `config.settings`
 -> imported by:
-- `modules.push_to_talk.push_to_talk`
+- `interfaces.voice.push_to_talk.push_to_talk`
 - `modules.voice_pipeline.voice_pipeline`
 - `modules.transcription.transcription` compatibility wrapper
 - tests
@@ -127,13 +127,14 @@ No circular runtime imports were found in the active modules.
 
 ### Orchestration
 
-`modules/push_to_talk/push_to_talk.py`
+`interfaces/voice/push_to_talk/push_to_talk.py`
 -> imports from:
 - `interfaces.voice.capture.voice_capture`
 - `shared.speech_to_text.transcription`
 -> imported by:
 - `modules.voice_response.voice_response`
 - `modules.voice_assistant.voice_assistant`
+- `modules.push_to_talk.push_to_talk` compatibility wrapper
 - tests
 
 `modules/voice_pipeline/voice_pipeline.py`
@@ -145,14 +146,14 @@ No circular runtime imports were found in the active modules.
 
 `modules/voice_response/voice_response.py`
 -> imports from:
-- `modules.push_to_talk.push_to_talk`
+- `interfaces.voice.push_to_talk.push_to_talk`
 - `shared.text_to_speech.voice_speak`
 -> imported by:
 - tests
 
 `modules/voice_assistant/voice_assistant.py`
 -> imports from:
-- `modules.push_to_talk.push_to_talk`
+- `interfaces.voice.push_to_talk.push_to_talk`
 - `shared.llm.llm_adapter`
 - `shared.text_to_speech.voice_speak`
 -> imported by:
