@@ -59,7 +59,7 @@ modules/push_to_talk/
 modules/voice_response/
   push-to-talk transcript -> fixed spoken confirmation
 
-modules/llm/
+shared/llm/
   text to configured LLM provider response
 
 modules/voice_assistant/
@@ -260,7 +260,7 @@ changing downstream modules.
 Future placeholder modules document expected responsibilities only. They do not
 contain runtime implementation.
 
-`modules/llm/` is active as a provider adapter only. It sends provided text to
+`shared/llm/` is active as a provider adapter only. It sends provided text to
 the configured provider and returns text. It does not decide whether text should
 go to the LLM; a future `input_router/` module should own that decision.
 

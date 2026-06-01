@@ -17,7 +17,7 @@ modules.push_to_talk.push_to_talk
 modules.transcription.transcription
     |
     v
-modules.llm.llm_adapter
+shared.llm.llm_adapter
     |
     v
 modules.voice.voice_speak
@@ -31,7 +31,7 @@ These should stay in place until compatibility wrappers and tests are ready:
 - `modules/voice_capture/voice_capture.py`
 - `modules/transcription/transcription.py`
 - `modules/push_to_talk/push_to_talk.py`
-- `modules/llm/llm_adapter.py`
+- `shared/llm/llm_adapter.py`
 - `modules/voice/voice_speak.py`
 - `modules/voice_assistant/voice_assistant.py`
 
@@ -182,4 +182,3 @@ Avoid combining:
 - dependency upgrades
 
 in one commit.
-

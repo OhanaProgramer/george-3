@@ -11,7 +11,7 @@ from contextlib import contextmanager
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from modules.llm import llm_adapter
+from shared.llm import llm_adapter
 
 
 class FakeResponses:

@@ -57,7 +57,7 @@ pattern.
 - `modules/voice_pipeline/`: manual one-shot capture -> transcription
 - `modules/push_to_talk/`: user-triggered start/stop capture -> transcription
 - `modules/voice_response/`: fixed spoken confirmation from a push-to-talk transcript
-- `modules/llm/`: text to configured LLM provider response
+- `shared/llm/`: text to configured LLM provider response
 - `modules/voice_assistant/`: push-to-talk transcript -> LLM response -> speech output
 - `modules/readiness/`: operational readiness summary from existing module status objects
 

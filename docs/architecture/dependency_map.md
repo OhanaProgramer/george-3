@@ -38,7 +38,7 @@ No circular runtime imports were found in the active modules.
 - `modules.voice.voice_speak`
 - `modules.voice_capture.voice_capture`
 - `modules.transcription.transcription`
-- `modules.llm.llm_adapter`
+- `shared.llm.llm_adapter`
 - tests and `prove_george_env.py`
 
 ### System
@@ -107,13 +107,19 @@ No circular runtime imports were found in the active modules.
 
 ### LLM
 
-`modules/llm/llm_adapter.py`
+`shared/llm/llm_adapter.py`
 -> imports from:
 - `config.settings`
 - runtime lazy import of OpenAI SDK inside `create_openai_client`
 -> imported by:
 - `modules.voice_assistant.voice_assistant`
 - tests
+
+`modules/llm/llm_adapter.py`
+-> imports from:
+- `shared.llm.llm_adapter`
+-> imported by:
+- compatibility CLI use
 
 ### Orchestration
 
@@ -143,7 +149,7 @@ No circular runtime imports were found in the active modules.
 `modules/voice_assistant/voice_assistant.py`
 -> imports from:
 - `modules.push_to_talk.push_to_talk`
-- `modules.llm.llm_adapter`
+- `shared.llm.llm_adapter`
 - `modules.voice.voice_speak`
 -> imported by:
 - tests
@@ -235,4 +241,3 @@ Minor overlap:
   orchestration later.
 - Several modules define similar terminal summary helpers. This can later move
   to a shared presentation helper if repetition becomes painful.
-

@@ -149,7 +149,7 @@ Risk if moved: High.
 Why: used by push-to-talk and voice pipeline. It depends on environment/PATH
 configuration that is known to differ between Codex and user terminal.
 
-### `modules/llm/`
+### `shared/llm/`
 
 Purpose: text to configured LLM provider response.
 
@@ -165,6 +165,9 @@ Risk if moved: Medium.
 
 Why: it is a leaf service used by voice assistant. It has external provider
 configuration and API-key behavior, but tests mock the provider.
+
+Compatibility:
+- `modules/llm/` remains as a wrapper around `shared/llm/` during migration.
 
 ### `modules/push_to_talk/`
 
@@ -219,7 +222,7 @@ Purpose: first hear-think-speak conversational loop.
 
 Dependencies:
 - `modules.push_to_talk.push_to_talk`
-- `modules.llm.llm_adapter`
+- `shared.llm.llm_adapter`
 - `modules.voice.voice_speak`
 
 Entry points:
@@ -361,4 +364,3 @@ Risk if moved:
 
 Why: configuration and ignore behavior are foundational. The proof script could
 move later into `scripts/` after docs and command examples are updated.
-
