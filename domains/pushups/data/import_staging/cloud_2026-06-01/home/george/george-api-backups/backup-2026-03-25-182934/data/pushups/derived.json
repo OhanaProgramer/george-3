@@ -1,0 +1,28 @@
+{
+  "as_of": "2026-03-25",
+  "goal": {
+    "period_start": "2026-01-01",
+    "target_date": "2026-12-22",
+    "target_total": 30000,
+    "current_total_2026": 8128,
+    "expected_total_by_today": 7078.65,
+    "ahead_behind": 1049.35,
+    "required_per_day_remaining": 80.12,
+    "projected_total_by_target_30d_pace": 35708.8,
+    "on_pace_today": true
+  },
+  "consistency": {
+    "avg_7d": 88,
+    "avg_30d": 101.4,
+    "active_days_30d": 29
+  },
+  "risk": {
+    "last_7d_total": 616,
+    "prior_7d_total": 938,
+    "weekly_jump_pct": -34.33,
+    "high_ramp_risk": false
+  },
+  "totals": {
+    "lifetime_all_years": 8128
+  }
+}

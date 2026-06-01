@@ -1,0 +1,558 @@
+{
+  "as_of": "2026-06-01",
+  "goal": {
+    "period_start": "2026-01-01",
+    "target_date": "2026-12-22",
+    "target_total": 30000,
+    "current_total_2026": 13497,
+    "expected_total_by_today": 12808.99,
+    "ahead_behind": 688.01,
+    "required_per_day_remaining": 80.5,
+    "projected_total_by_target_30d_pace": 33053.8,
+    "on_pace_today": true
+  },
+  "consistency": {
+    "avg_7d": 113.14,
+    "avg_30d": 95.87,
+    "active_days_30d": 28
+  },
+  "risk": {
+    "last_7d_total": 792,
+    "prior_7d_total": 803,
+    "weekly_jump_pct": -1.37,
+    "high_ramp_risk": false
+  },
+  "totals": {
+    "lifetime_all_years": 13497
+  },
+  "interpretation": {
+    "pace": {
+      "status": "Ahead of pace",
+      "advice": "Protect consistency and avoid overreaching. Bank the lead gradually."
+    },
+    "consistency": {
+      "status": "Surging",
+      "advice": "Recent week is above baseline. Maintain only if recovery stays good."
+    },
+    "risk": {
+      "status": "Controlled",
+      "advice": "Ramp rate looks manageable."
+    }
+  },
+  "pro_dev": [
+    {
+      "name": "One Lead Metric",
+      "why": "Top performers anchor behavior to a single pace number each day.",
+      "action": "Hit or exceed required pace: 80.5 reps/day."
+    },
+    {
+      "name": "Consistency Before Intensity",
+      "why": "Sustained frequency compounds faster than occasional spikes.",
+      "action": "Target >= 24 active days per 30 days (currently 28)."
+    },
+    {
+      "name": "Progressive Overload With Guardrails",
+      "why": "Improvement comes from controlled increases, not random jumps.",
+      "action": "Keep week-over-week volume change between 0% and +20% when possible."
+    }
+  ],
+  "coach_note": "This week: bank the lead safely. Keep steady daily volume and avoid unnecessary spikes.",
+  "series_60d": [
+    {
+      "date": "2026-04-03",
+      "total": 29
+    },
+    {
+      "date": "2026-04-04",
+      "total": 140
+    },
+    {
+      "date": "2026-04-05",
+      "total": 84
+    },
+    {
+      "date": "2026-04-06",
+      "total": 112
+    },
+    {
+      "date": "2026-04-07",
+      "total": 148
+    },
+    {
+      "date": "2026-04-08",
+      "total": 90
+    },
+    {
+      "date": "2026-04-09",
+      "total": 0
+    },
+    {
+      "date": "2026-04-10",
+      "total": 80
+    },
+    {
+      "date": "2026-04-11",
+      "total": 28
+    },
+    {
+      "date": "2026-04-12",
+      "total": 30
+    },
+    {
+      "date": "2026-04-13",
+      "total": 0
+    },
+    {
+      "date": "2026-04-14",
+      "total": 0
+    },
+    {
+      "date": "2026-04-15",
+      "total": 0
+    },
+    {
+      "date": "2026-04-16",
+      "total": 0
+    },
+    {
+      "date": "2026-04-17",
+      "total": 40
+    },
+    {
+      "date": "2026-04-18",
+      "total": 90
+    },
+    {
+      "date": "2026-04-19",
+      "total": 30
+    },
+    {
+      "date": "2026-04-20",
+      "total": 60
+    },
+    {
+      "date": "2026-04-21",
+      "total": 30
+    },
+    {
+      "date": "2026-04-22",
+      "total": 30
+    },
+    {
+      "date": "2026-04-23",
+      "total": 0
+    },
+    {
+      "date": "2026-04-24",
+      "total": 0
+    },
+    {
+      "date": "2026-04-25",
+      "total": 30
+    },
+    {
+      "date": "2026-04-26",
+      "total": 80
+    },
+    {
+      "date": "2026-04-27",
+      "total": 90
+    },
+    {
+      "date": "2026-04-28",
+      "total": 120
+    },
+    {
+      "date": "2026-04-29",
+      "total": 140
+    },
+    {
+      "date": "2026-04-30",
+      "total": 120
+    },
+    {
+      "date": "2026-05-01",
+      "total": 90
+    },
+    {
+      "date": "2026-05-02",
+      "total": 120
+    },
+    {
+      "date": "2026-05-03",
+      "total": 90
+    },
+    {
+      "date": "2026-05-04",
+      "total": 156
+    },
+    {
+      "date": "2026-05-05",
+      "total": 94
+    },
+    {
+      "date": "2026-05-06",
+      "total": 32
+    },
+    {
+      "date": "2026-05-07",
+      "total": 128
+    },
+    {
+      "date": "2026-05-08",
+      "total": 64
+    },
+    {
+      "date": "2026-05-09",
+      "total": 0
+    },
+    {
+      "date": "2026-05-10",
+      "total": 96
+    },
+    {
+      "date": "2026-05-11",
+      "total": 128
+    },
+    {
+      "date": "2026-05-12",
+      "total": 96
+    },
+    {
+      "date": "2026-05-13",
+      "total": 99
+    },
+    {
+      "date": "2026-05-14",
+      "total": 0
+    },
+    {
+      "date": "2026-05-15",
+      "total": 66
+    },
+    {
+      "date": "2026-05-16",
+      "total": 100
+    },
+    {
+      "date": "2026-05-17",
+      "total": 66
+    },
+    {
+      "date": "2026-05-18",
+      "total": 66
+    },
+    {
+      "date": "2026-05-19",
+      "total": 165
+    },
+    {
+      "date": "2026-05-20",
+      "total": 165
+    },
+    {
+      "date": "2026-05-21",
+      "total": 63
+    },
+    {
+      "date": "2026-05-22",
+      "total": 50
+    },
+    {
+      "date": "2026-05-23",
+      "total": 91
+    },
+    {
+      "date": "2026-05-24",
+      "total": 132
+    },
+    {
+      "date": "2026-05-25",
+      "total": 137
+    },
+    {
+      "date": "2026-05-26",
+      "total": 132
+    },
+    {
+      "date": "2026-05-27",
+      "total": 132
+    },
+    {
+      "date": "2026-05-28",
+      "total": 132
+    },
+    {
+      "date": "2026-05-29",
+      "total": 66
+    },
+    {
+      "date": "2026-05-30",
+      "total": 132
+    },
+    {
+      "date": "2026-05-31",
+      "total": 132
+    },
+    {
+      "date": "2026-06-01",
+      "total": 66
+    }
+  ],
+  "avg_14d": [
+    {
+      "date": "2026-04-03",
+      "avg": 29
+    },
+    {
+      "date": "2026-04-04",
+      "avg": 84.5
+    },
+    {
+      "date": "2026-04-05",
+      "avg": 84.3
+    },
+    {
+      "date": "2026-04-06",
+      "avg": 91.3
+    },
+    {
+      "date": "2026-04-07",
+      "avg": 102.6
+    },
+    {
+      "date": "2026-04-08",
+      "avg": 100.5
+    },
+    {
+      "date": "2026-04-09",
+      "avg": 86.1
+    },
+    {
+      "date": "2026-04-10",
+      "avg": 85.4
+    },
+    {
+      "date": "2026-04-11",
+      "avg": 79
+    },
+    {
+      "date": "2026-04-12",
+      "avg": 74.1
+    },
+    {
+      "date": "2026-04-13",
+      "avg": 67.4
+    },
+    {
+      "date": "2026-04-14",
+      "avg": 61.8
+    },
+    {
+      "date": "2026-04-15",
+      "avg": 57
+    },
+    {
+      "date": "2026-04-16",
+      "avg": 52.9
+    },
+    {
+      "date": "2026-04-17",
+      "avg": 53.7
+    },
+    {
+      "date": "2026-04-18",
+      "avg": 50.1
+    },
+    {
+      "date": "2026-04-19",
+      "avg": 46.3
+    },
+    {
+      "date": "2026-04-20",
+      "avg": 42.6
+    },
+    {
+      "date": "2026-04-21",
+      "avg": 34.1
+    },
+    {
+      "date": "2026-04-22",
+      "avg": 29.9
+    },
+    {
+      "date": "2026-04-23",
+      "avg": 29.9
+    },
+    {
+      "date": "2026-04-24",
+      "avg": 24.1
+    },
+    {
+      "date": "2026-04-25",
+      "avg": 24.3
+    },
+    {
+      "date": "2026-04-26",
+      "avg": 27.9
+    },
+    {
+      "date": "2026-04-27",
+      "avg": 34.3
+    },
+    {
+      "date": "2026-04-28",
+      "avg": 42.9
+    },
+    {
+      "date": "2026-04-29",
+      "avg": 52.9
+    },
+    {
+      "date": "2026-04-30",
+      "avg": 61.4
+    },
+    {
+      "date": "2026-05-01",
+      "avg": 65
+    },
+    {
+      "date": "2026-05-02",
+      "avg": 67.1
+    },
+    {
+      "date": "2026-05-03",
+      "avg": 71.4
+    },
+    {
+      "date": "2026-05-04",
+      "avg": 78.3
+    },
+    {
+      "date": "2026-05-05",
+      "avg": 82.9
+    },
+    {
+      "date": "2026-05-06",
+      "avg": 83
+    },
+    {
+      "date": "2026-05-07",
+      "avg": 92.1
+    },
+    {
+      "date": "2026-05-08",
+      "avg": 96.7
+    },
+    {
+      "date": "2026-05-09",
+      "avg": 94.6
+    },
+    {
+      "date": "2026-05-10",
+      "avg": 95.7
+    },
+    {
+      "date": "2026-05-11",
+      "avg": 98.4
+    },
+    {
+      "date": "2026-05-12",
+      "avg": 96.7
+    },
+    {
+      "date": "2026-05-13",
+      "avg": 93.8
+    },
+    {
+      "date": "2026-05-14",
+      "avg": 85.2
+    },
+    {
+      "date": "2026-05-15",
+      "avg": 83.5
+    },
+    {
+      "date": "2026-05-16",
+      "avg": 82.1
+    },
+    {
+      "date": "2026-05-17",
+      "avg": 80.4
+    },
+    {
+      "date": "2026-05-18",
+      "avg": 73.9
+    },
+    {
+      "date": "2026-05-19",
+      "avg": 79
+    },
+    {
+      "date": "2026-05-20",
+      "avg": 88.5
+    },
+    {
+      "date": "2026-05-21",
+      "avg": 83.9
+    },
+    {
+      "date": "2026-05-22",
+      "avg": 82.9
+    },
+    {
+      "date": "2026-05-23",
+      "avg": 89.4
+    },
+    {
+      "date": "2026-05-24",
+      "avg": 91.9
+    },
+    {
+      "date": "2026-05-25",
+      "avg": 92.6
+    },
+    {
+      "date": "2026-05-26",
+      "avg": 95.1
+    },
+    {
+      "date": "2026-05-27",
+      "avg": 97.5
+    },
+    {
+      "date": "2026-05-28",
+      "avg": 106.9
+    },
+    {
+      "date": "2026-05-29",
+      "avg": 106.9
+    },
+    {
+      "date": "2026-05-30",
+      "avg": 109.2
+    },
+    {
+      "date": "2026-05-31",
+      "avg": 113.9
+    },
+    {
+      "date": "2026-06-01",
+      "avg": 113.9
+    }
+  ],
+  "target_daily": 130,
+  "flags": {
+    "trend_down": false,
+    "below_target_projection": true
+  },
+  "metrics": {
+    "avg_recent_14": 113.9,
+    "avg_prior_14": 73.9
+  },
+  "settings_summary": {
+    "goal_total": 40000,
+    "target_date": "2026-12-22",
+    "target_daily_override": 0
+  }
+}

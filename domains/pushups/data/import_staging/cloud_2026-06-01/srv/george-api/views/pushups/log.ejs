@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Pushups Log</title>
+    <link rel="stylesheet" href="/public/styles.css" />
+    <style>
+      .log-summary {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0.9rem;
+        align-items: start;
+        margin-bottom: 1rem;
+      }
+
+      .stoplight-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 0.9rem;
+        border: 1px solid #d7dee8;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #ffffff, #f8fbff);
+      }
+
+      .stoplight {
+        display: grid;
+        gap: 0.35rem;
+        padding: 0.35rem;
+        border-radius: 999px;
+        background: #261f24;
+      }
+
+      .stoplight-dot {
+        width: 0.95rem;
+        height: 0.95rem;
+        border-radius: 999px;
+        background: #6c6c6c;
+        opacity: 0.45;
+      }
+
+      .stoplight-dot.active {
+        opacity: 1;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.14);
+      }
+
+      .stoplight-dot.red.active {
+        background: #d93f0b;
+      }
+
+      .stoplight-dot.yellow.active {
+        background: #d8a211;
+      }
+
+      .stoplight-dot.green.active {
+        background: #0f9d58;
+      }
+
+      .last-logged {
+        margin: 0.1rem 0 1rem;
+        color: #5a6778;
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 760px) {
+        .log-summary {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <%- include("../partials/main_nav", { currentPage: "pushups" }) %>
+
+      <section class="panel">
+        <h1>Pushups Log</h1>
+        <div class="log-summary">
+          <div>
+            <div class="stats-row">
+              <article class="stat">
+                <div class="k">Today total</div>
+                <div class="v"><%= todayCount || 0 %></div>
+              </article>
+              <article class="stat">
+                <div class="k">Lifetime total</div>
+                <div class="v"><%= lifetimeCount || 0 %></div>
+              </article>
+            </div>
+            <% if (lastLoggedAt) { %>
+              <p class="last-logged">Last logged: <%= lastLoggedAt %></p>
+            <% } %>
+          </div>
+
+          <aside class="stoplight-wrap" aria-label="Pushup pacing stoplight">
+            <div class="stoplight" aria-hidden="true">
+              <span class="stoplight-dot red <%= stoplight && stoplight.level === 'red' ? 'active' : '' %>"></span>
+              <span class="stoplight-dot yellow <%= stoplight && stoplight.level === 'yellow' ? 'active' : '' %>"></span>
+              <span class="stoplight-dot green <%= !stoplight || stoplight.level === 'green' ? 'active' : '' %>"></span>
+            </div>
+          </aside>
+        </div>
+
+        <% if (message) { %>
+          <p class="msg"><%= message %></p>
+        <% } %>
+
+        <% if (error) { %>
+          <p class="err"><%= error %></p>
+        <% } %>
+
+        <form method="post" action="/pushups/log">
+          <div class="form-grid">
+            <div>
+              <label for="count">How many pushups?</label>
+              <input id="count" name="count" type="number" min="1" max="300" step="1" required autofocus value="<%= last || '' %>" />
+            </div>
+            <button type="submit">Log Session</button>
+          </div>
+        </form>
+      </section>
+      <%- include("../partials/footer") %>
+    </main>
+  </body>
+</html>
