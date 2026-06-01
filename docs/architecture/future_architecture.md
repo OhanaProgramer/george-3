@@ -4,7 +4,7 @@ Metadata:
 - Purpose: Recommend future George 3 structure.
 - Phase: Architecture review.
 - Last updated: 2026-06-01.
-- Notes: Planning only; no runtime changes.
+- Notes: Target architecture; voice/shared portions are partially implemented.
 
 George's mission is to help Jacque focus efforts by reviewing actions and
 assessing whether he is meeting the goals he has decided.
@@ -21,17 +21,22 @@ The future architecture should make that mission explicit by separating:
 ```text
 george-3/
   core/
-    config/
+    actions/
     logging/
-    storage/
-    scheduler/
-    events/
     auth/
+    config/
+    events/
+    remote_control/
+    scheduler/
+    storage/
 
   shared/
+    audio_devices/
+    conversation/
+    llm/
+    speaker_id/
     speech_to_text/
     text_to_speech/
-    llm/
     tailscale/
     home_assistant/
     communications/
@@ -51,8 +56,11 @@ george-3/
 
   interfaces/
     voice/
+      assistant/
+      capture/
+      pipeline/
       push_to_talk/
-      voice_assistant/
+      response/
       wake_listener/
     cli/
     web/
