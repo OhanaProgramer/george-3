@@ -14,7 +14,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from modules.transcription import transcription
+from shared.speech_to_text import transcription
 
 
 def make_result(returncode=0, stdout="", stderr=""):

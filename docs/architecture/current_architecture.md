@@ -51,7 +51,7 @@ Purpose: all current runtime capability modules and placeholder modules.
 Dependencies:
 - depends heavily on `config/settings.py`
 - internal imports are direct absolute imports such as
-  `modules.transcription.transcription`
+  `shared.speech_to_text.transcription`
 
 Entry points:
 - multiple `python3 -m modules...` CLIs
@@ -131,7 +131,7 @@ Risk if moved: High.
 Why: it is the microphone boundary and is used by push-to-talk and voice
 pipeline. It has hardware coupling and verified working behavior.
 
-### `modules/transcription/`
+### `shared/speech_to_text/`
 
 Purpose: existing WAV file to transcript text.
 
@@ -144,7 +144,10 @@ Entry points:
 - `python3 -m modules.transcription.transcription`
 - `python3 -m modules.transcription.transcription data/voice_capture/latest_capture.wav`
 
-Risk if moved: High.
+Compatibility:
+- `modules/transcription/` remains as a wrapper for the old CLI/import path
+
+Risk if moved again: Medium.
 
 Why: used by push-to-talk and voice pipeline. It depends on environment/PATH
 configuration that is known to differ between Codex and user terminal.
@@ -175,7 +178,7 @@ Purpose: user-controlled recording and transcription.
 
 Dependencies:
 - `modules.voice_capture.voice_capture`
-- `modules.transcription.transcription`
+- `shared.speech_to_text.transcription`
 
 Entry points:
 - `python3 -m modules.push_to_talk.push_to_talk`
@@ -191,7 +194,7 @@ Purpose: fixed-duration capture followed by transcription.
 
 Dependencies:
 - `modules.voice_capture.voice_capture`
-- `modules.transcription.transcription`
+- `shared.speech_to_text.transcription`
 
 Entry points:
 - `python3 -m modules.voice_pipeline.voice_pipeline`

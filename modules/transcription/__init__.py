@@ -1,7 +1,5 @@
-"""Transcription module namespace.
+"""Compatibility namespace for transcription during architecture migration."""
 
-Purpose: Group audio-to-text transcription tools.
-Phase: Transcription v1.
-Last updated: 2026-05-31.
-Notes: Namespace only; no runtime behavior.
-"""
+from shared.speech_to_text.transcription import transcribe_audio
+
+__all__ = ["transcribe_audio"]

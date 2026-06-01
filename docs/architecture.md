@@ -47,7 +47,7 @@ modules/voice/
 modules/voice_capture/
   short one-shot audio recording
 
-modules/transcription/
+shared/speech_to_text/
   audio file to text
 
 modules/voice_pipeline/
@@ -141,7 +141,7 @@ voice_capture
 transcription
 ```
 
-`modules/voice_capture/` writes a WAV file. `modules/transcription/` reads an
+`modules/voice_capture/` writes a WAV file. `shared/speech_to_text/` reads an
 existing audio file and returns text. `modules/voice_pipeline/` coordinates
 those two steps manually in one command.
 
@@ -251,7 +251,7 @@ Near-term roadmap after Voice Assistant v1:
 does not continuously monitor audio, detect wake words, transcribe, identify
 speakers, call AI, or control remote systems.
 
-`modules/transcription/` consumes an existing audio file and returns text. It
+`shared/speech_to_text/` consumes an existing audio file and returns text. It
 does not capture audio, listen continuously, identify speakers, manage
 conversation, or execute actions. The transcription engine is an implementation
 detail behind the module contract so Whisper can be replaced later without

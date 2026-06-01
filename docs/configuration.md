@@ -169,7 +169,8 @@ absolute path is used.
 `TRANSCRIPTION_LANGUAGE` is passed to the Whisper CLI with `--language`.
 
 These values live in `.env`, flow through `config/settings.py`, and are consumed
-by `modules/transcription/`.
+by `shared/speech_to_text/`. The old `modules/transcription/` path remains as a
+compatibility wrapper during migration.
 
 ## LLM settings
 

@@ -37,7 +37,7 @@ No circular runtime imports were found in the active modules.
 - `modules.voice.voice_devices`
 - `modules.voice.voice_speak`
 - `modules.voice_capture.voice_capture`
-- `modules.transcription.transcription`
+- `shared.speech_to_text.transcription`
 - `shared.llm.llm_adapter`
 - tests and `prove_george_env.py`
 
@@ -97,12 +97,13 @@ No circular runtime imports were found in the active modules.
 
 ### Transcription
 
-`modules/transcription/transcription.py`
+`shared/speech_to_text/transcription.py`
 -> imports from:
 - `config.settings`
 -> imported by:
 - `modules.push_to_talk.push_to_talk`
 - `modules.voice_pipeline.voice_pipeline`
+- `modules.transcription.transcription` compatibility wrapper
 - tests
 
 ### LLM
@@ -126,7 +127,7 @@ No circular runtime imports were found in the active modules.
 `modules/push_to_talk/push_to_talk.py`
 -> imports from:
 - `modules.voice_capture.voice_capture`
-- `modules.transcription.transcription`
+- `shared.speech_to_text.transcription`
 -> imported by:
 - `modules.voice_response.voice_response`
 - `modules.voice_assistant.voice_assistant`
@@ -135,7 +136,7 @@ No circular runtime imports were found in the active modules.
 `modules/voice_pipeline/voice_pipeline.py`
 -> imports from:
 - `modules.voice_capture.voice_capture`
-- `modules.transcription.transcription`
+- `shared.speech_to_text.transcription`
 -> imported by:
 - tests
 

@@ -14,7 +14,7 @@ Do not disturb this known-working path during early reorganization:
 modules.push_to_talk.push_to_talk
     |
     v
-modules.transcription.transcription
+shared.speech_to_text.transcription
     |
     v
 shared.llm.llm_adapter
@@ -29,7 +29,7 @@ These should stay in place until compatibility wrappers and tests are ready:
 
 - `config/settings.py`
 - `modules/voice_capture/voice_capture.py`
-- `modules/transcription/transcription.py`
+- `shared/speech_to_text/transcription.py`
 - `modules/push_to_talk/push_to_talk.py`
 - `shared/llm/llm_adapter.py`
 - `modules/voice/voice_speak.py`
@@ -46,7 +46,7 @@ Why:
 - `modules/voice_assistant/voice_assistant.py`
 - `modules/push_to_talk/push_to_talk.py`
 - `modules/voice_capture/voice_capture.py`
-- `modules/transcription/transcription.py`
+- `shared/speech_to_text/transcription.py`
 
 Why:
 - `config/settings.py` is imported broadly and owns `.env` precedence.

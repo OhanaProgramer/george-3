@@ -8,7 +8,7 @@ Notes: User-triggered only; no wake word, speaker ID, LLM, actions, or speech re
 
 from __future__ import annotations
 
-from modules.transcription.transcription import transcribe_audio
+from shared.speech_to_text.transcription import transcribe_audio
 from modules.voice_capture.voice_capture import start_capture, stop_capture
 
 
