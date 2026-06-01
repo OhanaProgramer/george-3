@@ -80,8 +80,8 @@ Next safest:
 - `modules/system/`
 - `modules/tailscale/`
 - `modules/readiness/`
-- `modules/voice_pipeline/`
-- `modules/voice_response/`
+- `interfaces/voice/pipeline/`
+- `interfaces/voice/response/`
 
 Why:
 - system/tailscale/readiness are structured and tested but readiness imports

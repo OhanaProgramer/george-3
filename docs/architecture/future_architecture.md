@@ -118,13 +118,10 @@ Future communications:
 -> `interfaces/voice/push_to_talk/`
 
 `modules/voice_pipeline/`
--> likely retire after `interfaces/voice/push_to_talk/` and
-`interfaces/voice/assistant/` stabilize, or move to
-`interfaces/voice/manual_pipeline/`
+-> `interfaces/voice/pipeline/`
 
 `modules/voice_response/`
--> likely retire after `voice_assistant` replaces fixed confirmation, or move to
-`interfaces/voice/confirmation_response/`
+-> `interfaces/voice/response/`
 
 `modules/voice_assistant/`
 -> `interfaces/voice/assistant/`

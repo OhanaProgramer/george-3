@@ -81,7 +81,7 @@ No circular runtime imports were found in the active modules.
 -> imports from:
 - `config.settings`
 -> imported by:
-- `modules.voice_response.voice_response`
+- `interfaces.voice.response.voice_response`
 - `interfaces.voice.assistant.voice_assistant`
 - `modules.voice.voice_speak` compatibility wrapper
 - tests
@@ -94,7 +94,7 @@ No circular runtime imports were found in the active modules.
 - `shared.audio_devices.voice_devices`
 -> imported by:
 - `interfaces.voice.push_to_talk.push_to_talk`
-- `modules.voice_pipeline.voice_pipeline`
+- `interfaces.voice.pipeline.voice_pipeline`
 - `modules.voice_capture.voice_capture` compatibility wrapper
 - tests
 
@@ -105,7 +105,7 @@ No circular runtime imports were found in the active modules.
 - `config.settings`
 -> imported by:
 - `interfaces.voice.push_to_talk.push_to_talk`
-- `modules.voice_pipeline.voice_pipeline`
+- `interfaces.voice.pipeline.voice_pipeline`
 - `modules.transcription.transcription` compatibility wrapper
 - tests
 
@@ -132,23 +132,25 @@ No circular runtime imports were found in the active modules.
 - `interfaces.voice.capture.voice_capture`
 - `shared.speech_to_text.transcription`
 -> imported by:
-- `modules.voice_response.voice_response`
+- `interfaces.voice.response.voice_response`
 - `interfaces.voice.assistant.voice_assistant`
 - `modules.push_to_talk.push_to_talk` compatibility wrapper
 - tests
 
-`modules/voice_pipeline/voice_pipeline.py`
+`interfaces/voice/pipeline/voice_pipeline.py`
 -> imports from:
 - `interfaces.voice.capture.voice_capture`
 - `shared.speech_to_text.transcription`
 -> imported by:
+- `modules.voice_pipeline.voice_pipeline` compatibility wrapper
 - tests
 
-`modules/voice_response/voice_response.py`
+`interfaces/voice/response/voice_response.py`
 -> imports from:
 - `interfaces.voice.push_to_talk.push_to_talk`
 - `shared.text_to_speech.voice_speak`
 -> imported by:
+- `modules.voice_response.voice_response` compatibility wrapper
 - tests
 
 `interfaces/voice/assistant/voice_assistant.py`

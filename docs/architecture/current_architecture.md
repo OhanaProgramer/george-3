@@ -196,7 +196,7 @@ Risk if moved again: Medium.
 Why: it is part of the proven end-to-end voice flow and owns the manual
 interaction loop.
 
-### `modules/voice_pipeline/`
+### `interfaces/voice/pipeline/`
 
 Purpose: fixed-duration capture followed by transcription.
 
@@ -208,11 +208,14 @@ Entry points:
 - `python3 -m modules.voice_pipeline.voice_pipeline`
 - `python3 -m modules.voice_pipeline.voice_pipeline --seconds 5`
 
-Risk if moved: Medium.
+Compatibility:
+- `modules/voice_pipeline/` remains as a wrapper for the old CLI/import path
+
+Risk if moved again: Low.
 
 Why: orchestration only. It can be migrated after its dependencies settle.
 
-### `modules/voice_response/`
+### `interfaces/voice/response/`
 
 Purpose: push-to-talk transcript to fixed spoken confirmation.
 
@@ -223,7 +226,10 @@ Dependencies:
 Entry points:
 - `python3 -m modules.voice_response.voice_response`
 
-Risk if moved: Medium.
+Compatibility:
+- `modules/voice_response/` remains as a wrapper for the old CLI/import path
+
+Risk if moved again: Low.
 
 Why: orchestration only, but it touches the verified speech output path.
 

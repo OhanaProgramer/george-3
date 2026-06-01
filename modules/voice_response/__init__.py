@@ -1,7 +1,5 @@
-"""Voice response module namespace.
+"""Compatibility namespace for voice response during architecture migration."""
 
-Purpose: Group transcript-to-speech response tools.
-Phase: Voice Response v1.
-Last updated: 2026-05-31.
-Notes: Namespace only; no runtime behavior.
-"""
+from interfaces.voice.response.voice_response import run_voice_response
+
+__all__ = ["run_voice_response"]

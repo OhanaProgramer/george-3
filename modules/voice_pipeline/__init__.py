@@ -1,7 +1,5 @@
-"""Voice pipeline module namespace.
+"""Compatibility namespace for voice pipeline during architecture migration."""
 
-Purpose: Group manual voice pipeline tools.
-Phase: Voice Pipeline v1.
-Last updated: 2026-05-31.
-Notes: Namespace only; no runtime behavior.
-"""
+from interfaces.voice.pipeline.voice_pipeline import run_voice_pipeline
+
+__all__ = ["run_voice_pipeline"]

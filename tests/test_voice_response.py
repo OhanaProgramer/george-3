@@ -8,7 +8,7 @@ Notes: Uses fake runners; does not require a microphone, Whisper, or audio outpu
 
 import unittest
 
-from modules.voice_response import voice_response
+from interfaces.voice.response import voice_response
 
 
 def push_to_talk_result(success=True, transcript="George this is a test", error=""):

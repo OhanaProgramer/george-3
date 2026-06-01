@@ -8,7 +8,7 @@ Notes: Uses fake runners; does not require a microphone, WAV file, or Whisper.
 
 import unittest
 
-from modules.voice_pipeline import voice_pipeline
+from interfaces.voice.pipeline import voice_pipeline
 
 
 def capture_result(success=True, output_file="data/voice_capture/latest_capture.wav", error=""):

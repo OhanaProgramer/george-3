@@ -53,13 +53,13 @@ shared/speech_to_text/
 shared/text_to_speech/
   text to Apple speech output
 
-modules/voice_pipeline/
+interfaces/voice/pipeline/
   manual one-shot capture -> transcription
 
 interfaces/voice/push_to_talk/
   user-triggered start/stop capture -> transcription
 
-modules/voice_response/
+interfaces/voice/response/
   push-to-talk transcript -> fixed spoken confirmation
 
 shared/llm/
@@ -145,7 +145,7 @@ transcription
 ```
 
 `interfaces/voice/capture/` writes a WAV file. `shared/speech_to_text/` reads an
-existing audio file and returns text. `modules/voice_pipeline/` coordinates
+existing audio file and returns text. `interfaces/voice/pipeline/` coordinates
 those two steps manually in one command.
 
 Current interaction path:
@@ -179,7 +179,7 @@ push_to_talk
 voice_speak
 ```
 
-`modules/voice_response/` speaks a fixed confirmation response:
+`interfaces/voice/response/` speaks a fixed confirmation response:
 
 ```text
 I heard: <transcript>
