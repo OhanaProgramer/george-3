@@ -16,7 +16,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ENV_FILE = PROJECT_ROOT / ".env"
 
 
-def load_env_file(env_file=ENV_FILE):
+def load_env_file(env_file=ENV_FILE, override=True):
     """Load simple KEY=VALUE lines without printing or exposing secrets."""
     if not env_file.exists():
         return
@@ -31,7 +31,7 @@ def load_env_file(env_file=ENV_FILE):
         key = key.strip()
         value = value.strip().strip('"').strip("'")
 
-        if key and key not in os.environ:
+        if key and (override or key not in os.environ):
             os.environ[key] = value
 
 
@@ -61,6 +61,12 @@ TRANSCRIPTION_COMMAND = os.getenv("TRANSCRIPTION_COMMAND", "whisper")
 TRANSCRIPTION_MODEL = os.getenv("TRANSCRIPTION_MODEL", "base")
 TRANSCRIPTION_LANGUAGE = os.getenv("TRANSCRIPTION_LANGUAGE", "en")
 
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai")
+LLM_FAST_MODEL = os.getenv("LLM_FAST_MODEL", "gpt-5.4-mini")
+LLM_DEEP_MODEL = os.getenv("LLM_DEEP_MODEL", "gpt-5.5")
+LLM_DEFAULT_TIER = os.getenv("LLM_DEFAULT_TIER", "fast")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+
 
 def as_dict():
     return {
@@ -80,6 +86,11 @@ def as_dict():
         "transcription_command": TRANSCRIPTION_COMMAND,
         "transcription_model": TRANSCRIPTION_MODEL,
         "transcription_language": TRANSCRIPTION_LANGUAGE,
+        "llm_provider": LLM_PROVIDER,
+        "llm_fast_model": LLM_FAST_MODEL,
+        "llm_deep_model": LLM_DEEP_MODEL,
+        "llm_default_tier": LLM_DEFAULT_TIER,
+        "openai_api_key_configured": bool(OPENAI_API_KEY),
     }
 
 

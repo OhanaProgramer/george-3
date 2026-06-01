@@ -45,6 +45,12 @@ TRANSCRIPTION_ENGINE=whisper_cli
 TRANSCRIPTION_COMMAND=whisper
 TRANSCRIPTION_MODEL=base
 TRANSCRIPTION_LANGUAGE=en
+
+LLM_PROVIDER=openai
+LLM_FAST_MODEL=gpt-5.4-mini
+LLM_DEEP_MODEL=gpt-5.5
+LLM_DEFAULT_TIER=fast
+OPENAI_API_KEY=
 ```
 
 ## Node name
@@ -103,6 +109,22 @@ python3 -m config.settings
 It should never print secrets. Modules should only expose values they actually
 need.
 
+Project `.env` values intentionally override conflicting shell environment
+variables. George uses:
+
+```text
+PROJECT_ROOT/.env
+    |
+    v
+config/settings.py
+    |
+    v
+modules
+```
+
+This is required for consistent behavior across MacBook, Mini Mac, VSCode,
+Terminal, and future launchd/systemd services.
+
 ## Voice settings
 
 `VOICE_ENGINE` is currently expected to be `apple`.
@@ -148,6 +170,21 @@ absolute path is used.
 
 These values live in `.env`, flow through `config/settings.py`, and are consumed
 by `modules/transcription/`.
+
+## LLM settings
+
+`LLM_PROVIDER` selects the model provider. The current supported value is:
+
+```text
+openai
+```
+
+`LLM_FAST_MODEL` is used for the `fast` tier. `LLM_DEEP_MODEL` is used for the
+`deep` tier. `LLM_DEFAULT_TIER` selects which tier is used when the caller does
+not provide one.
+
+`OPENAI_API_KEY` is required when `LLM_PROVIDER=openai`. Keep it in local `.env`
+only. Do not commit secrets.
 
 ## Not included yet
 

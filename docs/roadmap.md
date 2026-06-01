@@ -2,7 +2,7 @@
 
 Metadata:
 - Purpose: Track George 3 build order.
-- Phase: Push-To-Talk v1.
+- Phase: LLM Adapter v1.
 - Last updated: 2026-05-31.
 - Notes: Keep future work separated from current implementation.
 
@@ -24,11 +24,13 @@ Metadata:
 - Transcription v1
 - Voice Pipeline v1
 - Push-To-Talk v1
+- Voice Response v1
+- LLM Adapter v1
 
 ## Future
 
-- LLM Adapter
-- Voice Response Pipeline
+- Input Router
+- LLM Voice Response Pipeline
 - Wake Listener
 - Speaker ID
 - Conversation Layer

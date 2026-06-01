@@ -2,7 +2,7 @@
 
 Metadata:
 - Purpose: Explain George 3 module structure and development pattern.
-- Phase: Voice Response v1.
+- Phase: LLM Adapter v1.
 - Last updated: 2026-05-31.
 - Notes: Architecture guidance only; no implementation steps.
 
@@ -59,6 +59,9 @@ modules/push_to_talk/
 modules/voice_response/
   push-to-talk transcript -> fixed spoken confirmation
 
+modules/llm/
+  text to configured LLM provider response
+
 modules/system/
   local machine and node visibility
 
@@ -68,7 +71,6 @@ modules/readiness/
 modules/wake_listener/
 modules/speaker_id/
 modules/conversation/
-modules/llm/
 modules/actions/
 modules/remote_control/
   future placeholders only
@@ -85,6 +87,22 @@ config/settings.py
   v
 modules/
 ```
+
+Configuration precedence is intentional:
+
+```text
+PROJECT_ROOT/.env
+    |
+    v
+config/settings.py
+    |
+    v
+modules
+```
+
+George treats `~/Projects/george-3/.env` as authoritative and overrides
+conflicting shell environment values. This keeps behavior consistent across
+MacBook, Mini Mac, VSCode, Terminal, and future launchd/systemd services.
 
 `modules/readiness/` does not discover hardware or network data directly.
 Readiness consumes module contracts.
@@ -199,7 +217,7 @@ voice_speak
 
 Near-term roadmap after Voice Response v1:
 
-1. LLM Adapter: text -> AI response
+1. Input Router: decide whether transcript should go to the LLM
 2. LLM Voice Response: capture -> transcription -> LLM -> voice_speak
 3. Wake Listener: always-on monitoring, wake phrase detection, automatic trigger
    of the existing pipeline
@@ -216,6 +234,10 @@ changing downstream modules.
 
 Future placeholder modules document expected responsibilities only. They do not
 contain runtime implementation.
+
+`modules/llm/` is active as a provider adapter only. It sends provided text to
+the configured provider and returns text. It does not decide whether text should
+go to the LLM; a future `input_router/` module should own that decision.
 
 ## Previous generations
 

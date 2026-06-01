@@ -1,7 +1,7 @@
 """LLM module namespace.
 
-Purpose: Reserve the future AI model adapter module.
-Phase: Placeholder.
+Purpose: Group AI model adapter tools.
+Phase: LLM Adapter v1.
 Last updated: 2026-05-31.
-Notes: Placeholder only; no runtime behavior.
+Notes: Namespace only; no runtime behavior.
 """

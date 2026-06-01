@@ -2,11 +2,11 @@
 
 Metadata:
 - Purpose: Track current project status.
-- Phase: Voice Response v1.
+- Phase: LLM Adapter v1.
 - Last updated: 2026-05-31.
 - Notes: Update after each completed module.
 
-Current status: Voice Response v1 plus future module placeholders.
+Current status: LLM Adapter v1 plus future module placeholders.
 
 Completed:
 
@@ -24,16 +24,18 @@ Completed:
 - Voice Pipeline v1
 - Push-To-Talk v1
 - Voice Response v1
-- Placeholder folders for Wake Listener, Speaker ID, Conversation, LLM, Actions, and Remote Control
+- LLM Adapter v1
+- Placeholder folders for Wake Listener, Speaker ID, Conversation, Actions, and Remote Control
 
 Current:
 
-- Active modules: config, system, tailscale, voice, readiness, voice_capture, transcription, voice_pipeline, push_to_talk, voice_response.
+- Active modules: config, system, tailscale, voice, readiness, voice_capture, transcription, voice_pipeline, push_to_talk, voice_response, llm.
 - Future modules are placeholders only.
 
 Future:
 
-- LLM Adapter
+- Input Router
+- LLM Voice Response
 - Wake Listener
 - Speaker ID
 - Conversation Layer
