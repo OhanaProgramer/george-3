@@ -35,7 +35,7 @@ No circular runtime imports were found in the active modules.
 - `modules.system.system_status`
 - `modules.tailscale.tailscale_status`
 - `modules.voice.voice_devices`
-- `modules.voice.voice_speak`
+- `shared.text_to_speech.voice_speak`
 - `modules.voice_capture.voice_capture`
 - `shared.speech_to_text.transcription`
 - `shared.llm.llm_adapter`
@@ -76,12 +76,13 @@ No circular runtime imports were found in the active modules.
 - `modules.voice_capture.voice_capture`
 - tests
 
-`modules/voice/voice_speak.py`
+`shared/text_to_speech/voice_speak.py`
 -> imports from:
 - `config.settings`
 -> imported by:
 - `modules.voice_response.voice_response`
 - `modules.voice_assistant.voice_assistant`
+- `modules.voice.voice_speak` compatibility wrapper
 - tests
 
 ### Voice Capture
@@ -143,7 +144,7 @@ No circular runtime imports were found in the active modules.
 `modules/voice_response/voice_response.py`
 -> imports from:
 - `modules.push_to_talk.push_to_talk`
-- `modules.voice.voice_speak`
+- `shared.text_to_speech.voice_speak`
 -> imported by:
 - tests
 
@@ -151,7 +152,7 @@ No circular runtime imports were found in the active modules.
 -> imports from:
 - `modules.push_to_talk.push_to_talk`
 - `shared.llm.llm_adapter`
-- `modules.voice.voice_speak`
+- `shared.text_to_speech.voice_speak`
 -> imported by:
 - tests
 

@@ -101,7 +101,7 @@ Purpose: audio device discovery and Apple text-to-speech.
 Dependencies:
 - `config.settings`
 - macOS `system_profiler`
-- macOS `say`
+- macOS `say` through `shared/text_to_speech/`
 
 Entry points:
 - `python3 -m modules.voice.voice_devices`
@@ -109,9 +109,8 @@ Entry points:
 
 Risk if moved: High.
 
-Why: `voice_devices` is used by readiness and voice capture; `voice_speak` is
-used by voice response and voice assistant. Also tied to verified Mac audio
-behavior.
+Why: `voice_devices` is used by readiness and voice capture. Speech output now
+lives in `shared/text_to_speech/`, with the old CLI path retained as a wrapper.
 
 ### `modules/voice_capture/`
 
@@ -210,7 +209,7 @@ Purpose: push-to-talk transcript to fixed spoken confirmation.
 
 Dependencies:
 - `modules.push_to_talk.push_to_talk`
-- `modules.voice.voice_speak`
+- `shared.text_to_speech.voice_speak`
 
 Entry points:
 - `python3 -m modules.voice_response.voice_response`
@@ -226,7 +225,7 @@ Purpose: first hear-think-speak conversational loop.
 Dependencies:
 - `modules.push_to_talk.push_to_talk`
 - `shared.llm.llm_adapter`
-- `modules.voice.voice_speak`
+- `shared.text_to_speech.voice_speak`
 
 Entry points:
 - `python3 -m modules.voice_assistant.voice_assistant`

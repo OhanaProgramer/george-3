@@ -10,7 +10,8 @@ Goal: discover available audio and Apple voice capability on this node, and
 perform explicit Apple speech output when requested.
 
 Device discovery is read-only. Speech output is isolated in
-`modules.voice.voice_speak` and uses macOS `say`.
+`shared.text_to_speech.voice_speak` and uses macOS `say`. The old
+`modules.voice.voice_speak` CLI remains as a compatibility wrapper.
 
 ## Run
 
@@ -48,7 +49,8 @@ python3 -m unittest tests.test_voice_devices tests.test_voice_speak
 ## Current boundaries
 
 - recording is in `voice_capture/`
-- audio-to-text is in `transcription/`
+- audio-to-text is in `shared/speech_to_text/`
+- text-to-speech is in `shared/text_to_speech/`
 - wake word detection is future work
 - speaker identification is future work
 - conversation and intent logic are future work

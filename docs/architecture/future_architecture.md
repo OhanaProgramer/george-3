@@ -92,7 +92,7 @@ moving domain-owned data.
 -> `shared/speech_to_text/`
 
 `modules/voice/voice_speak.py`
--> `shared/text_to_speech/apple_say.py`
+-> `shared/text_to_speech/voice_speak.py`
 
 `modules/voice/voice_devices.py`
 -> split later:
@@ -303,4 +303,3 @@ Why pushups is a good first domain:
 - clear goals
 - easy manual verification
 - aligns with George's mission of reviewing actions against chosen goals
-

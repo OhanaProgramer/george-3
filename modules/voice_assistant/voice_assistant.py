@@ -9,8 +9,8 @@ Notes: Hear -> think -> speak only; no wake word, memory, tools, actions, or rem
 from __future__ import annotations
 
 from modules.push_to_talk.push_to_talk import run_push_to_talk
-from modules.voice.voice_speak import speak_text
 from shared.llm.llm_adapter import ask_llm
+from shared.text_to_speech.voice_speak import speak_text
 
 
 def run_voice_assistant(

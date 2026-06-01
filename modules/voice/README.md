@@ -9,10 +9,11 @@ Metadata:
 Purpose: discover available audio and Apple voice capability on this node, and
 provide a small Apple text-to-speech smoke test.
 
-Discovery is read-only for future dashboard/API use. Speaking is isolated in
-`voice_speak.py` and only uses macOS `say`. The module does not record,
-transcribe, identify speakers, listen for wake words, call AI, or control remote
-systems.
+Discovery is read-only for future dashboard/API use. Speaking now lives in
+`shared/text_to_speech/voice_speak.py` and only uses macOS `say`. The old
+`modules.voice.voice_speak` path remains as a compatibility wrapper. The module
+does not record, transcribe, identify speakers, listen for wake words, call AI,
+or control remote systems.
 
 ## Run
 
@@ -34,10 +35,10 @@ summary.
 The structured object is the useful part. The terminal summary is only for
 learning and quick checks.
 
-`voice_speak.py` returns a structured dictionary and prints it as JSON when run
-from the CLI. It reads `VOICE_ENGINE` and `VOICE_NAME` from `.env` through
-`config/settings.py`. When `VOICE_NAME` is blank, macOS uses the system default
-voice.
+`shared/text_to_speech/voice_speak.py` returns a structured dictionary and
+prints it as JSON when run from the CLI. It reads `VOICE_ENGINE` and
+`VOICE_NAME` from `.env` through `config/settings.py`. When `VOICE_NAME` is
+blank, macOS uses the system default voice.
 
 ## Inputs
 
@@ -55,5 +56,6 @@ wake words, identify speakers, call AI, or execute actions.
 
 ## Future Relationships
 
-`voice/` remains responsible for discovery and speech output. Recording belongs
-in `voice_capture/`; audio-to-text belongs in `transcription/`.
+`voice/` remains responsible for discovery, while speech output lives in
+`shared/text_to_speech/`. Recording belongs in `voice_capture/`; audio-to-text
+belongs in `shared/speech_to_text/`.

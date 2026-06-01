@@ -42,13 +42,16 @@ modules/tailscale/
   network and tailnet visibility
 
 modules/voice/
-  device discovery and speech output
+  device discovery
 
 modules/voice_capture/
   short one-shot audio recording
 
 shared/speech_to_text/
   audio file to text
+
+shared/text_to_speech/
+  text to Apple speech output
 
 modules/voice_pipeline/
   manual one-shot capture -> transcription

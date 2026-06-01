@@ -20,7 +20,7 @@ shared.speech_to_text.transcription
 shared.llm.llm_adapter
     |
     v
-modules.voice.voice_speak
+shared.text_to_speech.voice_speak
 ```
 
 ## Files That Should Not Move Yet
@@ -32,7 +32,7 @@ These should stay in place until compatibility wrappers and tests are ready:
 - `shared/speech_to_text/transcription.py`
 - `modules/push_to_talk/push_to_talk.py`
 - `shared/llm/llm_adapter.py`
-- `modules/voice/voice_speak.py`
+- `shared/text_to_speech/voice_speak.py`
 - `modules/voice_assistant/voice_assistant.py`
 
 Why:

@@ -9,7 +9,7 @@ Notes: No LLM, wake word, speaker ID, conversation memory, actions, or remote co
 from __future__ import annotations
 
 from modules.push_to_talk.push_to_talk import run_push_to_talk
-from modules.voice.voice_speak import speak_text
+from shared.text_to_speech.voice_speak import speak_text
 
 
 def run_voice_response(

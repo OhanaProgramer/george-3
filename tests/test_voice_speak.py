@@ -10,7 +10,7 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from modules.voice import voice_speak
+from shared.text_to_speech import voice_speak
 
 
 def make_result(returncode=0, stdout="", stderr=""):

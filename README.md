@@ -51,9 +51,10 @@ pattern.
 - `config/`: environment-backed local configuration
 - `modules/system/`: local machine and node visibility
 - `modules/tailscale/`: network and tailnet visibility
-- `modules/voice/`: audio device discovery and Apple speech output
+- `modules/voice/`: audio device discovery
 - `modules/voice_capture/`: one-shot audio recording
 - `shared/speech_to_text/`: existing audio file to text
+- `shared/text_to_speech/`: text to Apple speech output
 - `modules/voice_pipeline/`: manual one-shot capture -> transcription
 - `modules/push_to_talk/`: user-triggered start/stop capture -> transcription
 - `modules/voice_response/`: fixed spoken confirmation from a push-to-talk transcript
