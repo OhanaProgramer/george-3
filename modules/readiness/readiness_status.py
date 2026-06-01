@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 
 from modules.system.system_status import get_system_status
 from modules.tailscale.tailscale_status import get_tailscale_status
-from modules.voice.voice_devices import discover_voice_devices
+from shared.audio_devices.voice_devices import discover_voice_devices
 
 
 STATUS_ORDER = {"ok": 0, "warning": 1, "error": 2}

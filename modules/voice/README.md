@@ -6,14 +6,14 @@ Metadata:
 - Last updated: 2026-05-31.
 - Notes: Discovery plus Apple text-to-speech; no recording or transcription.
 
-Purpose: discover available audio and Apple voice capability on this node, and
-provide a small Apple text-to-speech smoke test.
+Purpose: preserve voice discovery and speech CLIs while implementation moves
+into shared service namespaces.
 
-Discovery is read-only for future dashboard/API use. Speaking now lives in
-`shared/text_to_speech/voice_speak.py` and only uses macOS `say`. The old
-`modules.voice.voice_speak` path remains as a compatibility wrapper. The module
-does not record, transcribe, identify speakers, listen for wake words, call AI,
-or control remote systems.
+Discovery now lives in `shared/audio_devices/voice_devices.py`. Speaking now
+lives in `shared/text_to_speech/voice_speak.py` and only uses macOS `say`. The
+old `modules.voice` paths remain as compatibility wrappers. The module does not
+record, transcribe, identify speakers, listen for wake words, call AI, or
+control remote systems.
 
 ## Run
 
@@ -29,8 +29,8 @@ python3 -m modules.voice.voice_speak "George voice test"
 
 ## Output
 
-`voice_devices.py` returns a structured dictionary and prints a short terminal
-summary.
+`shared/audio_devices/voice_devices.py` returns a structured dictionary and
+prints a short terminal summary.
 
 The structured object is the useful part. The terminal summary is only for
 learning and quick checks.
@@ -56,6 +56,7 @@ wake words, identify speakers, call AI, or execute actions.
 
 ## Future Relationships
 
-`voice/` remains responsible for discovery, while speech output lives in
-`shared/text_to_speech/`. Recording belongs in `voice_capture/`; audio-to-text
-belongs in `shared/speech_to_text/`.
+`voice/` is currently a compatibility namespace. Discovery lives in
+`shared/audio_devices/`, speech output lives in `shared/text_to_speech/`,
+recording belongs in `interfaces/voice/capture/`, and audio-to-text belongs in
+`shared/speech_to_text/`.

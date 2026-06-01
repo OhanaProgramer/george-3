@@ -4,7 +4,7 @@ Metadata:
 - Purpose: Define voice module boundaries.
 - Phase: Voice Speak v1.
 - Last updated: 2026-05-31.
-- Notes: Device/voice discovery plus compatibility wrapper for Apple text-to-speech.
+- Notes: Compatibility wrappers for audio discovery and Apple text-to-speech.
 
 This module answers two questions:
 
@@ -15,12 +15,7 @@ Can this node speak a simple test phrase using macOS say?
 
 ## Allowed
 
-- discover microphones
-- discover speakers/output devices when practical
-- discover Apple system voices when practical
-- normalize discovery into structured data
-- check configured hints from `.env`
-- print a clean summary
+- preserve the old `modules.voice.voice_devices` compatibility path
 - preserve the old `modules.voice.voice_speak` compatibility path
 
 ## Inputs
@@ -32,7 +27,7 @@ Can this node speak a simple test phrase using macOS say?
 
 ## Outputs
 
-- structured voice discovery object
+- structured voice discovery object from `shared/audio_devices/`
 - structured speech result object from `shared/text_to_speech/`
 - terminal summaries for humans
 
@@ -48,6 +43,7 @@ Can this node speak a simple test phrase using macOS say?
 
 ## Future Separate Modules
 
+- audio discovery lives in `shared/audio_devices/`
 - text-to-speech lives in `shared/text_to_speech/`
 - voice capture will be separate
 - transcription will be separate

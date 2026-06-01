@@ -1,7 +1,5 @@
-"""Voice capture module namespace.
+"""Compatibility namespace for voice capture during architecture migration."""
 
-Purpose: Group one-shot audio capture tools.
-Phase: Voice Capture v1.
-Last updated: 2026-05-31.
-Notes: Namespace only; no runtime behavior.
-"""
+from interfaces.voice.capture.voice_capture import capture_audio, start_capture, stop_capture
+
+__all__ = ["capture_audio", "start_capture", "stop_capture"]

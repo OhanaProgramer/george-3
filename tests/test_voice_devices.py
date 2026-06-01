@@ -12,7 +12,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from config import settings
-from modules.voice import voice_devices
+from shared.audio_devices import voice_devices
 
 
 def make_result(returncode=0, stdout="", stderr=""):

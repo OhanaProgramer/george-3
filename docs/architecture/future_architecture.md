@@ -95,9 +95,7 @@ moving domain-owned data.
 -> `shared/text_to_speech/voice_speak.py`
 
 `modules/voice/voice_devices.py`
--> split later:
-- audio discovery can live under `shared/audio_devices/`
-- Apple voice discovery can live under `shared/text_to_speech/`
+-> `shared/audio_devices/voice_devices.py`
 
 `modules/llm/`
 -> `shared/llm/`

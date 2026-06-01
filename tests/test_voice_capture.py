@@ -12,7 +12,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from modules.voice_capture import voice_capture
+from interfaces.voice.capture import voice_capture
 
 
 def make_result(returncode=0, stdout="", stderr=""):

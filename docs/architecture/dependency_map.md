@@ -34,9 +34,9 @@ No circular runtime imports were found in the active modules.
 -> imported by:
 - `modules.system.system_status`
 - `modules.tailscale.tailscale_status`
-- `modules.voice.voice_devices`
+- `shared.audio_devices.voice_devices`
 - `shared.text_to_speech.voice_speak`
-- `modules.voice_capture.voice_capture`
+- `interfaces.voice.capture.voice_capture`
 - `shared.speech_to_text.transcription`
 - `shared.llm.llm_adapter`
 - tests and `prove_george_env.py`
@@ -68,12 +68,13 @@ No circular runtime imports were found in the active modules.
 
 ### Voice
 
-`modules/voice/voice_devices.py`
+`shared/audio_devices/voice_devices.py`
 -> imports from:
 - `config.settings`
 -> imported by:
 - `modules.readiness.readiness_status`
-- `modules.voice_capture.voice_capture`
+- `interfaces.voice.capture.voice_capture`
+- `modules.voice.voice_devices` compatibility wrapper
 - tests
 
 `shared/text_to_speech/voice_speak.py`
@@ -87,13 +88,14 @@ No circular runtime imports were found in the active modules.
 
 ### Voice Capture
 
-`modules/voice_capture/voice_capture.py`
+`interfaces/voice/capture/voice_capture.py`
 -> imports from:
 - `config.settings`
-- `modules.voice.voice_devices`
+- `shared.audio_devices.voice_devices`
 -> imported by:
 - `modules.push_to_talk.push_to_talk`
 - `modules.voice_pipeline.voice_pipeline`
+- `modules.voice_capture.voice_capture` compatibility wrapper
 - tests
 
 ### Transcription
@@ -127,7 +129,7 @@ No circular runtime imports were found in the active modules.
 
 `modules/push_to_talk/push_to_talk.py`
 -> imports from:
-- `modules.voice_capture.voice_capture`
+- `interfaces.voice.capture.voice_capture`
 - `shared.speech_to_text.transcription`
 -> imported by:
 - `modules.voice_response.voice_response`
@@ -136,7 +138,7 @@ No circular runtime imports were found in the active modules.
 
 `modules/voice_pipeline/voice_pipeline.py`
 -> imports from:
-- `modules.voice_capture.voice_capture`
+- `interfaces.voice.capture.voice_capture`
 - `shared.speech_to_text.transcription`
 -> imported by:
 - tests
@@ -162,7 +164,7 @@ No circular runtime imports were found in the active modules.
 -> imports from:
 - `modules.system.system_status`
 - `modules.tailscale.tailscale_status`
-- `modules.voice.voice_devices`
+- `shared.audio_devices.voice_devices`
 -> imported by:
 - tests
 
@@ -230,7 +232,7 @@ None found in active runtime modules.
 - `data/voice_capture/latest_capture.wav`
 - `data/transcription/latest_capture.txt`
 - `TRANSCRIPTION_COMMAND=whisper` when Codex and terminal PATH differ
-- direct absolute package imports such as `modules.voice_capture.voice_capture`
+- direct absolute package imports such as `interfaces.voice.capture.voice_capture`
 
 ## Duplicated Functionality
 

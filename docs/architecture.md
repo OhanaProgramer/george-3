@@ -41,10 +41,10 @@ config/
 modules/tailscale/
   network and tailnet visibility
 
-modules/voice/
+shared/audio_devices/
   device discovery
 
-modules/voice_capture/
+interfaces/voice/capture/
   short one-shot audio recording
 
 shared/speech_to_text/
@@ -144,7 +144,7 @@ voice_capture
 transcription
 ```
 
-`modules/voice_capture/` writes a WAV file. `shared/speech_to_text/` reads an
+`interfaces/voice/capture/` writes a WAV file. `shared/speech_to_text/` reads an
 existing audio file and returns text. `modules/voice_pipeline/` coordinates
 those two steps manually in one command.
 
@@ -250,7 +250,7 @@ Near-term roadmap after Voice Assistant v1:
 3. Speaker ID, conversation memory, actions, and remote control as separate
    modules
 
-`modules/voice_capture/` is intentionally a small one-shot building block. It
+`interfaces/voice/capture/` is intentionally a small one-shot building block. It
 does not continuously monitor audio, detect wake words, transcribe, identify
 speakers, call AI, or control remote systems.
 

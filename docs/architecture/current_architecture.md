@@ -94,9 +94,10 @@ Risk if moved: Medium.
 Why: readiness depends on `tailscale_status`; `tailnet_nodes` depends on
 `tailscale_status`.
 
-### `modules/voice/`
+### `shared/audio_devices/` and `modules/voice/`
 
-Purpose: audio device discovery and Apple text-to-speech.
+Purpose: audio device discovery, Apple voice discovery, and old voice CLI
+compatibility wrappers.
 
 Dependencies:
 - `config.settings`
@@ -107,18 +108,22 @@ Entry points:
 - `python3 -m modules.voice.voice_devices`
 - `python3 -m modules.voice.voice_speak "text"`
 
-Risk if moved: High.
+Compatibility:
+- `modules/voice/voice_devices.py` wraps `shared/audio_devices/voice_devices.py`
+- `modules/voice/voice_speak.py` wraps `shared/text_to_speech/voice_speak.py`
 
-Why: `voice_devices` is used by readiness and voice capture. Speech output now
-lives in `shared/text_to_speech/`, with the old CLI path retained as a wrapper.
+Risk if moved again: Medium.
 
-### `modules/voice_capture/`
+Why: discovery is used by readiness and capture. Speech output lives in
+`shared/text_to_speech/`, with the old CLI path retained as a wrapper.
+
+### `interfaces/voice/capture/`
 
 Purpose: one-shot and user-triggered WAV recording.
 
 Dependencies:
 - `config.settings`
-- `modules.voice.voice_devices`
+- `shared.audio_devices.voice_devices`
 - `ffmpeg` with macOS AVFoundation
 
 Entry points:
@@ -128,7 +133,8 @@ Entry points:
 Risk if moved: High.
 
 Why: it is the microphone boundary and is used by push-to-talk and voice
-pipeline. It has hardware coupling and verified working behavior.
+pipeline. It has hardware coupling and verified working behavior. The old
+`modules/voice_capture/` path remains as a compatibility wrapper.
 
 ### `shared/speech_to_text/`
 
@@ -176,7 +182,7 @@ Compatibility:
 Purpose: user-controlled recording and transcription.
 
 Dependencies:
-- `modules.voice_capture.voice_capture`
+- `interfaces.voice.capture.voice_capture`
 - `shared.speech_to_text.transcription`
 
 Entry points:
@@ -192,7 +198,7 @@ interaction loop.
 Purpose: fixed-duration capture followed by transcription.
 
 Dependencies:
-- `modules.voice_capture.voice_capture`
+- `interfaces.voice.capture.voice_capture`
 - `shared.speech_to_text.transcription`
 
 Entry points:

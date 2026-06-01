@@ -133,7 +133,8 @@ Terminal, and future launchd/systemd services.
 that Apple system voice is available.
 
 `VOICE_INPUT_DEVICE_HINT` should identify the desired microphone using an exact
-label discovered by `python3 -m modules.voice.voice_devices`.
+label discovered by `python3 -m modules.voice.voice_devices`. That CLI is a
+compatibility wrapper for `shared/audio_devices/`.
 
 `VOICE_OUTPUT_DEVICE_HINT` is `system_default` for development on the Mac. A
 future production speaker can be described with `VOICE_PRODUCTION_SPEAKER_HINT`.

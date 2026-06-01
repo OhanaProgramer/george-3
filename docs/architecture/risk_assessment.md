@@ -28,7 +28,7 @@ shared.text_to_speech.voice_speak
 These should stay in place until compatibility wrappers and tests are ready:
 
 - `config/settings.py`
-- `modules/voice_capture/voice_capture.py`
+- `interfaces/voice/capture/voice_capture.py`
 - `shared/speech_to_text/transcription.py`
 - `modules/push_to_talk/push_to_talk.py`
 - `shared/llm/llm_adapter.py`
@@ -45,7 +45,7 @@ Why:
 - `config/settings.py`
 - `modules/voice_assistant/voice_assistant.py`
 - `modules/push_to_talk/push_to_talk.py`
-- `modules/voice_capture/voice_capture.py`
+- `interfaces/voice/capture/voice_capture.py`
 - `shared/speech_to_text/transcription.py`
 
 Why:

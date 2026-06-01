@@ -11,7 +11,7 @@ from __future__ import annotations
 import argparse
 
 from shared.speech_to_text.transcription import transcribe_audio
-from modules.voice_capture.voice_capture import DEFAULT_DURATION_SECONDS, capture_audio
+from interfaces.voice.capture.voice_capture import DEFAULT_DURATION_SECONDS, capture_audio
 
 
 def run_voice_pipeline(
