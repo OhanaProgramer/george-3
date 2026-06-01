@@ -2,7 +2,7 @@
 
 Metadata:
 - Purpose: Explain George 3 module structure and development pattern.
-- Phase: LLM Adapter v1.
+- Phase: Voice Assistant v1.
 - Last updated: 2026-05-31.
 - Notes: Architecture guidance only; no implementation steps.
 
@@ -61,6 +61,9 @@ modules/voice_response/
 
 modules/llm/
   text to configured LLM provider response
+
+modules/voice_assistant/
+  push-to-talk transcript -> LLM response -> speech output
 
 modules/system/
   local machine and node visibility
@@ -179,6 +182,27 @@ voice_speak
 I heard: <transcript>
 ```
 
+Current conversational path:
+
+```text
+push_to_talk
+    |
+    v
+
+transcription
+    |
+    v
+
+llm_adapter
+    |
+    v
+
+voice_speak
+```
+
+`modules/voice_assistant/` coordinates the existing modules to hear, think, and
+speak once, then exits.
+
 ## Future Voice Pipeline
 
 Voice functionality stays split by responsibility:
@@ -215,12 +239,13 @@ actions / remote_control
 voice_speak
 ```
 
-Near-term roadmap after Voice Response v1:
+Near-term roadmap after Voice Assistant v1:
 
 1. Input Router: decide whether transcript should go to the LLM
-2. LLM Voice Response: capture -> transcription -> LLM -> voice_speak
-3. Wake Listener: always-on monitoring, wake phrase detection, automatic trigger
+2. Wake Listener: always-on monitoring, wake phrase detection, automatic trigger
    of the existing pipeline
+3. Speaker ID, conversation memory, actions, and remote control as separate
+   modules
 
 `modules/voice_capture/` is intentionally a small one-shot building block. It
 does not continuously monitor audio, detect wake words, transcribe, identify

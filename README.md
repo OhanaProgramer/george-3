@@ -58,6 +58,7 @@ pattern.
 - `modules/push_to_talk/`: user-triggered start/stop capture -> transcription
 - `modules/voice_response/`: fixed spoken confirmation from a push-to-talk transcript
 - `modules/llm/`: text to configured LLM provider response
+- `modules/voice_assistant/`: push-to-talk transcript -> LLM response -> speech output
 - `modules/readiness/`: operational readiness summary from existing module status objects
 
 Each module should keep clear inputs, outputs, and boundaries. Terminal output
@@ -85,6 +86,18 @@ Voice Speak
 ```
 
 Voice Response v1 speaks a fixed confirmation: `I heard: <transcript>`.
+
+## Current conversational path
+
+```text
+Push-To-Talk
+    |
+    v
+LLM Adapter
+    |
+    v
+Voice Speak
+```
 
 Future placeholder modules exist for wake listening, speaker identification,
 conversation, actions, and remote control. They do not implement runtime
