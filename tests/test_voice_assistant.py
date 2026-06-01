@@ -8,7 +8,7 @@ Notes: Uses fake runners; does not require a microphone, Whisper, OpenAI, or aud
 
 import unittest
 
-from modules.voice_assistant import voice_assistant
+from interfaces.voice.assistant import voice_assistant
 
 
 def push_to_talk_result(success=True, transcript="What is the capital of France?", error=""):

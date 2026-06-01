@@ -82,7 +82,7 @@ No circular runtime imports were found in the active modules.
 - `config.settings`
 -> imported by:
 - `modules.voice_response.voice_response`
-- `modules.voice_assistant.voice_assistant`
+- `interfaces.voice.assistant.voice_assistant`
 - `modules.voice.voice_speak` compatibility wrapper
 - tests
 
@@ -116,7 +116,7 @@ No circular runtime imports were found in the active modules.
 - `config.settings`
 - runtime lazy import of OpenAI SDK inside `create_openai_client`
 -> imported by:
-- `modules.voice_assistant.voice_assistant`
+- `interfaces.voice.assistant.voice_assistant`
 - tests
 
 `modules/llm/llm_adapter.py`
@@ -133,7 +133,7 @@ No circular runtime imports were found in the active modules.
 - `shared.speech_to_text.transcription`
 -> imported by:
 - `modules.voice_response.voice_response`
-- `modules.voice_assistant.voice_assistant`
+- `interfaces.voice.assistant.voice_assistant`
 - `modules.push_to_talk.push_to_talk` compatibility wrapper
 - tests
 
@@ -151,12 +151,13 @@ No circular runtime imports were found in the active modules.
 -> imported by:
 - tests
 
-`modules/voice_assistant/voice_assistant.py`
+`interfaces/voice/assistant/voice_assistant.py`
 -> imports from:
 - `interfaces.voice.push_to_talk.push_to_talk`
 - `shared.llm.llm_adapter`
 - `shared.text_to_speech.voice_speak`
 -> imported by:
+- `modules.voice_assistant.voice_assistant` compatibility wrapper
 - tests
 
 ### Readiness

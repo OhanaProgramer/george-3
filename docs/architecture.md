@@ -65,7 +65,7 @@ modules/voice_response/
 shared/llm/
   text to configured LLM provider response
 
-modules/voice_assistant/
+interfaces/voice/assistant/
   push-to-talk transcript -> LLM response -> speech output
 
 modules/system/
@@ -203,7 +203,7 @@ llm_adapter
 voice_speak
 ```
 
-`modules/voice_assistant/` coordinates the existing modules to hear, think, and
+`interfaces/voice/assistant/` coordinates the existing modules to hear, think, and
 speak once, then exits.
 
 ## Future Voice Pipeline

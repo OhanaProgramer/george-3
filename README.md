@@ -60,7 +60,7 @@ pattern.
 - `interfaces/voice/push_to_talk/`: user-triggered start/stop capture -> transcription
 - `modules/voice_response/`: fixed spoken confirmation from a push-to-talk transcript
 - `shared/llm/`: text to configured LLM provider response
-- `modules/voice_assistant/`: push-to-talk transcript -> LLM response -> speech output
+- `interfaces/voice/assistant/`: push-to-talk transcript -> LLM response -> speech output
 - `modules/readiness/`: operational readiness summary from existing module status objects
 
 Each module should keep clear inputs, outputs, and boundaries. Terminal output

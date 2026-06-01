@@ -33,7 +33,7 @@ These should stay in place until compatibility wrappers and tests are ready:
 - `interfaces/voice/push_to_talk/push_to_talk.py`
 - `shared/llm/llm_adapter.py`
 - `shared/text_to_speech/voice_speak.py`
-- `modules/voice_assistant/voice_assistant.py`
+- `interfaces/voice/assistant/voice_assistant.py`
 
 Why:
 - They are part of the confirmed working conversational loop.
@@ -43,7 +43,7 @@ Why:
 ## Files That Should Move Last
 
 - `config/settings.py`
-- `modules/voice_assistant/voice_assistant.py`
+- `interfaces/voice/assistant/voice_assistant.py`
 - `interfaces/voice/push_to_talk/push_to_talk.py`
 - `interfaces/voice/capture/voice_capture.py`
 - `shared/speech_to_text/transcription.py`

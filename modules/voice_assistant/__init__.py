@@ -1,7 +1,5 @@
-"""Voice assistant module namespace.
+"""Compatibility namespace for voice assistant during architecture migration."""
 
-Purpose: Group hear-think-speak assistant tools.
-Phase: Voice Assistant v1.
-Last updated: 2026-05-31.
-Notes: Namespace only; no runtime behavior.
-"""
+from interfaces.voice.assistant.voice_assistant import run_voice_assistant
+
+__all__ = ["run_voice_assistant"]

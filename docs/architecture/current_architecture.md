@@ -227,7 +227,7 @@ Risk if moved: Medium.
 
 Why: orchestration only, but it touches the verified speech output path.
 
-### `modules/voice_assistant/`
+### `interfaces/voice/assistant/`
 
 Purpose: first hear-think-speak conversational loop.
 
@@ -239,7 +239,10 @@ Dependencies:
 Entry points:
 - `python3 -m modules.voice_assistant.voice_assistant`
 
-Risk if moved: Very High.
+Compatibility:
+- `modules/voice_assistant/` remains as a wrapper for the old CLI/import path
+
+Risk if moved again: Medium.
 
 Why: this is the newest known-working end-to-end behavior:
 push-to-talk -> transcription -> LLM -> speech output.
