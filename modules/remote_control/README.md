@@ -1,17 +1,10 @@
-# Remote Control
+# Remote Control Compatibility Placeholder
 
-Metadata:
-- Purpose: Future controlled cross-device action layer.
-- Phase: Placeholder.
-- Last updated: 2026-05-31.
-- Notes: Placeholder only; no runtime behavior.
+The future Remote Control placeholder moved to:
 
-Purpose: future controlled cross-device action layer.
+```text
+core/remote_control/
+```
 
-Future responsibility: use secure communication, likely over Tailscale/API, to
-request actions on other George nodes.
-
-Current status: Placeholder only.
-
-Boundaries: not implemented yet. This module does not expose an API, execute
-remote commands, authenticate requests, route traffic, or control devices today.
+This directory remains only to preserve the old placeholder path during
+architecture migration. It has no runtime behavior.

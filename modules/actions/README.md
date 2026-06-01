@@ -1,17 +1,10 @@
-# Actions
+# Actions Compatibility Placeholder
 
-Metadata:
-- Purpose: Future local safe action layer.
-- Phase: Placeholder.
-- Last updated: 2026-05-31.
-- Notes: Placeholder only; no runtime behavior.
+The future Actions placeholder moved to:
 
-Purpose: future local safe action layer.
+```text
+core/actions/
+```
 
-Future responsibility: perform approved local actions only after authorization
-and intent checks.
-
-Current status: Placeholder only.
-
-Boundaries: not implemented yet. This module does not listen, transcribe,
-reason, approve actions, execute actions, or perform remote control today.
+This directory remains only to preserve the old placeholder path during
+architecture migration. It has no runtime behavior.
