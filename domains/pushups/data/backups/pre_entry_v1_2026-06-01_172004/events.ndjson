@@ -491,6 +491,3 @@
 {"schema":1,"id":"evt_20260601T022443291Z_1780280683291","ts":"2026-06-01T02:24:43.291Z","tz":"America/New_York","type":"pushups.set","reps":33,"source":"server","tags":[],"note":""}
 {"schema":1,"id":"evt_20260601T121252733Z_1780315972733","ts":"2026-06-01T12:12:52.733Z","tz":"America/New_York","type":"pushups.set","reps":33,"source":"home","tags":[],"note":""}
 {"schema":1,"id":"evt_20260601T152029964Z_1780327229964","ts":"2026-06-01T15:20:29.964Z","tz":"America/New_York","type":"pushups.set","reps":33,"source":"home","tags":[],"note":""}
-{"schema":1,"id":"evt_20260601T172004844Z_1780334404844252000","ts":"2026-06-01T17:20:04.844Z","tz":"America/New_York","type":"pushups.set","reps":33,"source":"web","tags":[],"note":""}
-{"schema":1,"id":"evt_20260601T173029134Z_1780335029134436000","ts":"2026-06-01T17:30:29.134Z","tz":"America/New_York","type":"pushups.set","reps":1,"source":"web","tags":[],"note":""}
-{"schema":1,"id":"evt_20260602T004345530Z_1780361025530692000","ts":"2026-06-02T00:43:45.530Z","tz":"America/Chicago","type":"pushups.set","reps":33,"source":"web","tags":[],"note":""}

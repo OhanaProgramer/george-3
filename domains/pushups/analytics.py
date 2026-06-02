@@ -41,6 +41,14 @@ def _window_average(daily_totals: dict[str, int], end: date, days: int) -> float
     return total / days
 
 
+def _rolling_average_on_day(
+    daily_totals: dict[str, int],
+    end: date,
+    days: int,
+) -> float:
+    return _window_average(daily_totals, end, days)
+
+
 def _active_days_in_window(daily_totals: dict[str, int], end: date, days: int) -> int:
     start = end - timedelta(days=days - 1)
     return sum(
@@ -198,3 +206,41 @@ def build_pushups_analytics(as_of: str | None = None) -> dict:
 def get_analytics(as_of: str | None = None) -> dict:
     """Compatibility-friendly public analytics entry point."""
     return build_pushups_analytics(as_of=as_of)
+
+
+def get_chart_data(as_of: str | None = None) -> dict:
+    """Return the proven 60-day chart data without presentation markup."""
+    daily_totals = service.group_events_by_local_day()
+    goal = service.load_goal()
+
+    if not daily_totals:
+        return {
+            "daily_totals": [],
+            "rolling_14d": [],
+            "target": int(goal.get("chart_target", 0) or 0),
+        }
+
+    latest_date = _parse_date(as_of or max(daily_totals))
+    start_date = latest_date - timedelta(days=59)
+    days = _date_range(start_date, latest_date)
+
+    daily_series = [
+        {
+            "date": day.isoformat(),
+            "total": daily_totals.get(day.isoformat(), 0),
+        }
+        for day in days
+    ]
+    rolling_series = [
+        {
+            "date": day.isoformat(),
+            "average": _round(_rolling_average_on_day(daily_totals, day, 14), 1),
+        }
+        for day in days
+    ]
+
+    return {
+        "daily_totals": daily_series,
+        "rolling_14d": rolling_series,
+        "target": int(goal.get("chart_target", 0) or 0),
+    }

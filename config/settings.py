@@ -50,6 +50,8 @@ TAILSCALE_EXPECTED = os.getenv("TAILSCALE_EXPECTED", "true").lower() in {
 }
 TAILSCALE_TIMEOUT_SECONDS = int(os.getenv("TAILSCALE_TIMEOUT_SECONDS", "5"))
 
+BIND_ADDRESS = os.getenv("BIND_ADDRESS", "127.0.0.1")
+
 VOICE_ENGINE = os.getenv("VOICE_ENGINE", "apple")
 VOICE_NAME = os.getenv("VOICE_NAME", "")
 VOICE_INPUT_DEVICE_HINT = os.getenv("VOICE_INPUT_DEVICE_HINT", "")
@@ -77,6 +79,7 @@ def as_dict():
         "george_log_level": GEORGE_LOG_LEVEL,
         "tailscale_expected": TAILSCALE_EXPECTED,
         "tailscale_timeout_seconds": TAILSCALE_TIMEOUT_SECONDS,
+        "bind_address": BIND_ADDRESS,
         "voice_engine": VOICE_ENGINE,
         "voice_name": VOICE_NAME,
         "voice_input_device_hint": VOICE_INPUT_DEVICE_HINT,

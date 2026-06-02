@@ -2,5 +2,7 @@
   "goal_name": "Birthday Pushups 2026",
   "target_reps": 30000,
   "target_date": "2026-12-22",
-  "start_date": "2026-03-28"
+  "start_date": "2026-03-28",
+  "timezone": "America/Chicago",
+  "chart_target": 130
 }

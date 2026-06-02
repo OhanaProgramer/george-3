@@ -2,9 +2,9 @@
 
 Metadata:
 - Purpose: Define the first George life domain.
-- Phase: Pushups Coach v1.
+- Phase: Pushup Entry v1.
 - Last updated: 2026-06-01.
-- Notes: Active raw dataset is read-only; no write path or app wiring yet.
+- Notes: Pushup Entry v1 is local-first and append-only.
 
 Pushups is George's first domain for reviewing actions against user-decided
 goals.
@@ -37,6 +37,7 @@ goals.
 - `report.py`: plain text Pushups Coach v1 report command
 - `data/events.ndjson`: authoritative local raw pushup event dataset
 - `data/goal.json`: configurable goal target and coaching window
+- `data/backups/`: automatic pre-entry backups before the first local append
 - `data/import_staging/`: preserved cloud transfer evidence and source context
 
 ## Data Status
@@ -51,8 +52,8 @@ domains/pushups/data/import_staging/cloud_2026-06-01/srv/george-api/data/pushups
 The `import_staging/` folder is preserved as transfer evidence and should not be
 deleted during normal domain work.
 
-Derived analytics are regeneratable from `data/events.ndjson`. Editing and
-writing are not active yet; this domain currently reads pushup events only.
+Derived analytics are regeneratable from `data/events.ndjson`. Pushup Entry v1
+is append-only; it does not edit or rewrite existing events.
 
 ## Goal Config
 
@@ -63,12 +64,29 @@ writing are not active yet; this domain currently reads pushup events only.
   "goal_name": "Birthday Pushups 2026",
   "target_reps": 30000,
   "target_date": "2026-12-22",
-  "start_date": "2026-03-28"
+  "start_date": "2026-03-28",
+  "timezone": "America/Chicago",
+  "chart_target": 130
 }
 ```
 
 The goal is configuration, not analytics code. The `start_date` marks the
 current coaching window used for the coach-facing active day count.
+
+## Proven Reinforcement Chart
+
+The Pushups page intentionally retains one chart:
+
+- last 60 days as daily bars
+- 14-day rolling average as a line
+- configured target comparison
+
+This chart has demonstrated long-term behavioral reinforcement value and
+supports the mission of discipline and follow-through. It is not considered
+dashboard scope expansion.
+
+No additional charts, dashboard cards, heatmaps, monthly views, or yearly views
+belong in Pushups without explicit approval.
 
 ## Report
 
@@ -80,3 +98,20 @@ python3 -m domains.pushups.report
 
 The report is display only. The structured analytics and advisor objects are
 the domain product.
+
+## Entry
+
+Pushup Entry v1 appends events through the domain service:
+
+```bash
+python3 -m interfaces.web.pushups_app
+```
+
+Default URL:
+
+```text
+http://127.0.0.1:3033/pushups
+```
+
+`BIND_ADDRESS` can be set to a trusted local or future Tailscale address.
+Pushups Entry v1 intentionally rejects `0.0.0.0`.
