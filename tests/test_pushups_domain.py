@@ -7,16 +7,18 @@ Notes: Read-only tests; no data mutation or app wiring.
 """
 
 from datetime import datetime, timezone
+import json
+from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
 
 from domains.pushups import advisor, analytics, service
 
 
 MIN_EXPECTED_LATEST_TS = "2026-06-01T15:20:29.964Z"
-MIN_EXPECTED_TOTAL_REPS = 13530
-EXPECTED_CALENDAR_DAYS = 152
+MIN_EXPECTED_LATEST_DATE = "2026-06-01"
 
 
 def parse_utc_timestamp(value):
@@ -24,6 +26,76 @@ def parse_utc_timestamp(value):
 
 
 class PushupsDomainTests(unittest.TestCase):
+    def run_with_fixture(self, events, goal, callback):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            events_path = temp_path / "events.ndjson"
+            goal_path = temp_path / "goal.json"
+
+            with events_path.open("w", encoding="utf-8") as event_file:
+                for event in events:
+                    event_file.write(json.dumps(event, separators=(",", ":")) + "\n")
+
+            with goal_path.open("w", encoding="utf-8") as goal_file:
+                json.dump(goal, goal_file)
+
+            original_events_file = service.EVENTS_FILE
+            original_goal_file = service.GOAL_FILE
+            try:
+                service.EVENTS_FILE = events_path
+                service.GOAL_FILE = goal_path
+                callback()
+            finally:
+                service.EVENTS_FILE = original_events_file
+                service.GOAL_FILE = original_goal_file
+
+    def fixed_events(self):
+        return [
+            {
+                "schema": 1,
+                "id": "evt_fixture_1",
+                "ts": "2026-01-01T12:00:00.000Z",
+                "tz": "UTC",
+                "type": "pushups.set",
+                "reps": 10,
+                "source": "test",
+                "tags": [],
+                "note": "",
+            },
+            {
+                "schema": 1,
+                "id": "evt_fixture_2",
+                "ts": "2026-01-03T12:00:00.000Z",
+                "tz": "UTC",
+                "type": "pushups.set",
+                "reps": 20,
+                "source": "test",
+                "tags": [],
+                "note": "",
+            },
+            {
+                "schema": 1,
+                "id": "evt_fixture_3",
+                "ts": "2026-01-03T18:00:00.000Z",
+                "tz": "UTC",
+                "type": "pushups.set",
+                "reps": 5,
+                "source": "test",
+                "tags": [],
+                "note": "",
+            },
+        ]
+
+    def fixed_goal(self):
+        return {
+            "goal_name": "Fixture Goal",
+            "target_reps": 100,
+            "target_date": "2026-01-10",
+            "start_date": "2026-01-01",
+            "timezone": "UTC",
+            "chart_target": 12,
+        }
+
     def test_events_file_exists(self):
         self.assertTrue(service.get_events_path().exists())
 
@@ -58,34 +130,51 @@ class PushupsDomainTests(unittest.TestCase):
         expected_total = sum(event["reps"] for event in service.load_events())
 
         self.assertEqual(service.total_reps(), expected_total)
-        self.assertGreaterEqual(service.total_reps(), MIN_EXPECTED_TOTAL_REPS)
+        self.assertGreater(service.total_reps(), 0)
 
-    def test_pushups_analytics_snapshot_matches_expected_dataset(self):
+    def test_pushups_live_analytics_snapshot_is_sane(self):
         result = analytics.get_analytics()
         expected_total = service.total_reps()
 
         self.assertTrue(result["success"])
         self.assertEqual(result["snapshot"]["total_reps"], expected_total)
-        self.assertEqual(result["snapshot"]["total_active_days"], 66)
-        self.assertEqual(result["snapshot"]["latest_entry_date"], "2026-06-01")
-
-    def test_life_time_average_uses_calendar_days(self):
-        result = analytics.get_analytics()
-        expected_total = service.total_reps()
-
-        self.assertEqual(
-            result["trend"]["life_time_average"],
-            round(expected_total / EXPECTED_CALENDAR_DAYS, 2),
+        self.assertGreater(result["snapshot"]["total_events"], 0)
+        self.assertGreater(result["snapshot"]["total_active_days"], 0)
+        self.assertGreater(result["snapshot"]["total_calendar_days"], 0)
+        self.assertGreaterEqual(
+            result["snapshot"]["latest_entry_date"],
+            MIN_EXPECTED_LATEST_DATE,
         )
 
-    def test_required_per_day_calculation(self):
-        result = analytics.get_analytics()
-        expected_remaining = 30000 - service.total_reps()
-        expected_required = round(expected_remaining / 205, 2)
+    def test_fixture_lifetime_average_uses_calendar_days(self):
+        def assert_fixture():
+            result = analytics.get_analytics(as_of="2026-01-05")
 
-        self.assertEqual(result["goal_progress"]["reps_remaining"], expected_remaining)
-        self.assertEqual(result["goal_progress"]["days_remaining"], 205)
-        self.assertEqual(result["goal_progress"]["required_per_day"], expected_required)
+            self.assertEqual(result["snapshot"]["total_reps"], 35)
+            self.assertEqual(result["snapshot"]["total_events"], 3)
+            self.assertEqual(result["snapshot"]["latest_entry_date"], "2026-01-03")
+            self.assertEqual(result["snapshot"]["total_calendar_days"], 3)
+            self.assertEqual(result["trend"]["life_time_average"], 11.67)
+
+        self.run_with_fixture(self.fixed_events(), self.fixed_goal(), assert_fixture)
+
+    def test_fixture_required_per_day_calculation(self):
+        def assert_fixture():
+            result = analytics.get_analytics(as_of="2026-01-05")
+
+            self.assertEqual(result["goal_progress"]["reps_remaining"], 65)
+            self.assertEqual(result["goal_progress"]["days_remaining"], 6)
+            self.assertEqual(result["goal_progress"]["required_per_day"], 10.83)
+
+        self.run_with_fixture(self.fixed_events(), self.fixed_goal(), assert_fixture)
+
+    def test_live_goal_progress_is_sane(self):
+        result = analytics.get_analytics()
+        goal_progress = result["goal_progress"]
+
+        self.assertGreaterEqual(goal_progress["reps_remaining"], 0)
+        self.assertGreaterEqual(goal_progress["days_remaining"], 0)
+        self.assertGreater(goal_progress["required_per_day"], 0)
 
     def test_window_analytics_are_present(self):
         result = analytics.get_analytics()
@@ -100,12 +189,31 @@ class PushupsDomainTests(unittest.TestCase):
         chart = analytics.get_chart_data()
 
         self.assertEqual(set(chart.keys()), {"daily_totals", "rolling_14d", "target"})
-        self.assertEqual(len(chart["daily_totals"]), 60)
-        self.assertEqual(len(chart["rolling_14d"]), 60)
+        self.assertLessEqual(len(chart["daily_totals"]), 60)
+        self.assertLessEqual(len(chart["rolling_14d"]), 60)
+        self.assertEqual(len(chart["daily_totals"]), len(chart["rolling_14d"]))
         self.assertEqual(chart["target"], 130)
-        self.assertEqual(chart["daily_totals"][-1]["date"], "2026-06-01")
+        self.assertGreaterEqual(chart["daily_totals"][-1]["date"], MIN_EXPECTED_LATEST_DATE)
         self.assertIn("total", chart["daily_totals"][-1])
         self.assertIn("average", chart["rolling_14d"][-1])
+
+    def test_fixture_chart_data_returns_exact_series(self):
+        def assert_fixture():
+            chart = analytics.get_chart_data(as_of="2026-01-05")
+
+            self.assertEqual(len(chart["daily_totals"]), 60)
+            self.assertEqual(len(chart["rolling_14d"]), 60)
+            self.assertEqual(chart["target"], 12)
+            self.assertEqual(chart["daily_totals"][-5:], [
+                {"date": "2026-01-01", "total": 10},
+                {"date": "2026-01-02", "total": 0},
+                {"date": "2026-01-03", "total": 25},
+                {"date": "2026-01-04", "total": 0},
+                {"date": "2026-01-05", "total": 0},
+            ])
+            self.assertEqual(chart["rolling_14d"][-1]["average"], 2.5)
+
+        self.run_with_fixture(self.fixed_events(), self.fixed_goal(), assert_fixture)
 
     def test_advisor_returns_required_fields(self):
         assessment = advisor.get_assessment()
