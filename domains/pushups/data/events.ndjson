@@ -496,3 +496,4 @@
 {"schema":1,"id":"evt_20260602T004345530Z_1780361025530692000","ts":"2026-06-02T00:43:45.530Z","tz":"America/Chicago","type":"pushups.set","reps":33,"source":"web","tags":[],"note":""}
 {"schema":1,"id":"evt_20260602T174540694Z_1780422340694544000","ts":"2026-06-02T17:45:40.694Z","tz":"America/Chicago","type":"pushups.set","reps":33,"source":"web","tags":[],"note":""}
 {"schema":1,"id":"evt_20260602T201031736Z_1780431031736744000","ts":"2026-06-02T20:10:31.736Z","tz":"America/Chicago","type":"pushups.set","reps":33,"source":"web","tags":[],"note":""}
+{"schema":1,"id":"evt_20260602T220209191Z_1780437729191185000","ts":"2026-06-02T22:02:09.191Z","tz":"America/Chicago","type":"pushups.set","reps":10,"source":"web","tags":[],"note":""}
