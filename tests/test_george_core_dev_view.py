@@ -16,6 +16,7 @@ import tempfile
 import unittest
 
 from core.george_core import dev_view, domain_reader, evaluator
+from interfaces.web import george_dev_app
 
 
 CONSIDERED_AT = "2026-06-03T12:00:00.000Z"
@@ -98,6 +99,20 @@ class GeorgeCoreDevViewTests(unittest.TestCase):
 
         self.assertEqual(states[0]["domain"], "bad")
         self.assertEqual(states[0]["load_status"], "malformed")
+
+    def test_web_dev_page_renders_pushups_card(self):
+        html = george_dev_app.render_core_page()
+
+        self.assertIn("George dev pages", html)
+        self.assertIn("Pushups", html)
+        self.assertIn("Core Dev", html)
+        self.assertIn(":3033/pushups", html)
+        self.assertIn("George Core Dev View", html)
+        self.assertIn("Pushups", html)
+        self.assertIn("Core Response", html)
+        self.assertIn("No significant signal.", html)
+        self.assertIn("Signals reviewed", html)
+        self.assertIn("Significant signals", html)
 
     def test_dev_cli_runs(self):
         completed = subprocess.run(

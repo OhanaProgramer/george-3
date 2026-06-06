@@ -1,0 +1,91 @@
+{
+  "domain": "pushups",
+  "generated_at": "2026-06-06T02:03:53.641Z",
+  "latest": {
+    "assessment": {
+      "next_7_days": "Average at least 79 reps per day for the next 7 days. Use smaller sets if needed; the win is showing up.",
+      "note": "Recent work is at or above your 30-day baseline. Keep the rhythm boring and reliable.",
+      "on_track": true,
+      "reason": "You have 14037 reps against 30000, 890.93 reps ahead of pace.",
+      "risk_label": "Stable",
+      "status": "Ahead",
+      "where_am_i": "14037 reps logged over 70 coaching days."
+    },
+    "goal_progress": {
+      "ahead_behind": 890.93,
+      "days_remaining": 201,
+      "expected_by_now": 13146.07,
+      "goal_name": "Birthday Pushups 2026",
+      "on_track": true,
+      "projected_by_target_date": 34330.33,
+      "reps_remaining": 15963,
+      "required_per_day": 79.42,
+      "start_date": "2026-03-28",
+      "target_date": "2026-12-22",
+      "target_reps": 30000
+    },
+    "process_signals": {
+      "day_distribution": {
+        "date": "2026-06-05",
+        "day_span_hours": 13.04,
+        "evening_reps_pct": 75.0,
+        "first_set_time": "08:01",
+        "label": "evening-heavy",
+        "last_set_time": "21:03",
+        "latest_set_time": "21:03",
+        "sets_after_6pm": 3,
+        "sets_before_noon": 1
+      },
+      "entry_recency": {
+        "hours_since_last_entry": 0.0,
+        "label": "fresh",
+        "latest_entry_timestamp": "2026-06-06T02:03:53.620Z"
+      },
+      "set_pattern": {
+        "avg_reps_per_set": 25.0,
+        "avg_reps_per_set_14d": 28.68,
+        "avg_reps_per_set_7d": 25.59,
+        "date": "2026-06-05",
+        "label": "smaller-sets-more-frequent",
+        "largest_set": 30,
+        "median_reps_per_set": 25.0,
+        "set_size_variability": 3.54,
+        "sets_per_day": 4,
+        "smallest_set": 20
+      }
+    },
+    "risk": {
+      "label": "Stable",
+      "weekly_jump_pct": 5.84
+    },
+    "snapshot": {
+      "current_streak": 22,
+      "first_entry_date": "2026-01-01",
+      "first_event_timestamp": "2026-01-01T08:00:00.000Z",
+      "latest_entry_date": "2026-06-05",
+      "latest_event_timestamp": "2026-06-06T02:03:53.620Z",
+      "longest_streak": 47,
+      "raw_training_days": 143,
+      "total_active_days": 70,
+      "total_calendar_days": 156,
+      "total_events": 517,
+      "total_reps": 14037
+    },
+    "trend": {
+      "active_days_last_30": 28,
+      "average_14_day": 120.86,
+      "average_30_day": 101.47,
+      "average_60_day": 81.03,
+      "average_7_day": 124.29,
+      "life_time_average": 89.98,
+      "weekly_jump_pct": 5.84
+    }
+  },
+  "schema": 1,
+  "source": {
+    "event_count": 517,
+    "events_file": "events.ndjson",
+    "goal_file": "goal.json",
+    "latest_event_ts": "2026-06-06T02:03:53.620Z"
+  }
+}

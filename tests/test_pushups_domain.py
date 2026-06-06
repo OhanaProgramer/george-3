@@ -2,7 +2,7 @@
 
 Purpose: Verify Pushups Coach v1 reads data, goal config, and analytics.
 Phase: Pushups Coach v1.
-Last updated: 2026-06-01.
+Last updated: 2026-06-03.
 Notes: Read-only tests; no data mutation or app wiring.
 """
 
@@ -105,6 +105,15 @@ class PushupsDomainTests(unittest.TestCase):
         self.assertGreater(len(events), 0)
         self.assertEqual(events[0]["type"], "pushups.set")
 
+    def test_events_file_contains_only_raw_pushup_set_events(self):
+        for event in service.load_events():
+            self.assertEqual(event["type"], "pushups.set")
+            self.assertIsInstance(event["reps"], int)
+            self.assertGreater(event["reps"], 0)
+            self.assertTrue(event.get("ts"))
+            self.assertTrue(event.get("tz"))
+            self.assertTrue(event.get("source"))
+
     def test_count_events_is_positive(self):
         self.assertGreater(service.count_events(), 0)
 
@@ -184,6 +193,82 @@ class PushupsDomainTests(unittest.TestCase):
         self.assertIn("average_14_day", trend)
         self.assertIn("average_30_day", trend)
         self.assertIn("average_60_day", trend)
+
+    def test_process_signals_are_present(self):
+        result = analytics.get_analytics()
+
+        self.assertIn("process_signals", result)
+        self.assertEqual(
+            set(result["process_signals"].keys()),
+            {"day_distribution", "set_pattern", "entry_recency"},
+        )
+
+    def test_process_signals_are_deterministic_from_fixture_events(self):
+        events = [
+            {"ts": "2026-06-01T13:00:00.000Z", "tz": "America/Chicago", "reps": 10},
+            {"ts": "2026-06-01T23:30:00.000Z", "tz": "America/Chicago", "reps": 20},
+            {"ts": "2026-06-02T01:30:00.000Z", "tz": "America/Chicago", "reps": 20},
+        ]
+        now = datetime.fromisoformat("2026-06-02T02:30:00+00:00")
+
+        signals = analytics.build_process_signals(
+            events,
+            as_of_date=datetime.strptime("2026-06-01", "%Y-%m-%d").date(),
+            now=now,
+        )
+
+        self.assertEqual(signals["day_distribution"]["label"], "evening-heavy")
+        self.assertEqual(signals["day_distribution"]["first_set_time"], "08:00")
+        self.assertEqual(signals["day_distribution"]["last_set_time"], "20:30")
+        self.assertEqual(signals["day_distribution"]["sets_before_noon"], 1)
+        self.assertEqual(signals["day_distribution"]["sets_after_6pm"], 2)
+        self.assertEqual(signals["set_pattern"]["sets_per_day"], 3)
+        self.assertEqual(signals["set_pattern"]["avg_reps_per_set"], 16.67)
+        self.assertEqual(signals["set_pattern"]["median_reps_per_set"], 20)
+        self.assertEqual(signals["set_pattern"]["largest_set"], 20)
+        self.assertEqual(signals["set_pattern"]["smallest_set"], 10)
+        self.assertEqual(signals["entry_recency"]["label"], "fresh")
+        self.assertEqual(signals["entry_recency"]["hours_since_last_entry"], 1.0)
+
+    def test_process_signal_labels_cover_late_cram_and_stale(self):
+        events = [
+            {"ts": "2026-06-01T02:00:00.000Z", "tz": "America/Chicago", "reps": 30},
+            {"ts": "2026-06-01T03:00:00.000Z", "tz": "America/Chicago", "reps": 30},
+        ]
+        now = datetime.fromisoformat("2026-06-05T03:00:00+00:00")
+
+        signals = analytics.build_process_signals(
+            events,
+            as_of_date=datetime.strptime("2026-05-31", "%Y-%m-%d").date(),
+            now=now,
+        )
+
+        self.assertEqual(signals["day_distribution"]["label"], "late-cram")
+        self.assertEqual(signals["entry_recency"]["label"], "stale")
+
+    def test_analytics_json_state_contains_contract_fields(self):
+        state = analytics.build_analytics_json_state(generated_at="2026-06-03T00:00:00.000Z")
+
+        self.assertEqual(state["schema"], 1)
+        self.assertEqual(state["domain"], "pushups")
+        self.assertEqual(state["generated_at"], "2026-06-03T00:00:00.000Z")
+        self.assertEqual(set(state["source"].keys()), {"events_file", "goal_file", "event_count", "latest_event_ts"})
+        self.assertEqual(set(state["latest"].keys()), {"snapshot", "goal_progress", "trend", "risk", "process_signals", "assessment"})
+        self.assertEqual(state["source"]["event_count"], service.count_events())
+        self.assertIn("process_signals", state["latest"])
+
+    def test_analytics_json_can_be_generated_to_file(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            output_path = Path(tmp_dir) / "analytics-test.json"
+
+            state = analytics.write_analytics_json(path=output_path)
+            saved = json.loads(output_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(saved["schema"], 1)
+        self.assertEqual(saved["domain"], "pushups")
+        self.assertEqual(saved["source"]["event_count"], service.count_events())
+        self.assertEqual(saved["source"]["latest_event_ts"], state["source"]["latest_event_ts"])
+        self.assertIn("process_signals", saved["latest"])
 
     def test_chart_data_returns_proven_chart_shape(self):
         chart = analytics.get_chart_data()

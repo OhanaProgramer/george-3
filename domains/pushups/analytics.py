@@ -2,18 +2,22 @@
 
 Purpose: Calculate deterministic pushup progress and trend metrics.
 Phase: Pushups Coach v1.
-Last updated: 2026-06-01.
+Last updated: 2026-06-03.
 Notes: Structured data only; no LLM calls or UI rendering.
 """
 
 from __future__ import annotations
 
 from datetime import date, datetime, timedelta
+import json
+from statistics import median, pstdev
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from domains.pushups import service
 
 
 GOAL_PERIOD_START = "2026-01-01"
+ANALYTICS_FILE = service.DOMAIN_DIR / "data" / "analytics.json"
 
 
 def _parse_date(value: str) -> date:
@@ -33,6 +37,27 @@ def _round(value: float | None, digits: int = 2) -> float | None:
         return None
 
     return round(value, digits)
+
+
+def _event_local_datetime(event: dict) -> datetime:
+    timestamp = str(event.get("ts") or "")
+    timezone_name = str(event.get("tz") or "UTC")
+
+    try:
+        timezone = ZoneInfo(timezone_name)
+    except ZoneInfoNotFoundError:
+        timezone = ZoneInfo("UTC")
+
+    parsed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+    return parsed.astimezone(timezone)
+
+
+def _event_reps(event: dict) -> int:
+    return int(event.get("reps") or 0)
+
+
+def _utc_timestamp() -> str:
+    return datetime.now(ZoneInfo("UTC")).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
 def _window_average(daily_totals: dict[str, int], end: date, days: int) -> float:
@@ -108,6 +133,187 @@ def _risk_label(weekly_jump_pct: float | None) -> str:
     return "High"
 
 
+def _events_by_local_day(events: list[dict]) -> dict[str, list[dict]]:
+    grouped: dict[str, list[dict]] = {}
+
+    for event in events:
+        local_dt = _event_local_datetime(event)
+        key = local_dt.date().isoformat()
+        grouped.setdefault(key, []).append(event)
+
+    return {key: sorted(value, key=_event_local_datetime) for key, value in sorted(grouped.items())}
+
+
+def _latest_signal_day(events_by_day: dict[str, list[dict]], as_of_date: date | None = None) -> str:
+    if not events_by_day:
+        return ""
+
+    if as_of_date is None:
+        return max(events_by_day)
+
+    possible_days = [day for day in events_by_day if _parse_date(day) <= as_of_date]
+    return max(possible_days) if possible_days else max(events_by_day)
+
+
+def _day_distribution_label(day_span_hours: float, sets_before_noon: int, sets_after_6pm: int, evening_reps_pct: float, latest_hour: int) -> str:
+    if latest_hour >= 21 and day_span_hours <= 4 and evening_reps_pct >= 75:
+        return "late-cram"
+
+    if evening_reps_pct >= 60 or sets_after_6pm > sets_before_noon:
+        return "evening-heavy"
+
+    if day_span_hours >= 8 and sets_before_noon > 0 and sets_after_6pm > 0:
+        return "spread-through-day"
+
+    return "mixed"
+
+
+def _build_day_distribution(events: list[dict], signal_day: str) -> dict:
+    day_events = sorted(events, key=_event_local_datetime)
+
+    if not day_events:
+        return {
+            "date": signal_day,
+            "label": "mixed",
+            "first_set_time": "",
+            "last_set_time": "",
+            "day_span_hours": 0,
+            "sets_before_noon": 0,
+            "sets_after_6pm": 0,
+            "evening_reps_pct": 0,
+            "latest_set_time": "",
+        }
+
+    local_times = [_event_local_datetime(event) for event in day_events]
+    reps = [_event_reps(event) for event in day_events]
+    total_reps = sum(reps)
+    first = local_times[0]
+    latest = local_times[-1]
+    evening_reps = sum(_event_reps(event) for event in day_events if _event_local_datetime(event).hour >= 18)
+    day_span_hours = (latest - first).total_seconds() / 3600 if len(local_times) > 1 else 0
+    sets_before_noon = sum(1 for local_time in local_times if local_time.hour < 12)
+    sets_after_6pm = sum(1 for local_time in local_times if local_time.hour >= 18)
+    evening_reps_pct = (evening_reps / total_reps) * 100 if total_reps else 0
+
+    return {
+        "date": signal_day,
+        "label": _day_distribution_label(day_span_hours, sets_before_noon, sets_after_6pm, evening_reps_pct, latest.hour),
+        "first_set_time": first.strftime("%H:%M"),
+        "last_set_time": latest.strftime("%H:%M"),
+        "day_span_hours": _round(day_span_hours),
+        "sets_before_noon": sets_before_noon,
+        "sets_after_6pm": sets_after_6pm,
+        "evening_reps_pct": _round(evening_reps_pct),
+        "latest_set_time": latest.strftime("%H:%M"),
+    }
+
+
+def _events_in_day_window(events_by_day: dict[str, list[dict]], end_day: date, days: int) -> list[dict]:
+    start_day = end_day - timedelta(days=days - 1)
+    selected: list[dict] = []
+
+    for day in _date_range(start_day, end_day):
+        selected.extend(events_by_day.get(day.isoformat(), []))
+
+    return selected
+
+
+def _average_reps_per_set(events: list[dict]) -> float | None:
+    if not events:
+        return None
+
+    return sum(_event_reps(event) for event in events) / len(events)
+
+
+def _set_pattern_label(sets_per_day: int, avg_reps_per_set: float | None, avg_reps_per_set_7d: float | None, avg_reps_per_set_14d: float | None) -> str:
+    if avg_reps_per_set_7d is None or avg_reps_per_set_14d is None:
+        return "stable-set-size"
+
+    if avg_reps_per_set_7d < avg_reps_per_set_14d - 2 and sets_per_day >= 3:
+        return "smaller-sets-more-frequent"
+
+    if avg_reps_per_set_7d > avg_reps_per_set_14d + 2 and sets_per_day <= 2:
+        return "larger-sets-less-frequent"
+
+    return "stable-set-size"
+
+
+def _build_set_pattern(events_by_day: dict[str, list[dict]], signal_day: str) -> dict:
+    signal_date = _parse_date(signal_day)
+    day_events = events_by_day.get(signal_day, [])
+    reps = [_event_reps(event) for event in day_events]
+    window_7_events = _events_in_day_window(events_by_day, signal_date, 7)
+    window_14_events = _events_in_day_window(events_by_day, signal_date, 14)
+    avg_reps_per_set = _average_reps_per_set(day_events)
+    avg_7 = _average_reps_per_set(window_7_events)
+    avg_14 = _average_reps_per_set(window_14_events)
+
+    return {
+        "date": signal_day,
+        "label": _set_pattern_label(len(day_events), avg_reps_per_set, avg_7, avg_14),
+        "sets_per_day": len(day_events),
+        "avg_reps_per_set": _round(avg_reps_per_set),
+        "median_reps_per_set": _round(median(reps)) if reps else None,
+        "largest_set": max(reps) if reps else 0,
+        "smallest_set": min(reps) if reps else 0,
+        "set_size_variability": _round(pstdev(reps)) if len(reps) > 1 else 0,
+        "avg_reps_per_set_7d": _round(avg_7),
+        "avg_reps_per_set_14d": _round(avg_14),
+    }
+
+
+def _entry_recency_label(hours_since_last_entry: float | None) -> str:
+    if hours_since_last_entry is None:
+        return "stale"
+
+    if hours_since_last_entry <= 24:
+        return "fresh"
+
+    if hours_since_last_entry <= 72:
+        return "aging"
+
+    return "stale"
+
+
+def _build_entry_recency(events: list[dict], now: datetime | None = None) -> dict:
+    if not events:
+        return {
+            "label": "stale",
+            "hours_since_last_entry": None,
+            "latest_entry_timestamp": "",
+        }
+
+    now = now or datetime.now(ZoneInfo("UTC"))
+    latest_event = max(events, key=_event_local_datetime)
+    latest = datetime.fromisoformat(str(latest_event["ts"]).replace("Z", "+00:00"))
+    hours_since_last_entry = (now.astimezone(ZoneInfo("UTC")) - latest.astimezone(ZoneInfo("UTC"))).total_seconds() / 3600
+
+    return {
+        "label": _entry_recency_label(hours_since_last_entry),
+        "hours_since_last_entry": _round(max(0, hours_since_last_entry)),
+        "latest_entry_timestamp": latest_event["ts"],
+    }
+
+
+def build_process_signals(events: list[dict], as_of_date: date | None = None, now: datetime | None = None) -> dict:
+    """Return structured process observations from existing event data."""
+    events_by_day = _events_by_local_day(events)
+    signal_day = _latest_signal_day(events_by_day, as_of_date)
+
+    if not signal_day:
+        return {
+            "day_distribution": {},
+            "set_pattern": {},
+            "entry_recency": _build_entry_recency([], now=now),
+        }
+
+    return {
+        "day_distribution": _build_day_distribution(events_by_day.get(signal_day, []), signal_day),
+        "set_pattern": _build_set_pattern(events_by_day, signal_day),
+        "entry_recency": _build_entry_recency(events, now=now),
+    }
+
+
 def build_pushups_analytics(as_of: str | None = None) -> dict:
     """Return a structured Pushups Coach v1 analytics object."""
     events = service.load_events()
@@ -120,6 +326,7 @@ def build_pushups_analytics(as_of: str | None = None) -> dict:
             "snapshot": {},
             "goal_progress": {},
             "trend": {},
+            "process_signals": {},
             "risk": {"label": "Unknown"},
             "message": "",
             "error": "No pushup events found.",
@@ -198,6 +405,7 @@ def build_pushups_analytics(as_of: str | None = None) -> dict:
             "label": _risk_label(weekly_jump_pct),
             "weekly_jump_pct": _round(weekly_jump_pct),
         },
+        "process_signals": build_process_signals(events, as_of_date=as_of_date),
         "message": "Pushups analytics calculated.",
         "error": "",
     }
@@ -206,6 +414,54 @@ def build_pushups_analytics(as_of: str | None = None) -> dict:
 def get_analytics(as_of: str | None = None) -> dict:
     """Compatibility-friendly public analytics entry point."""
     return build_pushups_analytics(as_of=as_of)
+
+
+def get_analytics_path():
+    """Return the derived current analytics state path."""
+    return ANALYTICS_FILE
+
+
+def build_analytics_json_state(generated_at: str | None = None) -> dict:
+    """Return the derived current analytics state file object."""
+    from domains.pushups import advisor
+
+    result = get_analytics()
+    events = service.load_events()
+    latest_event = service.get_latest_event()
+    assessment = advisor.build_assessment(result)
+
+    return {
+        "schema": 1,
+        "domain": "pushups",
+        "generated_at": generated_at or _utc_timestamp(),
+        "source": {
+            "events_file": service.get_events_path().name,
+            "goal_file": service.get_goal_path().name,
+            "event_count": len(events),
+            "latest_event_ts": latest_event["ts"] if latest_event else "",
+        },
+        "latest": {
+            "snapshot": result.get("snapshot", {}),
+            "goal_progress": result.get("goal_progress", {}),
+            "trend": result.get("trend", {}),
+            "risk": result.get("risk", {}),
+            "process_signals": result.get("process_signals", {}),
+            "assessment": assessment,
+        },
+    }
+
+
+def write_analytics_json(path=None) -> dict:
+    """Atomically write the current derived analytics state file."""
+    output_path = path or get_analytics_path()
+    state = build_analytics_json_state()
+    temp_path = output_path.with_suffix(f"{output_path.suffix}.tmp")
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    temp_path.replace(output_path)
+
+    return state
 
 
 def get_chart_data(as_of: str | None = None) -> dict:

@@ -19,6 +19,18 @@ from shared.audio_devices.voice_devices import discover_voice_devices, has_name_
 
 DEFAULT_DURATION_SECONDS = 3
 DEFAULT_OUTPUT_FILE = Path("data/voice_capture/latest_capture.wav")
+FFMPEG_CANDIDATES = (
+    Path("/usr/local/bin/ffmpeg"),
+    Path("/opt/homebrew/bin/ffmpeg"),
+)
+
+
+def ffmpeg_command():
+    for candidate in FFMPEG_CANDIDATES:
+        if candidate.exists():
+            return str(candidate)
+
+    return "ffmpeg"
 
 
 def run_command(command, timeout_seconds=15):
@@ -199,7 +211,7 @@ def find_input_device(microphones, input_device_hint):
 
 def build_capture_command(input_device_name, duration_seconds, output_path):
     return [
-        "ffmpeg",
+        ffmpeg_command(),
         "-y",
         "-f",
         "avfoundation",
@@ -217,7 +229,7 @@ def build_capture_command(input_device_name, duration_seconds, output_path):
 
 def build_manual_capture_command(input_device_name, output_path):
     return [
-        "ffmpeg",
+        ffmpeg_command(),
         "-y",
         "-f",
         "avfoundation",

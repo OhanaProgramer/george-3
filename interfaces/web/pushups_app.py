@@ -8,7 +8,7 @@ from urllib.parse import parse_qs, urlencode, urlparse
 from config import settings
 from domains.pushups import advisor, analytics, service
 from shared.web.forms import parse_form_data
-from shared.web.page import html_escape, render_page
+from shared.web.page import html_escape, render_dev_nav, render_page
 from shared.web.response import redirect
 
 
@@ -124,6 +124,7 @@ def render_pushups_page(message: str = "", error: str = "") -> str:
         message_html = f'<p class="message error">{html_escape(error)}</p>'
 
     body = f"""
+{render_dev_nav("pushups", settings.BIND_ADDRESS)}
 <h1>Pushups Entry</h1>
 {message_html}
 <section>
@@ -183,6 +184,8 @@ def save_pushups_form(form: dict[str, str]) -> tuple[bool, str]:
         event = service.add_event(form.get("reps", ""), source="web")
     except ValueError as error:
         return False, str(error)
+
+    analytics.write_analytics_json()
 
     return True, f"Saved {event['reps']} reps."
 

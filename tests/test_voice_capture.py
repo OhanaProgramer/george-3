@@ -78,7 +78,8 @@ class VoiceCaptureTests(unittest.TestCase):
         self.assertTrue(result["input_device_found"])
         self.assertEqual(result["message"], "Audio captured.")
         self.assertEqual(result["error"], "")
-        self.assertEqual(commands[0][0][:6], ["ffmpeg", "-y", "-f", "avfoundation", "-i", ":MacBook Pro Microphone"])
+        self.assertTrue(commands[0][0][0].endswith("ffmpeg"))
+        self.assertEqual(commands[0][0][1:6], ["-y", "-f", "avfoundation", "-i", ":MacBook Pro Microphone"])
         self.assertEqual(commands[0][1], 13)
 
     def test_missing_microphone_path(self):

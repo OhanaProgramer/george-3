@@ -98,6 +98,10 @@ class PushupsEntryTests(unittest.TestCase):
     def test_pushups_page_includes_proven_chart(self):
         html = pushups_app.render_pushups_page()
 
+        self.assertIn("George dev pages", html)
+        self.assertIn("Pushups", html)
+        self.assertIn("Core Dev", html)
+        self.assertIn(":3034/dev/core", html)
         self.assertIn("Last 60 days (bars) + 14-day average (line)", html)
         self.assertIn("Current 14-day average is", html)
         self.assertIn("Target:", html)

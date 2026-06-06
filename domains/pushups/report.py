@@ -1,4 +1,10 @@
-"""Pushups Coach v1 report command."""
+"""Pushups Coach v1 report command.
+
+Purpose: Render deterministic pushup analytics as plain text.
+Phase: Pushups Coach v1.
+Last updated: 2026-06-03.
+Notes: Display only; structured analytics remain the domain product.
+"""
 
 from __future__ import annotations
 
@@ -7,6 +13,7 @@ from domains.pushups import advisor, analytics
 
 def build_report() -> str:
     """Return the plain text Pushups Coach v1 report."""
+    analytics.write_analytics_json()
     result = analytics.get_analytics()
     assessment = advisor.build_assessment(result)
 
@@ -23,6 +30,10 @@ def build_report() -> str:
     snapshot = result["snapshot"]
     goal = result["goal_progress"]
     trend = result["trend"]
+    signals = result["process_signals"]
+    day_distribution = signals["day_distribution"]
+    set_pattern = signals["set_pattern"]
+    entry_recency = signals["entry_recency"]
 
     return "\n".join(
         [
@@ -55,6 +66,11 @@ def build_report() -> str:
             f"Lifetime Daily Average: {trend['life_time_average']}",
             f"Weekly Jump: {trend['weekly_jump_pct']}%",
             f"Active Days Last 30: {trend['active_days_last_30']}",
+            "",
+            "Process Signals",
+            f"Day Distribution: {day_distribution['label']}",
+            f"Set Pattern: {set_pattern['label']}",
+            f"Entry Recency: {entry_recency['label']}",
             "",
             "George Assessment",
             f"Status: {assessment['status']}",
